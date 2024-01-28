@@ -1,0 +1,24 @@
+/* Pagination */
+.pagination {
+  @apply flex;
+}
+.pagination .page-item {
+  @apply block px-1;
+}
+.pagination .page-item:last-child {
+  @apply block pr-0;
+}
+.pagination .page-link {
+  @apply block py-2 px-3 border-secondary-basic_grey border rounded-lg text-black_blue-80 text-center text-sm;
+  min-width: 36px;
+}
+.pagination .page-item.active .page-link {
+  @apply bg-main-yale_blue border-main-yale_blue text-secondary-white cursor-not-allowed;
+}
+.pagination .page-item.disabled .page-link {
+  @apply cursor-not-allowed;
+}
+.pagination .page-item:not(.active):not(.disabled):hover .page-link {
+  @apply bg-main-yale_blue border-main-yale_blue text-secondary-white;
+}
+/* End of Pagination */

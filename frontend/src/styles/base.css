@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+
+/* General */
+html,
+body {
+  @apply font-body;
+
+  font-size: 14px;
+}
+/* End of General */
+
+/* Dashboard Layout */
+.dashboard-container {
+  @apply grid h-screen;
+
+  grid-template-columns: 0 1fr;
+  grid-template-rows: 60px 1fr 50px;
+  grid-template-areas:
+    'sidebar header'
+    'sidebar main'
+    'sidebar footer';
+}
+.header {
+  @apply bg-secondary-white fixed top-0 right-0;
+
+  height: 60px;
+  left: 0;
+  grid-area: header;
+}
+.sidebar {
+  @apply bg-main-yale_blue fixed top-0 bottom-0 transition-all ease-in-out;
+
+  left: -250px;
+  width: 250px;
+  grid-area: sidebar;
+}
+.main {
+  grid-area: main;
+}
+main-login {
+  margin-top: 80px;
+}
+.footer {
+  grid-area: footer;
+}
+/* End of Dashboard Layout */
+
+/* Dashboard LayoutResponsive */
+/* 640 -767 */
+@screen sm {
+}
+
+/* 768 -1023 */
+@screen md {
+  .dashboard-container {
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 70px 1fr 50px;
+  }
+  .header {
+    left: 250px;
+    height: 70px;
+  }
+  .sidebar {
+    @apply left-0;
+    width: 250px;
+  }
+}
+
+/* 1024 - 1279 */
+@screen lg {
+}
+
+/* > 1280 */
+@screen xl {
+  .dashboard-container {
+    grid-template-columns: 250px 1fr;
+  }
+}
+/* Dashboard End of Responsive */

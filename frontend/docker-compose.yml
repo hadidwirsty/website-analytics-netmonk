@@ -1,0 +1,7 @@
+services:
+  app:
+    build: .
+    ports:
+      - 3000:3001
+    environment:
+      - HOST=0.0.0.0

@@ -1,0 +1,128 @@
+/* Sidebar */
+.sidebar {
+  z-index: 1200;
+}
+.sidebar.mobile-sidebar-opened {
+  left: 0;
+}
+.sidebar-mobile-button {
+  @apply fixed top-0 left-0 text-main-yale_blue px-6 text-xl;
+  height: 60px;
+  z-index: -1;
+}
+.sidebar-mobile-button:focus {
+  @apply outline-none;
+}
+
+.sidebar-brand {
+  height: 70px;
+}
+.sidebar-brand-icon {
+  @apply mr-3 h-9;
+}
+.sidebar-brand-text {
+  @apply uppercase text-secondary-white font-semibold text-lg;
+}
+.sidebar-nav {
+  @apply pt-4 px-4;
+  height: calc(100% - 70px);
+  overflow-y: auto;
+}
+.sidebar-nav::-webkit-scrollbar {
+  display: none;
+}
+.sidebar-nav {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.sidebar-nav .nav-item {
+  @apply mb-2;
+}
+.sidebar-nav > .nav-item {
+  @apply mb-4 relative;
+}
+.sidebar-nav .nav-item {
+  @apply text-secondary-white;
+}
+.sidebar-nav .nav-item .nav-title,
+.sidebar-nav .nav-item .nav-link {
+  @apply px-0 block transition-all ease-in-out;
+}
+.sidebar-nav .nav-item .nav-link:hover {
+  @apply text-white;
+}
+.sidebar-nav .nav-item .nav-title {
+  @apply uppercase text-main-sky_blue text-sm mb-2 font-semibold;
+}
+.sidebar-nav .nav-item .nav-title .nav-icon {
+  @apply hidden;
+}
+.sidebar-nav .nav-item .nav-link {
+  @apply text-sm py-3 px-4 text-yale_blue-50 flex items-center;
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+}
+.sidebar-nav .nav-item .nav-link.active {
+  @apply bg-yale_blue-70 text-white font-bold;
+}
+.sidebar-nav .nav-item .nav-link.active .nav-icon {
+  @apply opacity-100;
+}
+.sidebar-nav .nav-item .nav-link .nav-icon {
+  @apply mr-3 mt-1 opacity-75;
+  font-size: 18px;
+  vertical-align: middle;
+  width: 28px;
+}
+/* End of Sidebar */
+
+/* Sidebar Responsive */
+/* 640 -767 */
+@screen sm {
+}
+
+/* 768 -1023 */
+@screen md {
+  /* .sidebar-nav > .nav-item:hover > ul {
+        @apply block absolute top-0 bg-main-french_blue shadow-lg rounded-lg rounded-tl-none rounded-bl-none px-4 py-3;
+        left: 100%;
+        width: 100%;
+    } */
+}
+
+/* 1024 - 1279 */
+@screen lg {
+}
+
+/* > 1280 */
+@screen xl {
+  .sidebar-nav {
+    @apply px-4;
+    overflow: auto;
+  }
+  .sidebar-brand-icon {
+    @apply mx-0 mr-3;
+  }
+  .sidebar-brand-text {
+    @apply inline-flex;
+  }
+  .sidebar-nav .nav-item .nav-title {
+    @apply py-1;
+  }
+  .sidebar-nav .nav-item .nav-title .nav-icon {
+    @apply hidden;
+  }
+  .sidebar-nav > .nav-item > .nav-title > .nav-text {
+    @apply inline-block;
+  }
+  .sidebar-nav > .nav-item > ul {
+    @apply block;
+  }
+  .sidebar-nav > .nav-item:hover > ul {
+    @apply block relative bg-main-yale_blue px-0 py-0;
+    left: 0;
+    width: 100%;
+  }
+}
+/* Sidebar - End of Responsive */

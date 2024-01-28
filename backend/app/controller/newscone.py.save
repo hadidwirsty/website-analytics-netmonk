@@ -1,0 +1,84 @@
+from fastapi import APIRouter, HTTPException, Path
+from fastapi import Depends
+from app.config2 import SessionLocal
+from sqlalchemy.orm import Session
+from app.schema import Request, Response, RequestNewScone
+from sqlalchemy.dialects.mysql import VARCHAR
+
+import app.repository.newscone as newscone
+
+router = APIRouter(
+    prefix="/newscone",
+    tags=['Order Scone v2']
+)
+
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+@router.get("/id/{nomor_sc}")
+async def get_scone_by_id(nomor_sc: str, db: Session = Depends(get_db)):
+    _scone = newscone.get_scone_by_id(db, nomor_sc=nomor_sc)
+    return Response(status="Ok", code="200", message="Success fetch data", result=_scone)
+
+@router.get("/")
+async def get_scone(db: Session = Depends(get_db)):
+    _scone = newscone.get_scone(db)
+    return Response(status="Ok", code="200", message="Success fetch data", result=_scone)
+
+@router.get("/onprogress")
+async def get_scone_onprogress(db: Session = Depends(get_db)):
+    _scone = newscone.get_scone_onprogress(db)
+    return Response(status="Ok", code="200", message="Success fetch data", result=_scone)
+
+@router.get("/user")
+async def get_user_scone(db: Session = Depends(get_db)):
+    _scone = newscone.get_user_scone(db)
+    return Response(status="Ok", code="200", message="Success fetch data", result=_scone)
+
+@router.put("/update_scone")
+async def update_scone(request: RequestNewScone, db: Session = Depends(get_db)):
+    _scone = newscone.update_scone(db, nomor_sc=request.parameter.nomor_sc,
+                             nama_pelanggan = request.parameter.nama_pelanggan, 
+                             nohp_pelanggan = request.parameter.nohp_pelanggan,
+                             email_pelanggan = request.parameter.email_pelanggan,
+                             nomor_internet = request.parameter.nomor_internet,
+			     status_aktivasi = request.parameter.status_aktivasi,
+			     status_resume = request.parameter.status_resume,
+                             status_wfm = request.parameter.status_wfm,
+			     tanggal_baa = request.parameter.tanggal_baa,
+                             catatan = request.parameter.catatan)
+    return Response(status="Ok", code="200", message="Success update data", result=_scone)
+
+@router.post("/")
+async def create_newscone_order(request: RequestNewScone, db: Session = Depends(get_db)):
+    newscone.create_newscone_order(db, order_scone=request.parameter)
+    return Response(status="Ok",
+                    code="200",
+                    message="Order created successfully").dict(exclude_none=True)
+
+@router.get("/byactivation")
+async def get_scone_by_activation(db: Session = Depends(get_db)):
+    _Order = newscone.get_scone_by_activation(db)
+    return Response(status="Ok", code="200", message="Success fetch data", result=_Order)
+
+@router.post("/post_bulk_activation")
+async def post_scone_by_activation(request: RequestNewScone, db: Session = Depends(get_db)):
+    newscone.post_scone_by_activation(db, order_scone=request.parameter)
+    return Response(status="Ok",
+                    code="200",
+                    message="Success Add Username, Pass, SKey").dict(exclude_none=True)
+
+#@router.get("/doa/user_scone")
+#async def get_doa_user_scone(start_date: str, end_date: str, db: Session = Depends(get_db)):
+ #   _scone = newscone.get_doa_user_scone(db, start_date, end_date)
+  #  return Response(status="Ok", code="200", message="Success fetch data", result=_scone)
+
+@router.get("/generate/baa")
+async def get_generate_baa(nomor_sc: str, db: Session = Depends(get_db)):
+    _scone = newscone.get_generate_baa(db, nomor_sc)
+    return Response(status="Ok", code="200", message="Success fetch data", result=_scone)

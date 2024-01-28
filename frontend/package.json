@@ -1,0 +1,79 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": ".",
+  "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "@hookform/resolvers": "^3.3.2",
+    "@netmonk/design.icons.basic": "^0.0.33",
+    "@netmonk/design.ui.button": "^0.0.45",
+    "@netmonk/design.ui.checkbox": "^0.0.27",
+    "@netmonk/design.ui.data-table": "^0.0.49",
+    "@netmonk/design.ui.dropdown": "^0.0.31",
+    "@netmonk/design.ui.input": "^0.0.40",
+    "@netmonk/design.ui.table-search": "^0.0.39",
+    "axios": "^1.3.4",
+    "classnames": "^2.3.2",
+    "crypto-js": "^4.1.1",
+    "date-fns": "^2.30.0",
+    "dotenv": "^16.3.1",
+    "jsonwebtoken": "^9.0.2",
+    "moment": "^2.29.4",
+    "prop-types": "^15.8.1",
+    "react": "^17.0.2",
+    "react-cookies": "^0.1.1",
+    "react-csv": "^2.2.2",
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^7.46.1",
+    "react-redux": "^8.1.3",
+    "react-router": "^6.10.0",
+    "react-router-dom": "^6.18.0",
+    "react-scripts": "5.0.1",
+    "react-tooltip": "^5.23.0",
+    "reactstrap": "^9.2.0",
+    "styled-components": "^5.3.11",
+    "web-vitals": "^2.1.4",
+    "yup": "^1.3.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 2 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.6",
+    "autoprefixer": "^10.4.15",
+    "eslint": "^8.45.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "postcss": "^8.4.28",
+    "tailwindcss": "^3.3.3"
+  }
+}

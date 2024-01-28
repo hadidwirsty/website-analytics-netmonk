@@ -1,0 +1,160 @@
+.modal-extra-large {
+  width: 100%;
+  @apply px-8 pb-8;
+}
+.modal-large {
+  width: 100%;
+  @apply px-8 pb-8;
+}
+.modal-medium {
+  width: 100%;
+  @apply px-8 pb-8;
+}
+.modal-default {
+  width: 100%;
+  @apply px-8 pb-8;
+}
+.modal-small {
+  width: 100%;
+  @apply px-8 pb-8;
+}
+
+.modal-inner {
+  width: 100%;
+}
+
+.modal-inner::-webkit-scrollbar {
+  display: none;
+}
+.modal-inner {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.modal-content::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+.modal-content::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+.modal-content::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+.modal-content {
+  @apply overflow-y-auto;
+  max-height: 75vh;
+}
+.modal-header-title {
+  @apply text-2xl font-bold text-gunmetal-90;
+}
+.modal-content-bordered {
+  max-height: calc(75vh - 150px);
+  @apply rounded-lg border-base-grey border-2 px-8 pt-10 pb-8 overflow-auto;
+}
+
+.alert {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px;
+  background-color: #313e4f; /* Green background color */
+  color: white;
+  border-radius: 8px;
+  z-index: 1500;
+}
+
+/* Modal LayoutResponsive */
+@screen sm {
+  .modal-extra-large {
+    @apply px-8 pb-8;
+    width: 620px;
+  }
+  .modal-large {
+    @apply px-8 pb-8;
+    width: 600px;
+  }
+  .modal-medium {
+    @apply px-8 pb-8;
+    width: 500px;
+  }
+  .modal-default {
+    @apply px-8 pb-8;
+    width: 450px;
+  }
+  .modal-small {
+    @apply px-8 pb-8;
+    width: 450px;
+  }
+  .modal-inner {
+    width: auto;
+  }
+}
+@screen md {
+  .modal-extra-large {
+    @apply px-8 pb-8;
+    width: 760px;
+  }
+  .modal-large {
+    @apply px-8 pb-8;
+    width: 720px;
+  }
+  .modal-medium {
+    @apply px-8 pb-8;
+    width: 620px;
+  }
+  .modal-default {
+    @apply px-8 pb-8;
+    width: 550px;
+  }
+  .modal-small {
+    @apply px-8 pb-8;
+    width: 450px;
+  }
+}
+@screen lg {
+  .modal-extra-large {
+    @apply px-8 pb-8;
+    width: 1000px;
+  }
+  .modal-large {
+    @apply px-8 pb-8;
+    width: 980px;
+  }
+  .modal-medium {
+    @apply px-8 pb-8;
+    width: 720px;
+  }
+  .modal-default {
+    @apply px-8 pb-8;
+    width: 550px;
+  }
+  .modal-small {
+    @apply px-8 pb-8;
+    width: 450px;
+  }
+}
+@screen xl {
+  .modal-extra-large {
+    @apply px-8 pb-8;
+    width: 1200px;
+  }
+  .modal-large {
+    @apply px-8 pb-8;
+    width: 998px;
+  }
+  .modal-medium {
+    @apply px-8 pb-8;
+    width: 800px;
+  }
+  .modal-default {
+    @apply px-8 pb-8;
+    width: 550px;
+  }
+  .modal-small {
+    @apply px-8 pb-8;
+    width: 450px;
+  }
+}
+/* Modal End of Responsive */
