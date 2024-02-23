@@ -106,3 +106,6 @@
 20240219	20:32:15	2a403f2e-a78a-496c-9074-7e4423048d25	POST	undefined	/employees
 20240219	20:32:18	739f4cdc-98b6-4d8b-8b81-ff72fe0a6e0b	GET	undefined	/employees
 20240219	20:32:20	34995475-402e-45ee-8781-e51da7928a39	GET	undefined	/employees/3
+20240223	08:37:07	f8ed9b7c-32d4-4f63-9c8d-5d99be5942ff	GET	undefined	/register
+20240223	08:37:50	97f86f12-f228-4331-bf31-18a9e1a3d910	GET	undefined	/register
+20240223	08:37:51	a34eb16f-4cc0-4b5e-9723-e5230c5bd224	GET	undefined	/register
