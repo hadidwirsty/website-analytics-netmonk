@@ -4,7 +4,6 @@ const usersDB = {
     this.users = data;
   },
 };
-
 const fsPromises = require('fs').promises;
 const path = require('path');
 const bcrypt = require('bcrypt');
@@ -15,7 +14,7 @@ const handleNewUser = async (req, res) => {
     return res
       .status(400)
       .json({ message: 'Username and password are required.' });
-  // check for duplicate username in the db
+  // check for duplicate usernames in the db
   const duplicate = usersDB.users.find((person) => person.username === user);
   if (duplicate) return res.sendStatus(409); // conflict
   try {
@@ -31,7 +30,7 @@ const handleNewUser = async (req, res) => {
     console.log(usersDB.users);
     res.status(201).json({ success: `New user ${user} created!` });
   } catch (err) {
-    res.response(500).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
