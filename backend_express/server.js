@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3500;
 // custom middleware logger
 app.use(logger);
 
-// handle options credentials check - before CORS!
+// Handle options credentials check - before CORS!
 // and fetch cookies credentials requirement
 app.use(credentials);
 
@@ -26,10 +26,10 @@ app.use(express.urlencoded({ extended: false }));
 // built-in middleware for json
 app.use(express.json());
 
-// middleware for cookies
+//middleware for cookies
 app.use(cookieParser());
 
-// serve static files
+//serve static files
 app.use('/', express.static(path.join(__dirname, '/public')));
 
 // routes

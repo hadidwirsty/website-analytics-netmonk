@@ -18,7 +18,7 @@ const handleLogin = async (req, res) => {
       .status(400)
       .json({ message: 'Username and password are required.' });
   const foundUser = usersDB.users.find((person) => person.username === user);
-  if (!foundUser) return res.sendStatus(401); // unauthorized
+  if (!foundUser) return res.sendStatus(401); //Unauthorized
   // evaluate password
   const match = await bcrypt.compare(pwd, foundUser.password);
   if (match) {
@@ -33,7 +33,7 @@ const handleLogin = async (req, res) => {
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: '1d' }
     );
-    // saving refreshToken with current user
+    // Saving refreshToken with current user
     const otherUsers = usersDB.users.filter(
       (person) => person.username !== foundUser.username
     );

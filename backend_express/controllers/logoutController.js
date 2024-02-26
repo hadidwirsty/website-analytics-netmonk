@@ -8,13 +8,13 @@ const fsPromises = require('fs').promises;
 const path = require('path');
 
 const handleLogout = async (req, res) => {
-  // on client, also delete the accessToken
+  // On client, also delete the accessToken
 
   const cookies = req.cookies;
-  if (!cookies?.jwt) return res.sendStatus(204); // no content
+  if (!cookies?.jwt) return res.sendStatus(204); //No content
   const refreshToken = cookies.jwt;
 
-  // is refreshToken in db?
+  // Is refreshToken in db?
   const foundUser = usersDB.users.find(
     (person) => person.refreshToken === refreshToken
   );
@@ -23,7 +23,7 @@ const handleLogout = async (req, res) => {
     return res.sendStatus(204);
   }
 
-  // delete refreshToken in db
+  // Delete refreshToken in db
   const otherUsers = usersDB.users.filter(
     (person) => person.refreshToken !== foundUser.refreshToken
   );
