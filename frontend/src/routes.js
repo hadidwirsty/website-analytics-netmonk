@@ -39,9 +39,9 @@ import { UserNetmonkHI } from './pages/order/user-netmonk-hi';
 import { UserOverview } from './pages/product-owner/prime/user-overview';
 
 const PrivateRoute = ({ element: Element, ...rest }) => {
-  const authToken = localStorage.getItem('auth_token');
+  const accessToken = localStorage.getItem('accessToken');
 
-  return authToken ? (
+  return accessToken ? (
     <LayoutBase>
       <Element {...rest} />
     </LayoutBase>
@@ -52,7 +52,7 @@ const PrivateRoute = ({ element: Element, ...rest }) => {
 
 export const AppRoute = () => {
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <BrowserRouter>
       <Routes>
         <Route path='/' element={<Navigate to='/login' />} />
         <Route path='/login' element={<PageLogin />} />

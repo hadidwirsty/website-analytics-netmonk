@@ -41,7 +41,7 @@ export const PageLogin = () => {
     setIsLoading(true);
     setIsNetwork(true);
 
-    const loginURL = `${process.env.REACT_APP_API_BASE_URL}/auth/login`;
+    const loginURL = `${process.env.REACT_APP_API_BASE_URL}/auth`;
 
     try {
       const response = await axios.post(loginURL, {
@@ -50,13 +50,11 @@ export const PageLogin = () => {
       });
 
       if (response.status === 200) {
-        localStorage.setItem('auth_token', response.data.result.access_token);
-        localStorage.setItem(
-          'auth_token_type',
-          response.data.result.token_type
-        );
-        localStorage.setItem('username', response.data.result.user.username);
-        localStorage.setItem('role', response.data.result.user.role);
+        localStorage.setItem('username', response.data.username);
+        localStorage.setItem('role', response.data.role);
+        localStorage.setItem('teamName', response.data.teamName);
+        localStorage.setItem('metabase_key', response.data.metabase_key);
+        localStorage.setItem('accessToken', response.data.accessToken);
 
         setTimeout(() => {
           setIsLoading(false);
@@ -107,8 +105,7 @@ export const PageLogin = () => {
             className='my-auto py-12'
             style={{
               width: '360px',
-            }}
-          >
+            }}>
             <div className='flex flex-col justify-center items-center mb-6'>
               <img
                 alt='Logo Netmonk Analytics'
@@ -122,13 +119,11 @@ export const PageLogin = () => {
             {showError()}
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className='auth-form flex-col flex gap-4'
-            >
+              className='auth-form flex-col flex gap-4'>
               <div className='flex flex-col flex-nowrap'>
                 <label
                   htmlFor='username'
-                  className='text-sm mb-2 font-bold text-gunmetal-100'
-                >
+                  className='text-sm mb-2 font-bold text-gunmetal-100'>
                   Username
                 </label>{' '}
                 <Controller
@@ -159,8 +154,7 @@ export const PageLogin = () => {
               <div className='flex flex-col flex-nowrap mb-4'>
                 <label
                   htmlFor='password'
-                  className='text-sm mb-2 font-bold text-gunmetal-100'
-                >
+                  className='text-sm mb-2 font-bold text-gunmetal-100'>
                   Password
                 </label>{' '}
                 <Controller
@@ -218,8 +212,7 @@ export const PageLogin = () => {
                 className='hover:underline'
                 title='Netmonk'
                 target='_blank'
-                rel='noopener noreferrer'
-              >
+                rel='noopener noreferrer'>
                 Netmonk
               </a>
             </div>
