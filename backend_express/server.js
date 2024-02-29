@@ -16,29 +16,28 @@ const PORT = process.env.PORT || 3500;
 // Connect to MongoDB
 connectDB();
 
-// custom middleware logger
+// Custom middleware logger
 app.use(logger);
 
-// Handle options credentials check - before CORS!
-// and fetch cookies credentials requirement
+// Handle options credentials check - before CORS! and fetch cookies credentials requirement
 app.use(credentials);
 
 // Cross Origin Resource Sharing
 app.use(cors(corsOptions));
 
-// built-in middleware to handle urlencoded form data
+// Built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
 
-// built-in middleware for json
+// Built-in middleware for json
 app.use(express.json());
 
-//middleware for cookies
+// Middleware for cookies
 app.use(cookieParser());
 
-//serve static files
+// Serve static files
 app.use('/', express.static(path.join(__dirname, '/public')));
 
-// routes
+// Routes
 app.use('/', require('./routes/root'));
 app.use('/register', require('./routes/register'));
 app.use('/auth', require('./routes/auth'));
@@ -47,6 +46,8 @@ app.use('/logout', require('./routes/logout'));
 
 app.use(verifyJWT);
 app.use('/employees', require('./routes/api/employees'));
+app.use('/ncx', require('./routes/api/ncx'));
+app.use('/scone', require('./routes/api/scone'));
 app.use('/users', require('./routes/api/users'));
 
 app.all('*', (req, res) => {

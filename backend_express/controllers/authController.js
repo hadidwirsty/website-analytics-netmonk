@@ -13,13 +13,12 @@ const handleLogin = async (req, res) => {
       .json({ message: 'Username and password are required.' });
 
   const foundUser = await User.findOne({ username: username }).exec();
-  if (!foundUser) return res.sendStatus(401); //Unauthorized
+  if (!foundUser) return res.sendStatus(401); // Unauthorized
 
-  // Evaluate password
   const match = await bcrypt.compare(password, foundUser.password);
   if (match) {
     const metabase_key = process.env.METABASE_KEY;
-    // Create JWTs
+
     const accessToken = jwt.sign(
       {
         UserInfo: {
@@ -31,7 +30,7 @@ const handleLogin = async (req, res) => {
         metabase_key: metabase_key,
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '7200' }
+      { expiresIn: '1h' }
     );
 
     const newRefreshToken = jwt.sign(
@@ -40,7 +39,6 @@ const handleLogin = async (req, res) => {
       { expiresIn: '1d' }
     );
 
-    // Changed to let keyword
     let newRefreshTokenArray = !cookies?.jwt
       ? foundUser.refreshToken
       : foundUser.refreshToken.filter((rt) => rt !== cookies.jwt);
@@ -49,10 +47,8 @@ const handleLogin = async (req, res) => {
       const refreshToken = cookies.jwt;
       const foundToken = await User.findOne({ refreshToken }).exec();
 
-      // Detected refresh token reuse!
       if (!foundToken) {
         console.log('attempted refresh token reuse at login!');
-        // Clear out ALL previous refresh tokens
         newRefreshTokenArray = [];
       }
 
@@ -63,21 +59,18 @@ const handleLogin = async (req, res) => {
       });
     }
 
-    // Saving refreshToken with current user
     foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
     const result = await foundUser.save();
 
     console.log(result);
 
-    // Creates Secure Cookie with refresh token
     res.cookie('jwt', newRefreshToken, {
       httpOnly: true,
-      secure: false, // If in the development stage change it to false, after that it can be changed to true
+      secure: false, // Development secure it is false
       sameSite: 'None',
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    // Construct the response body
     const responseBody = {
       id: foundUser._id.toString(),
       username: foundUser.username,
@@ -87,7 +80,6 @@ const handleLogin = async (req, res) => {
       accessToken: accessToken,
     };
 
-    // Send authorization response body to user
     res.json(responseBody);
   } else {
     res.sendStatus(401);

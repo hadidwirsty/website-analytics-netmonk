@@ -10,21 +10,17 @@ const handleNewUser = async (req, res) => {
       .status(400)
       .json({ message: 'Username, password, and role are required.' });
 
-  // Validate the role
   const roleValue = ROLES_LIST[role];
   if (!roleValue) {
     return res.status(400).json({ message: 'Invalid role specified.' });
   }
 
-  // Check for duplicate usernames in the db
   const duplicate = await User.findOne({ username: username }).exec();
-  if (duplicate) return res.sendStatus(409); //Conflict
+  if (duplicate) return res.sendStatus(409); // Conflict
 
   try {
-    // Encrypt the password
     const hashedPwd = await bcrypt.hash(password, 10);
 
-    // Create and store the new user
     const result = await User.create({
       username: username,
       password: hashedPwd,
