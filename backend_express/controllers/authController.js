@@ -26,7 +26,6 @@ const handleLogin = async (req, res) => {
         .json({ message: 'Please enter the correct password!' });
     }
 
-    const metabase_key = process.env.METABASE_KEY;
     const accessToken = jwt.sign(
       {
         UserInfo: {
@@ -35,14 +34,13 @@ const handleLogin = async (req, res) => {
           roles: foundUser.role,
           teamName: foundUser.teamName,
         },
-        metabase_key: metabase_key,
       },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: '1h' }
     );
 
     const newRefreshToken = jwt.sign(
-      { username: foundUser.username },
+      { username: foundUser.username, roles: foundUser.role },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: '1d' }
     );
@@ -68,9 +66,7 @@ const handleLogin = async (req, res) => {
     }
 
     foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
-    const result = await foundUser.save();
-
-    console.log(result);
+    await foundUser.save();
 
     res.cookie('jwt', newRefreshToken, {
       httpOnly: true,
@@ -84,7 +80,6 @@ const handleLogin = async (req, res) => {
       username: foundUser.username,
       role: foundUser.role,
       teamName: foundUser.teamName,
-      metabase_key: metabase_key,
       accessToken: accessToken,
     };
 

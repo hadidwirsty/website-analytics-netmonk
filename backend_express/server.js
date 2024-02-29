@@ -43,12 +43,13 @@ app.use('/register', require('./routes/register'));
 app.use('/auth', require('./routes/auth'));
 app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
-app.use('/test-token', require('./routes/testToken'));
 
 app.use(verifyJWT);
 app.use('/employees', require('./routes/api/employees'));
+app.use(require('./routes/api/metabase'));
 app.use('/ncx', require('./routes/api/ncx'));
 app.use('/scone', require('./routes/api/scone'));
+app.use('/test-token', require('./routes/testToken'));
 app.use('/users', require('./routes/api/users'));
 
 app.all('*', (req, res) => {

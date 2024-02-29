@@ -44,7 +44,7 @@ const handleRefreshToken = async (req, res) => {
         res.clearCookie('jwt', {
           httpOnly: true,
           sameSite: 'None',
-          secure: false, //Development secure it is false
+          secure: false, // Development secure it is false
         });
         return res.sendStatus(403);
       }
@@ -52,7 +52,6 @@ const handleRefreshToken = async (req, res) => {
       if (err || foundUser.username !== decoded.username)
         return res.sendStatus(403);
 
-      const metabase_key = process.env.METABASE_KEY;
       const accessToken = jwt.sign(
         {
           UserInfo: {
@@ -61,17 +60,17 @@ const handleRefreshToken = async (req, res) => {
             roles: foundUser.role,
             teamName: foundUser.teamName,
           },
-          metabase_key: metabase_key,
         },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: '15m' }
       );
 
       const newRefreshToken = jwt.sign(
-        { username: foundUser.username },
+        { username: foundUser.username, roles: foundUser.role },
         process.env.REFRESH_TOKEN_SECRET,
         { expiresIn: '1d' }
       );
+
       foundUser.refreshToken = foundUser.refreshToken
         .filter((rt) => rt !== refreshToken)
         .concat(newRefreshToken);
@@ -79,7 +78,7 @@ const handleRefreshToken = async (req, res) => {
 
       res.cookie('jwt', newRefreshToken, {
         httpOnly: true,
-        secure: false, //Development it is false
+        secure: false, // Development it is false
         sameSite: 'None',
         maxAge: 24 * 60 * 60 * 1000,
       });
@@ -89,7 +88,6 @@ const handleRefreshToken = async (req, res) => {
         username: foundUser.username,
         role: foundUser.role,
         teamName: foundUser.teamName,
-        metabase_key: metabase_key,
         accessToken,
       });
     }
