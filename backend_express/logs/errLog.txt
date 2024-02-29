@@ -1,2 +1,3 @@
-20240228	09:01:25	9a1b466a-01e6-4273-9611-75f7facbb20e	TypeError: req.roles.map is not a function
-20240228	09:04:03	f0045b42-196d-4b30-9174-b0b72017f5be	TypeError: req.roles.map is not a function
+20240229	11:30:36	d4740a59-6a9b-4b14-9698-6b9f607b8441	Error: Cannot set headers after they are sent to the client
+20240229	11:32:51	339b523b-099a-450c-9ccc-b2a013ca460b	TypeError: Cannot read properties of undefined (reading 'status')
+20240229	11:33:09	78a77da1-ff97-4e5b-bb39-e1386a8738e6	TypeError: Cannot read properties of undefined (reading 'status')

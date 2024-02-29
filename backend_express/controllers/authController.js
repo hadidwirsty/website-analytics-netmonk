@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const handleLogin = async (req, res) => {
   const cookies = req.cookies;
+
   console.log(`cookie available at login: ${JSON.stringify(cookies)}`);
 
   const { username, password } = req.body;
@@ -12,13 +13,20 @@ const handleLogin = async (req, res) => {
       .status(400)
       .json({ message: 'Username and password are required.' });
 
-  const foundUser = await User.findOne({ username: username }).exec();
-  if (!foundUser) return res.sendStatus(401); // Unauthorized
+  try {
+    const foundUser = await User.findOne({ username: username }).exec();
+    if (!foundUser) {
+      return res.status(401).json({ message: 'Username not found!' });
+    }
 
-  const match = await bcrypt.compare(password, foundUser.password);
-  if (match) {
+    const match = await bcrypt.compare(password, foundUser.password);
+    if (!match) {
+      return res
+        .status(401)
+        .json({ message: 'Please enter the correct password!' });
+    }
+
     const metabase_key = process.env.METABASE_KEY;
-
     const accessToken = jwt.sign(
       {
         UserInfo: {
@@ -81,8 +89,8 @@ const handleLogin = async (req, res) => {
     };
 
     res.json(responseBody);
-  } else {
-    res.sendStatus(401);
+  } catch (error) {
+    res.status(500).json({ message: 'An error occurred' });
   }
 };
 
