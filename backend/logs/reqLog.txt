@@ -1,0 +1,10 @@
+20240301	08:51:03	b3a313ca-a754-4f1b-9a84-0c5ce67981c8	POST	undefined	/auth
+20240301	08:51:13	d319625d-6e32-48f6-ae2b-a81b53913b11	GET	undefined	/test-token
+20240301	08:51:53	78e57609-5f67-418b-b18a-eacf992f933d	GET	undefined	/customer-management
+20240301	08:55:11	59d7cebd-ec7b-4a69-98da-c326d3ba8167	GET	undefined	/overview
+20240301	08:56:28	c2bb8dbf-79cc-46c1-9b31-5e30f8f4a0e9	GET	undefined	/device-pelanggan
+20240301	08:56:45	0d26a3a5-afcf-4b18-873d-b8cc496c5476	GET	undefined	/tracking-order-ncx
+20240301	08:56:59	6b090c25-b64c-4d4d-a117-815f3e70f644	GET	undefined	/active-users
+20240301	08:57:26	18f35b76-d11f-4164-b5df-e161b626578b	POST	undefined	/auth
+20240301	08:57:35	2765640b-19bd-4ffe-b8a1-5eb57bc1ad1d	GET	undefined	/active-users
+20240301	09:10:39	4881c169-37f0-4497-a26a-8f384c72f979	GET	undefined	/active-users

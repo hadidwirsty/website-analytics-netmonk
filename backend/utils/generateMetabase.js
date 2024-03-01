@@ -11,10 +11,9 @@ const generateMetabaseEmbedUrl = (resource, params) => {
   };
 
   const token = jwt.sign(payload, METABASE_SECRET_KEY);
-  const iframeUrl = `${METABASE_SITE_URL}/embed/${resource.type}/${token}#bordered=true&titled=true`;
+  const iframeUrl = `${METABASE_SITE_URL}/embed/${resource.type}/${token}#bordered=false&titled=false`;
 
   return iframeUrl;
 };
 
 module.exports = generateMetabaseEmbedUrl;
-
