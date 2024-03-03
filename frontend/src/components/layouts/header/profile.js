@@ -1,13 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react';
 import { BasicIcon } from '@netmonk/design.icons.basic';
 import ModalLogoutConfirmationComponent from '../../partials/modal/logout-confirmation';
 import Logo from '../../../assets/svgs/logo-default.svg';
-import teamName from './team-name';
 
 export const HeaderProfileComponent = () => {
   const ref = useRef();
-  const username = teamName();
 
   const [isProfileDropdownOpen, setIsProfileDropdown] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,7 +58,7 @@ export const HeaderProfileComponent = () => {
               />
             </svg>
           </div>
-          <span className='inline-flex'>{username}</span>
+          <span className='inline-flex'>username</span>
         </div>
       </div>
       <div
