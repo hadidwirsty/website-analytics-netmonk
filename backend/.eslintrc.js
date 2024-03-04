@@ -29,6 +29,14 @@ module.exports = {
   },
   plugins: ['react', 'react-hooks', 'prettier'],
   rules: {
+    // eslint-disable-next-line
+    'consistent-return': 'off',
+    'no-await-in-loop': 'off',
+    'no-console': 'off',
+    'no-plusplus': 'off',
+    'no-underscore-dangle': 'off',
+    'no-unused-vars': 'off',
+    'no-useless-escape': 'off',
     'react/react-in-jsx-scope': 'off'
   }
 };

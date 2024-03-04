@@ -4,7 +4,7 @@ const now = require('performance-now');
 const url = 'http://localhost:3500/auth';
 const credentials = {
   username: 'root',
-  password: 'pass!32',
+  password: 'pass!32'
 };
 
 let totalTime = 0;

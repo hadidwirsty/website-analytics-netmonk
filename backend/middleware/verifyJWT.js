@@ -11,9 +11,8 @@ const verifyJWT = (req, res, next) => {
     if (err) {
       if (err.name === 'TokenExpiredError') {
         return res.status(403).json({ message: 'Token expired' });
-      } else {
-        return res.status(403).json({ message: 'Invalid token' });
       }
+      return res.status(403).json({ message: 'Invalid token' });
     } // 403 Forbidden
     req.username = decoded.UserInfo.username;
     req.roles = decoded.UserInfo.roles;

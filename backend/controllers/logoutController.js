@@ -1,7 +1,7 @@
 const User = require('../model/User');
 
 const handleLogout = async (req, res) => {
-  const cookies = req.cookies;
+  const { cookies } = req;
   if (!cookies?.jwt) return res.sendStatus(204); // No content
   const refreshToken = cookies.jwt;
 
@@ -11,9 +11,7 @@ const handleLogout = async (req, res) => {
     return res.sendStatus(204);
   }
 
-  foundUser.refreshToken = foundUser.refreshToken.filter(
-    (rt) => rt !== refreshToken
-  );
+  foundUser.refreshToken = foundUser.refreshToken.filter((rt) => rt !== refreshToken);
 
   const result = await foundUser.save();
   console.log(result);

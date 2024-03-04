@@ -1,29 +1,25 @@
-const User = require('../model/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const User = require('../model/User');
 
 const handleLogin = async (req, res) => {
-  const cookies = req.cookies;
+  const { cookies } = req;
 
   console.log(`cookie available at login: ${JSON.stringify(cookies)}`);
 
   const { username, password } = req.body;
   if (!username || !password)
-    return res
-      .status(400)
-      .json({ message: 'Username and password are required.' });
+    return res.status(400).json({ message: 'Username and password are required.' });
 
   try {
-    const foundUser = await User.findOne({ username: username }).exec();
+    const foundUser = await User.findOne({ username }).exec();
     if (!foundUser) {
       return res.status(401).json({ message: 'Username not found!' });
     }
 
     const match = await bcrypt.compare(password, foundUser.password);
     if (!match) {
-      return res
-        .status(401)
-        .json({ message: 'Please enter the correct password!' });
+      return res.status(401).json({ message: 'Please enter the correct password!' });
     }
 
     const accessToken = jwt.sign(
@@ -32,8 +28,8 @@ const handleLogin = async (req, res) => {
           id: foundUser._id,
           username: foundUser.username,
           roles: foundUser.role,
-          teamName: foundUser.teamName,
-        },
+          teamName: foundUser.teamName
+        }
       },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: '1h' }
@@ -61,7 +57,7 @@ const handleLogin = async (req, res) => {
       res.clearCookie('jwt', {
         httpOnly: true,
         sameSite: 'None',
-        secure: true,
+        secure: true
       });
     }
 
@@ -72,7 +68,7 @@ const handleLogin = async (req, res) => {
       httpOnly: true,
       secure: false, // Development secure it is false
       sameSite: 'None',
-      maxAge: 24 * 60 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000
     });
 
     const responseBody = {
@@ -80,7 +76,7 @@ const handleLogin = async (req, res) => {
       username: foundUser.username,
       role: foundUser.role,
       teamName: foundUser.teamName,
-      accessToken: accessToken,
+      accessToken
     };
 
     res.json(responseBody);

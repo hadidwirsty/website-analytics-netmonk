@@ -1,48 +1,41 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
+const { Schema } = mongoose;
 
 const orderSchema = new Schema(
   {
     orderId: {
       type: String,
-      index: true,
+      index: true
     },
     nomorSc: {
       type: Number,
-      index: true,
+      index: true
     },
     namaPelanggan: {
       type: String,
-      required: [true, 'Customer Name is required!'],
+      required: [true, 'Customer Name is required!']
     },
     nomorHpPelanggan: {
-      type: String,
+      type: String
     },
     emailPelanggan: {
       type: String,
       validate: {
-        validator: function (v) {
+        validator(v) {
           return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
         },
-        message: (props) => `${props.value} is not a valid email address!`,
+        message: (props) => `${props.value} is not a valid email address!`
       },
-      index: true,
+      index: true
     },
     nomorInternet: {
-      type: String,
+      type: String
     },
     treg: {
       type: String,
-      enum: [
-        'TREG-1',
-        'TREG-2',
-        'TREG-3',
-        'TREG-4',
-        'TREG-5',
-        'TREG-6',
-        'TREG-7',
-      ],
-      required: [true, 'TREG is required!'],
+      enum: ['TREG-1', 'TREG-2', 'TREG-3', 'TREG-4', 'TREG-5', 'TREG-6', 'TREG-7'],
+      required: [true, 'TREG is required!']
     },
     witel: {
       type: String,
@@ -107,23 +100,23 @@ const orderSchema = new Schema(
         'SULSELBAR',
         'SULTENG',
         'SULTRA',
-        'SULUTMALUT',
+        'SULUTMALUT'
       ],
-      required: [true, 'Witel is required!'],
+      required: [true, 'Witel is required!']
     },
     produk: {
       type: String,
-      enum: ['Netmonk HI', 'Netmonk Prime'],
+      enum: ['Netmonk HI', 'Netmonk Prime']
     },
     pic: {
-      type: String,
+      type: String
     },
     sid: {
-      type: Number,
+      type: Number
     },
     statusAktivasi: {
       type: String,
-      enum: ['Activated', 'Not Activated', 'Deactivated'],
+      enum: ['Activated', 'Not Activated', 'Deactivated']
     },
     statusFulfillment: {
       type: String,
@@ -132,8 +125,8 @@ const orderSchema = new Schema(
         'Canceled Order',
         'Completed by Netmonk (next PJM)',
         'Proses Aktivasi Akun',
-        'Proses BAA dan Closing WFM',
-      ],
+        'Proses BAA dan Closing WFM'
+      ]
     },
     statusResume: {
       type: String,
@@ -145,27 +138,27 @@ const orderSchema = new Schema(
         '7 | OSS - PROVISIONING ISSUED',
         '10 | OSS - PROVISIONING COMPLETE',
         'OSS - FALLOUT',
-        'MYCX - FAIL',
-      ],
+        'MYCX - FAIL'
+      ]
     },
     statusWFM: {
       type: String,
-      enum: ['To Do', 'On Progress', 'Closed', 'Cancel'],
+      enum: ['To Do', 'On Progress', 'Closed', 'Cancel']
     },
     tanggalOrder: {
       type: Date,
-      default: Date.now,
+      default: Date.now
     },
     orderCreatedDate: {
       type: Date,
-      default: Date.now,
+      default: Date.now
     },
     orderClosingDate: {
       type: Date,
-      default: () => Date.now() + 30 * 24 * 60 * 60 * 1000,
+      default: () => Date.now() + 30 * 24 * 60 * 60 * 1000
     },
     username: {
-      type: String,
+      type: String
     },
     password: {
       type: String,
@@ -173,12 +166,8 @@ const orderSchema = new Schema(
         if (password.length < 4) {
           return password;
         }
-        return (
-          password[0] +
-          '*'.repeat(password.length - 2) +
-          password[password.length - 1]
-        );
-      },
+        return password[0] + '*'.repeat(password.length - 2) + password[password.length - 1];
+      }
     },
     secretKey: {
       type: String,
@@ -186,16 +175,12 @@ const orderSchema = new Schema(
         if (secretKey.length < 4) {
           return secretKey;
         }
-        return (
-          secretKey[0] +
-          '*'.repeat(secretKey.length - 2) +
-          secretKey[secretKey.length - 1]
-        );
-      },
+        return secretKey[0] + '*'.repeat(secretKey.length - 2) + secretKey[secretKey.length - 1];
+      }
     },
     catatan: {
-      type: String,
-    },
+      type: String
+    }
   },
   { timestamps: true }
 );

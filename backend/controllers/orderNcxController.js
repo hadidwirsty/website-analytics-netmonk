@@ -32,5 +32,5 @@ const getOrderNcx = async (req, res) => {
 
 module.exports = {
   getAllOrderNcx,
-  getOrderNcx,
+  getOrderNcx
 };

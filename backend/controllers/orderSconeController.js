@@ -27,7 +27,7 @@ const createNewOrderScone = async (req, res) => {
     tanggalOrder,
     username,
     password,
-    secretKey,
+    secretKey
   } = req.body;
 
   const orderDate = tanggalOrder ? new Date(tanggalOrder) : Date.now();
@@ -46,7 +46,7 @@ const createNewOrderScone = async (req, res) => {
     tanggalOrder: orderDate,
     username,
     password,
-    secretKey,
+    secretKey
   });
 
   try {
@@ -60,14 +60,8 @@ const createNewOrderScone = async (req, res) => {
 const updateOrderScone = async (req, res) => {
   const { id: nomorSc } = req.params;
 
-  const {
-    namaPelanggan,
-    statusResume,
-    nomorHpPelanggan,
-    emailPelanggan,
-    nomorInternet,
-    catatan,
-  } = req.body;
+  const { namaPelanggan, statusResume, nomorHpPelanggan, emailPelanggan, nomorInternet, catatan } =
+    req.body;
 
   const updateData = {
     ...(namaPelanggan && { namaPelanggan }),
@@ -75,12 +69,12 @@ const updateOrderScone = async (req, res) => {
     ...(nomorHpPelanggan && { nomorHpPelanggan }),
     ...(emailPelanggan && { emailPelanggan }),
     ...(nomorInternet && { nomorInternet }),
-    ...(catatan && { catatan }),
+    ...(catatan && { catatan })
   };
 
   try {
     const updatedOrder = await Order.findOneAndUpdate({ nomorSc }, updateData, {
-      new: true,
+      new: true
     });
 
     if (updatedOrder) {
@@ -115,5 +109,5 @@ module.exports = {
   getAllOrderScone,
   createNewOrderScone,
   updateOrderScone,
-  getOrderScone,
+  getOrderScone
 };

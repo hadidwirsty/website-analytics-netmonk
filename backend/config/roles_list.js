@@ -3,7 +3,7 @@ const ROLES_LIST = {
   business: 'business',
   marketing: 'marketing',
   fulfillment: 'fulfillment',
-  ponetmonk: 'po-netmonk',
+  ponetmonk: 'po-netmonk'
 };
 
 module.exports = ROLES_LIST;

@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const metabaseController = require('../../controllers/metabaseController');
 const ROLES_LIST = require('../../config/roles_list');
@@ -10,11 +11,7 @@ router.get(
   metabaseController.sendCustomerManagement
 );
 
-router.get(
-  '/overview',
-  verifyRoles(ROLES_LIST.fulfillment),
-  metabaseController.sendOverviewUrl
-);
+router.get('/overview', verifyRoles(ROLES_LIST.fulfillment), metabaseController.sendOverviewUrl);
 
 router.get(
   '/device-pelanggan',
