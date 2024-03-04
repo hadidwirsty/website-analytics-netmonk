@@ -1,9 +1,8 @@
-/* eslint-disable no-self-compare */
 import React from 'react';
 import { LayoutWelcome } from '../../components/partials/welcome';
 import { Embed } from '../../components/partials/embed';
 
-export const Overview = () => {
+export function Overview() {
   const username = localStorage.getItem('username');
   const title = 'Overview';
   let url;
@@ -33,11 +32,11 @@ export const Overview = () => {
   return (
     <>
       <LayoutWelcome username={username} />
-      <div className='h-screen lg:h-90% md:h-5/6 rounded-lg shadow-none sm:shadow-lg px-0 py-8 sm:px-5 sm:py-8 text-sm'>
+      <div className="h-screen lg:h-90% md:h-5/6 rounded-lg shadow-none sm:shadow-lg px-0 py-8 sm:px-5 sm:py-8 text-sm">
         <Embed url={url} title={title} />
       </div>
     </>
   );
-};
+}
 
 export default Overview;

@@ -3,13 +3,13 @@ import { LayoutHeader } from '../header';
 import { LayoutSidebar } from '../sidebar';
 import { LayoutFooter } from '../footer';
 
-export const LayoutBase = ({ children }) => {
+export function LayoutBase({ children }) {
   return (
-    <div className='dashboard-container'>
+    <div className="dashboard-container">
       <LayoutHeader />
       <LayoutSidebar />
-      <main className='main px-10 pt-10 pb-6'>{children}</main>
+      <main className="main px-10 pt-10 pb-6">{children}</main>
       <LayoutFooter />
     </div>
   );
-};
+}

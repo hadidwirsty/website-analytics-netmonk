@@ -1,4 +1,3 @@
-/* eslint-disable import/no-anonymous-default-export */
 import { getRole } from './cookie';
 
 export const items = {
@@ -34,14 +33,14 @@ export const items = {
   REPORT_PACKET_LOSS: 'report_packet_loss',
   REPORT_JITTER: 'report_jitter',
   USER_NETMONK_HI: 'user_netmonk_hi',
-  USER_OVERVIEW: 'user_overview',
+  USER_OVERVIEW: 'user_overview'
 };
 
 export const acc = {
   CREATE: 'CREATE',
   READ: 'READ',
   UPDATE: 'UPDATE',
-  DELETE: 'DELETE',
+  DELETE: 'DELETE'
 };
 
 const rules = [
@@ -80,8 +79,8 @@ const rules = [
       { name: items.REPORT_PACKET_LOSS, permission: [] },
       { name: items.REPORT_JITTER, permission: [] },
       { name: items.USER_NETMONK_HI, permission: [] },
-      { name: items.USER_OVERVIEW, permission: [] },
-    ],
+      { name: items.USER_OVERVIEW, permission: [] }
+    ]
   },
   {
     role: 'doa-dbt',
@@ -118,8 +117,8 @@ const rules = [
       { name: items.REPORT_PACKET_LOSS, permission: [] },
       { name: items.REPORT_JITTER, permission: [] },
       { name: items.USER_NETMONK_HI, permission: [] },
-      { name: items.USER_OVERVIEW, permission: [] },
-    ],
+      { name: items.USER_OVERVIEW, permission: [] }
+    ]
   },
   {
     role: 'fulfillment',
@@ -140,7 +139,7 @@ const rules = [
       { name: items.MONITORING_FULFILLMENT, permission: [] },
       {
         name: items.MONITORING_ORDER_SCONE,
-        permission: [acc.READ, acc.UPDATE],
+        permission: [acc.READ, acc.UPDATE]
       },
       { name: items.MONITORING_WEBSITE, permission: [] },
       { name: items.ORDER_NCX, permission: [acc.READ] },
@@ -159,8 +158,8 @@ const rules = [
       { name: items.REPORT_PACKET_LOSS, permission: [] },
       { name: items.REPORT_JITTER, permission: [] },
       { name: items.USER_NETMONK_HI, permission: [acc.READ] },
-      { name: items.USER_OVERVIEW, permission: [] },
-    ],
+      { name: items.USER_OVERVIEW, permission: [] }
+    ]
   },
   {
     role: 'netmonk',
@@ -197,8 +196,8 @@ const rules = [
       { name: items.REPORT_PACKET_LOSS, permission: [] },
       { name: items.REPORT_JITTER, permission: [] },
       { name: items.USER_NETMONK_HI, permission: [] },
-      { name: items.USER_OVERVIEW, permission: [] },
-    ],
+      { name: items.USER_OVERVIEW, permission: [] }
+    ]
   },
   {
     role: 'marketing',
@@ -235,8 +234,8 @@ const rules = [
       { name: items.REPORT_PACKET_LOSS, permission: [] },
       { name: items.REPORT_JITTER, permission: [] },
       { name: items.USER_NETMONK_HI, permission: [] },
-      { name: items.USER_OVERVIEW, permission: [] },
-    ],
+      { name: items.USER_OVERVIEW, permission: [] }
+    ]
   },
   {
     role: 'product-owner',
@@ -273,8 +272,8 @@ const rules = [
       { name: items.REPORT_PACKET_LOSS, permission: [] },
       { name: items.REPORT_JITTER, permission: [] },
       { name: items.USER_NETMONK_HI, permission: [] },
-      { name: items.USER_OVERVIEW, permission: [acc.READ] },
-    ],
+      { name: items.USER_OVERVIEW, permission: [acc.READ] }
+    ]
   },
   {
     role: 'qos',
@@ -284,7 +283,7 @@ const rules = [
       { name: items.DETAIL_ACTIVE_USER, permission: [] },
       {
         name: items.DETAIL_ACTIVE_USER_TREG,
-        permission: [],
+        permission: []
       },
       { name: items.DETAIL_ACTIVE_USER_WITEL, permission: [] },
       { name: items.NETMONK, permission: [acc.READ] },
@@ -314,8 +313,8 @@ const rules = [
       { name: items.REPORT_PACKET_LOSS, permission: [acc.READ] },
       { name: items.REPORT_JITTER, permission: [acc.READ] },
       { name: items.USER_NETMONK_HI, permission: [] },
-      { name: items.USER_OVERVIEW, permission: [] },
-    ],
+      { name: items.USER_OVERVIEW, permission: [] }
+    ]
   },
   {
     role: 'treg',
@@ -325,7 +324,7 @@ const rules = [
       { name: items.DETAIL_ACTIVE_USER, permission: [] },
       {
         name: items.DETAIL_ACTIVE_USER_TREG,
-        permission: [acc.READ, acc.UPDATE],
+        permission: [acc.READ, acc.UPDATE]
       },
       { name: items.DETAIL_ACTIVE_USER_WITEL, permission: [] },
       { name: items.NETMONK, permission: [] },
@@ -355,8 +354,8 @@ const rules = [
       { name: items.REPORT_PACKET_LOSS, permission: [] },
       { name: items.REPORT_JITTER, permission: [] },
       { name: items.USER_NETMONK_HI, permission: [] },
-      { name: items.USER_OVERVIEW, permission: [] },
-    ],
+      { name: items.USER_OVERVIEW, permission: [] }
+    ]
   },
   {
     // role treg
@@ -367,7 +366,7 @@ const rules = [
       { name: items.DETAIL_ACTIVE_USER, permission: [] },
       {
         name: items.DETAIL_ACTIVE_USER_TREG,
-        permission: [acc.READ, acc.UPDATE],
+        permission: [acc.READ, acc.UPDATE]
       },
       { name: items.DETAIL_ACTIVE_USER_WITEL, permission: [] },
       { name: items.NETMONK, permission: [] },
@@ -397,8 +396,8 @@ const rules = [
       { name: items.REPORT_PACKET_LOSS, permission: [] },
       { name: items.REPORT_JITTER, permission: [] },
       { name: items.USER_NETMONK_HI, permission: [] },
-      { name: items.USER_OVERVIEW, permission: [] },
-    ],
+      { name: items.USER_OVERVIEW, permission: [] }
+    ]
   },
   {
     role: 'witel',
@@ -409,7 +408,7 @@ const rules = [
       { name: items.DETAIL_ACTIVE_USER_TREG, permission: [] },
       {
         name: items.DETAIL_ACTIVE_USER_WITEL,
-        permission: [acc.READ, acc.UPDATE],
+        permission: [acc.READ, acc.UPDATE]
       },
       { name: items.NETMONK, permission: [] },
       { name: items.NETMONK_FULFILLMENT, permission: [acc.READ] },
@@ -438,9 +437,9 @@ const rules = [
       { name: items.REPORT_PACKET_LOSS, permission: [] },
       { name: items.REPORT_JITTER, permission: [] },
       { name: items.USER_NETMONK_HI, permission: [] },
-      { name: items.USER_OVERVIEW, permission: [] },
-    ],
-  },
+      { name: items.USER_OVERVIEW, permission: [] }
+    ]
+  }
 ];
 
 export const hasAccess = (item, perm) => {
@@ -457,5 +456,5 @@ export const hasAccess = (item, perm) => {
 };
 
 export default {
-  hasAccess,
+  hasAccess
 };

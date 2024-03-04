@@ -5,27 +5,22 @@ import { sidebarNavigation } from './navigation';
 import { hasAccess } from '../../../helpers/acl';
 import Logo from '../../../assets/svgs/logo-netmonk-analytics-white.svg';
 
-export const LayoutSidebar = () => {
+export function LayoutSidebar() {
   const location = useLocation();
 
   const [isMobileMenuActive, setIsMobileMenuActive] = useState(false);
 
   const renderNavContent = (item) => (
     <>
-      <span className='nav-icon'>{item.icon}</span>
-      <span className='nav-text'>{item.title}</span>
+      <span className="nav-icon">{item.icon}</span>
+      <span className="nav-text">{item.title}</span>
     </>
   );
 
-  const renderNavTitle = (item) => (
-    <span className='nav-title'>{renderNavContent(item)}</span>
-  );
+  const renderNavTitle = (item) => <span className="nav-title">{renderNavContent(item)}</span>;
 
   const renderNavLink = (item) => (
-    <Link
-      to={item.path}
-      className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
-    >
+    <Link to={item.path} className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}>
       {renderNavContent(item)}
     </Link>
   );
@@ -47,13 +42,9 @@ export const LayoutSidebar = () => {
       return null;
     }
     return (
-      <li className='nav-item' key={Math.random().toString(36).substring(7)}>
+      <li className="nav-item" key={Math.random().toString(36).substring(7)}>
         {renderItem(el)}
-        {hasChild ? (
-          <ul className=''>
-            {el.child.map((item) => renderNavigations(item))}
-          </ul>
-        ) : null}
+        {hasChild ? <ul className="">{el.child.map((item) => renderNavigations(item))}</ul> : null}
       </li>
     );
   };
@@ -73,43 +64,30 @@ export const LayoutSidebar = () => {
           !isMobileMenuActive ? 'hidden' : ''
         } sidebar-backdrop fixed w-full h-full bg-gunmetal bg-opacity-50`}
         style={{
-          zIndex: 10,
+          zIndex: 10
         }}
-        key='modal-backdrop'
-        aria-hidden='true'
+        key="modal-backdrop"
+        aria-hidden="true"
         onClick={closeSidebarMenu}
       />
-      <aside
-        className={`sidebar ${
-          isMobileMenuActive ? 'mobile-sidebar-opened' : ''
-        }`}
-      >
+      <aside className={`sidebar ${isMobileMenuActive ? 'mobile-sidebar-opened' : ''}`}>
         <button
-          type='button'
-          className={`md:hidden ${
-            isMobileMenuActive && 'hidden'
-          } sidebar-mobile-button`}
-          onClick={openSidebarMenu}
-        >
-          <BasicIcon name='hamburger' />
+          type="button"
+          className={`md:hidden ${isMobileMenuActive && 'hidden'} sidebar-mobile-button`}
+          onClick={openSidebarMenu}>
+          <BasicIcon name="hamburger" />
         </button>
-        <div className='z-50'>
-          <div className='sidebar-brand border-b border-yale_blue-70 px-4 py-6'>
-            <div className='flex justify-center items-center'>
-              <img
-                className='sidebar-brand-icon'
-                src={Logo}
-                alt='Logo Netmonk Analytics'
-              />
+        <div className="z-50">
+          <div className="sidebar-brand border-b border-yale_blue-70 px-4 py-6">
+            <div className="flex justify-center items-center">
+              <img className="sidebar-brand-icon" src={Logo} alt="Logo Netmonk Analytics" />
             </div>
           </div>
-          <ul className='sidebar-nav'>
-            {sidebarNavigation.map((el) => renderNavigations(el))}
-          </ul>
+          <ul className="sidebar-nav">{sidebarNavigation.map((el) => renderNavigations(el))}</ul>
         </div>
       </aside>
     </>
   );
-};
+}
 
 export default LayoutSidebar;

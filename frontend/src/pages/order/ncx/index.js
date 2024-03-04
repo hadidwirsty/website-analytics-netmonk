@@ -5,13 +5,12 @@ import { DataTable } from '@netmonk/design.ui.data-table';
 import { Dropdown } from '@netmonk/design.ui.dropdown';
 import { TableSearch } from '@netmonk/design.ui.table-search';
 
-export const OrderNCX = () => {
+export function OrderNCX() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchValue, setSearchValue] = useState('');
   const [selectedProductFilter, setSelectedProductFilter] = useState();
-  const [selectedStatusFulfillmentFilter, setSelectedStatusFulfillmentFilter] =
-    useState();
+  const [selectedStatusFulfillmentFilter, setSelectedStatusFulfillmentFilter] = useState();
   const [selectedTregFilter, setSelectedTregFilter] = useState();
   const [selectedWitelFilter, setSelectedWitelFilter] = useState();
   const [statusFulfillmentOptions, setStatusFulfillmentOptions] = useState([]);
@@ -19,42 +18,42 @@ export const OrderNCX = () => {
   const productOptions = [
     {
       label: 'Netmonk HI',
-      value: 'Netmonk HI',
+      value: 'Netmonk HI'
     },
     {
       label: 'Netmonk Prime',
-      value: 'Netmonk Prime',
-    },
+      value: 'Netmonk Prime'
+    }
   ];
   const tregOptions = [
     {
       label: 'TREG - 1',
-      value: 'TREG - 1',
+      value: 'TREG - 1'
     },
     {
       label: 'TREG - 2',
-      value: 'TREG - 2',
+      value: 'TREG - 2'
     },
     {
       label: 'TREG - 3',
-      value: 'TREG - 3',
+      value: 'TREG - 3'
     },
     {
       label: 'TREG - 4',
-      value: 'TREG - 4',
+      value: 'TREG - 4'
     },
     {
       label: 'TREG - 5',
-      value: 'TREG - 5',
+      value: 'TREG - 5'
     },
     {
       label: 'TREG - 6',
-      value: 'TREG - 6',
+      value: 'TREG - 6'
     },
     {
       label: 'TREG - 7',
-      value: 'TREG - 7',
-    },
+      value: 'TREG - 7'
+    }
   ];
 
   const getData = async () => {
@@ -166,14 +165,14 @@ export const OrderNCX = () => {
   };
 
   const subHeaderComponent = () => (
-    <div className='table-actions-before-wrapper flex flex-row justify-between mb-3'>
-      <div className='flex flex-row gap-2'>
-        <div className='button-wrapper'>
+    <div className="table-actions-before-wrapper flex flex-row justify-between mb-3">
+      <div className="flex flex-row gap-2">
+        <div className="button-wrapper">
           <Button
-            type='button'
-            color='default'
-            variant='icon-only'
-            icon='refresh'
+            type="button"
+            color="default"
+            variant="icon-only"
+            icon="refresh"
             onClick={resetFilters}
             className={`opacity-60 hover:opacity-100 ${
               !searchValue &&
@@ -193,54 +192,54 @@ export const OrderNCX = () => {
             }
           />
         </div>
-        <div className='search-and-filter-wrapper'>
+        <div className="search-and-filter-wrapper">
           <TableSearch
             initialKeyword={searchValue}
-            placeholder='Search'
+            placeholder="Search"
             onReset={() => setSearchValue('')}
             onSearch={(keyword) => setSearchValue(keyword)}
           />
         </div>
-        <div className='dropdown-filter-wrapper z-10'>
+        <div className="dropdown-filter-wrapper z-10">
           <Dropdown
-            size='sm'
-            label='Treg'
+            size="sm"
+            label="Treg"
             items={tregOptions}
             onChange={(selectedOption) => {
               setSelectedTregFilter(selectedOption.value);
             }}
           />
         </div>
-        <div className='dropdown-filter-wrapper z-10'>
+        <div className="dropdown-filter-wrapper z-10">
           <Dropdown
-            size='sm'
-            label='Witel'
+            size="sm"
+            label="Witel"
             items={witelOptions.map((witel) => ({
               label: witel,
-              value: witel,
+              value: witel
             }))}
             onChange={(selectedOption) => {
               setSelectedWitelFilter(selectedOption.value);
             }}
           />
         </div>
-        <div className='dropdown-filter-wrapper z-10'>
+        <div className="dropdown-filter-wrapper z-10">
           <Dropdown
-            size='sm'
-            label='Status Fulfillment'
+            size="sm"
+            label="Status Fulfillment"
             items={statusFulfillmentOptions.map((status_fulfillment) => ({
               label: status_fulfillment,
-              value: status_fulfillment,
+              value: status_fulfillment
             }))}
             onChange={(selectedOption) => {
               setSelectedStatusFulfillmentFilter(selectedOption.value);
             }}
           />
         </div>
-        <div className='dropdown-filter-wrapper z-10'>
+        <div className="dropdown-filter-wrapper z-10">
           <Dropdown
-            size='sm'
-            label='Produk'
+            size="sm"
+            label="Produk"
             items={productOptions}
             onChange={(selectedOption) => {
               setSelectedProductFilter(selectedOption.value);
@@ -249,14 +248,14 @@ export const OrderNCX = () => {
         </div>
       </div>
 
-      <div className='button-csv'>
-        <div className='button-wrapper'>
+      <div className="button-csv">
+        <div className="button-wrapper">
           <Button
-            type='button'
-            label='Export to CSV'
-            size='sm'
-            color='yale_blue'
-            icon='download'
+            type="button"
+            label="Export to CSV"
+            size="sm"
+            color="yale_blue"
+            icon="download"
             onClick={exportToCSV}
           />
         </div>
@@ -270,102 +269,95 @@ export const OrderNCX = () => {
       selector: (row) => row.order_id,
       cell: (row) => <p>{row.order_id ? row.order_id : '-'}</p>,
       grow: 1.5,
-      sortable: true,
+      sortable: true
     },
     {
       name: 'Nama Pelanggan',
       selector: (row) => row.nama_customer,
       cell: (row) => <p>{row.nama_customer ? row.nama_customer : '-'}</p>,
       grow: 2.5,
-      sortable: true,
+      sortable: true
     },
     {
       name: 'Treg',
       selector: (row) => row.treg,
       cell: (row) => <p>{row.treg ? row.treg : '-'}</p>,
       sortable: true,
-      sortField: 'treg',
+      sortField: 'treg'
     },
     {
       name: 'Witel',
       selector: (row) => row.witel,
       cell: (row) => <p>{row.witel ? row.witel : '-'}</p>,
       grow: 1.5,
-      sortable: true,
+      sortable: true
     },
     {
       name: 'Status Fulfillment',
       selector: (row) => row.status_fulfillment,
       cell: (row) => (
         <div
-          className='py-2 px-3'
+          className="py-2 px-3"
           style={{
             borderRadius: 9999,
             backgroundColor:
               row.status_fulfillment === 'Completed by Netmonk (next PJM)'
                 ? '#ECF9E5'
-                : row.status_fulfillment ===
-                  'Konfirmasi ke Pelanggan (cek Email)'
-                ? '#FFF8E5'
-                : 'transparent',
+                : row.status_fulfillment === 'Konfirmasi ke Pelanggan (cek Email)'
+                  ? '#FFF8E5'
+                  : 'transparent',
             color:
               row.status_fulfillment === 'Completed by Netmonk (next PJM)'
                 ? 'rgb(46, 184, 126)'
-                : row.status_fulfillment ===
-                  'Konfirmasi ke Pelanggan (cek Email)'
-                ? '#FFB700'
-                : 'black',
-          }}
-        >
+                : row.status_fulfillment === 'Konfirmasi ke Pelanggan (cek Email)'
+                  ? '#FFB700'
+                  : 'black'
+          }}>
           {row.status_fulfillment}
         </div>
       ),
       grow: 2.5,
-      sortable: true,
+      sortable: true
     },
     {
       name: 'Order Created Date',
       selector: (row) => row.order_created_date,
-      cell: (row) => (
-        <p>{row.order_created_date ? row.order_created_date : '-'}</p>
-      ),
-      sortable: true,
+      cell: (row) => <p>{row.order_created_date ? row.order_created_date : '-'}</p>,
+      sortable: true
     },
     {
       name: 'Produk',
       selector: (row) => row.produk,
       cell: (row) => <p>{row.produk ? row.produk : '-'}</p>,
       grow: 1.25,
-      sortable: true,
+      sortable: true
     },
     {
       name: 'PIC/AM',
       selector: (row) => row.pic_am,
       cell: (row) => <p>{row.pic_am ? row.pic_am : '-'}</p>,
       grow: 1.5,
-      sortable: true,
+      sortable: true
     },
     {
       name: 'Jumlah SID',
       selector: (row) => row.sid,
       cell: (row) => <p>{row.sid ? row.sid : '-'}</p>,
-      sortable: true,
+      sortable: true
     },
     {
       name: 'Order Closing Date',
       selector: (row) => row.order_closing_date,
-      cell: (row) => (
-        <p>{row.order_closing_date ? row.order_closing_date : '-'}</p>
-      ),
-      sortable: true,
-    },
+      cell: (row) => <p>{row.order_closing_date ? row.order_closing_date : '-'}</p>,
+      sortable: true
+    }
   ];
 
   return (
-    <div className='rounded-lg shadow-none sm:shadow-lg px-0 py-8 sm:px-5 sm:py-8 text-sm table-box'>
-      <div className='datatable-table-wrapper'>
+    <div className="rounded-lg shadow-none sm:shadow-lg px-0 py-8 sm:px-5 sm:py-8 text-sm table-box">
+      <div className="datatable-table-wrapper">
         {subHeaderComponent()}
-        <div className='relative'>
+        <div className="relative">
           <DataTable
             data={filteredData}
             columns={columns}
@@ -382,6 +374,6 @@ export const OrderNCX = () => {
       </div>
     </div>
   );
-};
+}
 
 export default OrderNCX;
