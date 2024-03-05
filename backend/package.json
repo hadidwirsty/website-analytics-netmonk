@@ -1,5 +1,5 @@
 {
-  "name": "web-analytics-netmonk",
+  "name": "be-web-analytics-netmonk",
   "version": "1.0.0",
   "description": "Backend Website Analytics Netmonk",
   "main": "server.js",

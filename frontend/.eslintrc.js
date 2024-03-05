@@ -31,6 +31,7 @@ module.exports = {
   rules: {
     camelcase: 'off',
     'import/no-anonymous-default-export': 'off',
+    'import/no-extraneous-dependencies': 'off',
     'import/no-named-as-default': 'off',
     'import/prefer-default-export': 'off',
     'jsx-a11y/control-has-associated-label': 'off',

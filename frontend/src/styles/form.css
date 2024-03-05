@@ -28,9 +28,7 @@
 .react-select--is-disabled .react-select__control--is-disabled {
   @apply bg-gunmetal-5 border-0 !important;
 }
-.react-select--is-disabled
-  .react-select__control--is-disabled
-  .react-select__indicators {
+.react-select--is-disabled .react-select__control--is-disabled .react-select__indicators {
   @apply hidden !important;
 }
 .react-select__input-selection {

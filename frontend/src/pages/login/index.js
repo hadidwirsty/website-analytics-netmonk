@@ -49,7 +49,6 @@ export function PageLogin() {
         localStorage.setItem('username', response.data.username);
         localStorage.setItem('role', response.data.role);
         localStorage.setItem('teamName', response.data.teamName);
-        localStorage.setItem('metabase_key', response.data.metabase_key);
         localStorage.setItem('accessToken', response.data.accessToken);
 
         setTimeout(() => {

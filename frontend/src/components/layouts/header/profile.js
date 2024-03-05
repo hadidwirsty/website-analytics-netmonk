@@ -5,6 +5,7 @@ import Logo from '../../../assets/svgs/logo-default.svg';
 
 export function HeaderProfileComponent() {
   const ref = useRef();
+  const teamName = localStorage.getItem('teamName');
 
   const [isProfileDropdownOpen, setIsProfileDropdown] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,7 +57,7 @@ export function HeaderProfileComponent() {
               />
             </svg>
           </div>
-          <span className="inline-flex">username</span>
+          <span className="inline-flex">{teamName}</span>
         </div>
       </div>
       <div

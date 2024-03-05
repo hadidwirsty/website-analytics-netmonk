@@ -12,38 +12,38 @@ module.exports = {
             60: '#7191B3',
             30: '#7191B3',
             10: '#E7EDF2',
-            5: '#E7EDF2',
+            5: '#E7EDF2'
           },
           french_blue: {
             DEFAULT: '#1072BA',
             60: '#70AAD6',
             30: '#B7D5EA',
             10: '#E7F1F8',
-            5: '#F3F8FC',
+            5: '#F3F8FC'
           },
           sky_blue: '#B7D5EA',
           baby_powder: '#FAFAFA',
           red_salsa: {
             DEFAULT: '#FB3640',
-            5: '#FEF7F7',
+            5: '#FEF7F7'
           },
-          granite_grey: '#605F5E',
+          granite_grey: '#605F5E'
         },
         secondary: {
           basic_grey: '#A7A9AC',
           basic_grey_2: '#D2D3D4',
           white: '#FFFFFF',
-          background: '#F6F8FF',
+          background: '#F6F8FF'
         },
         base: {
           grey: '#EAEAEA',
-          grey_2: '#F3F3F4',
+          grey_2: '#F3F3F4'
         },
         black_blue: {
           DEFAULT: '#041429',
           80: 'rgba(4,20,41,0.8)',
           60: '#68727F',
-          40: '#9BA1A9',
+          40: '#9BA1A9'
         },
         support: {
           blue: {
@@ -51,21 +51,21 @@ module.exports = {
             60: '#6F89AC',
             30: '#B7C4D6',
             10: '#E7EDF2',
-            5: '#F3F6F9',
+            5: '#F3F6F9'
           },
           green: {
             DEFAULT: '#3EC300',
             60: '#8BDB66',
             30: '#C5EDB3',
             10: '#ECF9E5',
-            5: '#F5FCF2',
+            5: '#F5FCF2'
           },
           yellow: {
             DEFAULT: '#FFB700',
             60: '#FFD466',
             30: '#FFE9B3',
             10: '#FFF8E5',
-            5: '#FFFBF2',
+            5: '#FFFBF2'
           },
           red: {
             DEFAULT: '#FB3640',
@@ -74,10 +74,10 @@ module.exports = {
             30: '#FEC3C6',
             10: '#FFEBEC',
             5: '#FFF5F5',
-            1: '#FFF0F1',
+            1: '#FFF0F1'
           },
           orange: '#F75C03',
-          border_navbar: '#2E639E',
+          border_navbar: '#2E639E'
         },
         current: 'currentColor',
         transparent: 'transparent',
@@ -87,7 +87,7 @@ module.exports = {
           80: 'rgba(255,255,255,0.8)',
           50: 'rgba(255,255,255,0.5)',
           30: 'rgba(255,255,255,0.3)',
-          10: 'rgba(255,255,255,0.1)',
+          10: 'rgba(255,255,255,0.1)'
         },
         gray: colors.neutral,
         indigo: colors.indigo,
@@ -106,7 +106,7 @@ module.exports = {
           30: '#BFC2C5',
           20: '#D4D6D9',
           10: '#EAEBEC',
-          5: '#F2F3F5',
+          5: '#F2F3F5'
         },
         yale_blue: {
           DEFAULT: '#134780',
@@ -120,7 +120,7 @@ module.exports = {
           30: '#B8C8D9',
           20: '#D0DAE6',
           10: '#E7EDF2',
-          5: '#F3F6F9',
+          5: '#F3F6F9'
         },
         french_blue: {
           DEFAULT: '#1072BA',
@@ -134,7 +134,7 @@ module.exports = {
           30: '#B7D5EA',
           20: '#CFE3F1',
           10: '#E7F1F8',
-          5: '#F3F8FC',
+          5: '#F3F8FC'
         },
         jungle_green: {
           DEFAULT: '#2EB87E',
@@ -148,7 +148,7 @@ module.exports = {
           30: '#C0EAD8',
           20: '#D5F1E5',
           10: '#EAF8F2',
-          5: '#F5FCF9',
+          5: '#F5FCF9'
         },
         yellow_orange: {
           DEFAULT: '#FAB138',
@@ -162,7 +162,7 @@ module.exports = {
           30: '#FEE8C3',
           20: '#FEEFD7',
           10: '#FFF7EB',
-          5: '#FFFBF5',
+          5: '#FFFBF5'
         },
         fire_opal: {
           DEFAULT: '#EC5159',
@@ -176,12 +176,12 @@ module.exports = {
           30: '#F9CBCD',
           20: '#FBDCDE',
           10: '#FDEEEE',
-          5: '#FEF7F7',
-        },
+          5: '#FEF7F7'
+        }
       },
       fontFamily: {
         display: ['Open Sans', 'sans-serif'],
-        body: ['Open Sans', 'sans-serif'],
+        body: ['Open Sans', 'sans-serif']
       },
       boxShadow: {
         xs: '0px 6px 10px rgba(24, 50, 115, 0.06)',
@@ -193,7 +193,7 @@ module.exports = {
         inner: 'inset 2px 8px 25px rgba(24, 50, 115, 0.1)',
         outline: '0 0 0 3px rgba(24, 50, 115, 0.5)',
         thin: '0 0 0 1px rgba(24, 50, 115, 1)',
-        none: 'none',
+        none: 'none'
       },
       fontSize: {
         display_1: ['56px', '67px'],
@@ -207,19 +207,19 @@ module.exports = {
         body_1: ['16px', '26px'],
         body_2: ['14px', '22px'],
         caption_1: ['12px', '16px'],
-        caption_2: ['10px', '14px'],
+        caption_2: ['10px', '14px']
       },
       screens: {
-        print: { raw: 'print' },
+        print: { raw: 'print' }
       },
       transitionProperty: {
         height: 'height',
-        width: 'width',
+        width: 'width'
       },
       height: {
-        '90%': '90%',
-      },
-    },
+        '90%': '90%'
+      }
+    }
   },
   variants: {
     extend: {
@@ -229,8 +229,8 @@ module.exports = {
       borderColor: ['checked', 'disabled', 'focus'],
       textColor: ['checked'],
       borderWidth: ['checked', 'focus', 'focus-within'],
-      ringWidth: ['hover', 'active', 'disabled'],
-    },
+      ringWidth: ['hover', 'active', 'disabled']
+    }
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: []
 };
