@@ -4,9 +4,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { LayoutBase } from './components/layouts/base';
 
 import { PageLogin } from './pages/login';
-import { PageForbidden } from './components/errors/403';
-import { PageNotFound } from './components/errors/404';
-import { ServiceUnavailableBoundary } from './components/errors/503';
+import { PageForbidden } from './pages/errors/403';
+import { PageNotFound } from './pages/errors/404';
+import { ServiceUnavailableBoundary } from './pages/errors/503';
 import { OrderNCX } from './pages/order/ncx';
 import { OrderScone } from './pages/order/scone';
 import { Overview } from './pages/overview';
