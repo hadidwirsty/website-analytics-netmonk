@@ -35,7 +35,7 @@ const handleRefreshToken = async (req, res) => {
       res.clearCookie('jwt', {
         httpOnly: true,
         sameSite: 'None',
-        secure: false // Development secure it is false
+        secure: true
       });
       return res.sendStatus(403);
     }
@@ -68,7 +68,7 @@ const handleRefreshToken = async (req, res) => {
 
     res.cookie('jwt', newRefreshToken, {
       httpOnly: true,
-      secure: false, // Development it is false
+      secure: true,
       sameSite: 'None',
       maxAge: 24 * 60 * 60 * 1000
     });
