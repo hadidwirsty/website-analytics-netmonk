@@ -1,7 +1,9 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 export function LayoutWelcome() {
-  const teamName = localStorage.getItem('teamName');
+  const userDetails = useSelector((state) => state.auth.userDetails);
+  const teamName = userDetails ? userDetails.teamName : '';
 
   return (
     <div className="flex flex-col space-y-2 mb-6">

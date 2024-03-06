@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
-import axios from 'axios';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from '@netmonk/design.ui.button';
 import { Input } from '@netmonk/design.ui.input';
+import { useLoginMutation } from '../../apps/features/auth/authApiSlice';
+import { setCredentials } from '../../apps/features/auth/authSlice';
 import IconLoading from '../../assets/svgs/loading.svg';
 import Logo from '../../assets/svgs/logo-netmonk-analytics.svg';
 
 export function PageLogin() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setStatusError] = useState(false);
-  const [isNetworkActive, setIsNetwork] = useState(true);
+  const [login, { isLoading }] = useLoginMutation();
   const [responseCode, setResponseCode] = useState(0);
 
   const schema = Yup.object().shape({
@@ -34,63 +36,34 @@ export function PageLogin() {
 
   const onSubmit = async (formData) => {
     setStatusError(false);
-    setIsLoading(true);
-    setIsNetwork(true);
-
-    const loginURL = `${process.env.REACT_APP_API_BASE_URL}/auth`;
 
     try {
-      const response = await axios.post(loginURL, {
-        username: formData.username,
-        password: formData.password
-      });
-
-      if (response.status === 200) {
-        localStorage.setItem('username', response.data.username);
-        localStorage.setItem('role', response.data.role);
-        localStorage.setItem('teamName', response.data.teamName);
-        localStorage.setItem('accessToken', response.data.accessToken);
-
-        setTimeout(() => {
-          setIsLoading(false);
-
-          navigate('/overview');
-        }, 1000);
-      } else {
-        setStatusError(true);
-        setIsLoading(false);
-      }
-    } catch (error) {
-      console.error('Terjadi kesalahan:', error);
+      const user = await login(formData).unwrap();
+      dispatch(setCredentials(user));
+      navigate('/overview');
+    } catch (err) {
+      console.error('Failed to login:', err);
       setStatusError(true);
-      setResponseCode(401);
-      setIsLoading(false);
+      setResponseCode(err.status || 401);
     }
   };
 
   const showError = () => {
-    const html = (
+    if (!error) return null;
+
+    let errorMessage = 'There was a problem.';
+    if (responseCode === 401) errorMessage = 'Wrong username or password';
+
+    return (
       <div className="text-center p-2 mb-2 bg-fire_opal-80 rounded">
         <strong className="font-bold"> Error! </strong> <br />
-        {responseCode === 401 ? 'wrong username or password' : 'there was a problem'}{' '}
+        {errorMessage}
       </div>
     );
-
-    return error ? html : null;
-  };
-
-  const renderNetworkStatus = () => {
-    const html = (
-      <div className="w-full bg-fire_opal-80 p-1 fixed top-0 left-0 text-center">
-        It seems there is a network problem. Please check your network connections!
-      </div>
-    );
-    return isNetworkActive ? null : html;
   };
 
   return (
-    <section className="bg-gradient-to-t from-main-yale_blue  w-screen h-screen px-4">
-      {renderNetworkStatus()}
+    <section className="bg-gradient-to-t from-main-yale_blue w-screen h-screen px-4">
       <div className="container mx-auto">
         <div className="flex justify-center min-h-screen">
           <div
@@ -109,7 +82,7 @@ export function PageLogin() {
               <div className="flex flex-col flex-nowrap">
                 <label htmlFor="username" className="text-sm mb-2 font-bold text-gunmetal-100">
                   Username
-                </label>{' '}
+                </label>
                 <Controller
                   control={control}
                   name="username"
@@ -136,7 +109,7 @@ export function PageLogin() {
               <div className="flex flex-col flex-nowrap mb-4">
                 <label htmlFor="password" className="text-sm mb-2 font-bold text-gunmetal-100">
                   Password
-                </label>{' '}
+                </label>
                 <Controller
                   control={control}
                   name="password"
