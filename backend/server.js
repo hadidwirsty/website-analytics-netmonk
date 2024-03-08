@@ -12,6 +12,7 @@ const errorHandler = require('./middleware/errorHandler');
 const verifyJWT = require('./middleware/verifyJWT');
 const credentials = require('./middleware/credentials');
 const connectDB = require('./config/dbConn');
+const swaggerDocs = require('./utils/swagger');
 
 const PORT = process.env.PORT || 3500;
 
@@ -40,19 +41,22 @@ app.use(cookieParser());
 app.use('/', express.static(path.join(__dirname, '/public')));
 
 // Routes
+app.use(require('./routes/auth'));
+app.use(require('./routes/logout'));
+app.use(require('./routes/refresh'));
+app.use(require('./routes/register'));
 app.use('/', require('./routes/root'));
-app.use('/register', require('./routes/register'));
-app.use('/auth', require('./routes/auth'));
-app.use('/refresh', require('./routes/refresh'));
-app.use('/logout', require('./routes/logout'));
+
+// Swagger Docs
+swaggerDocs(app, PORT);
 
 app.use(verifyJWT);
 app.use('/employees', require('./routes/api/employees'));
 app.use(require('./routes/api/metabase'));
 app.use('/ncx', require('./routes/api/ncx'));
 app.use('/scone', require('./routes/api/scone'));
-app.use('/test-token', require('./routes/testToken'));
 app.use('/users', require('./routes/api/users'));
+app.use(require('./routes/validateToken'));
 
 app.all('*', (req, res) => {
   res.status(404);
@@ -69,5 +73,7 @@ app.use(errorHandler);
 
 mongoose.connection.once('open', () => {
   console.log('Connected to MongoDB');
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  app.listen(PORT, () =>
+    console.log(`Server running on port ${PORT}`, `Docs available at http://localhost:${PORT}/docs`)
+  );
 });
