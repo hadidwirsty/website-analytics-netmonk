@@ -56,7 +56,12 @@ const handleRefreshToken = async (req, res) => {
     );
 
     const newRefreshToken = jwt.sign(
-      { username: foundUser.username, roles: foundUser.role },
+      {
+        id: foundUser._id,
+        username: foundUser.username,
+        roles: foundUser.role,
+        teamName: foundUser.teamName
+      },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: '1d' }
     );

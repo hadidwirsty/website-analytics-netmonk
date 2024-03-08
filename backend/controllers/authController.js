@@ -32,11 +32,16 @@ const handleLogin = async (req, res) => {
         }
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: '15m' }
     );
 
     const newRefreshToken = jwt.sign(
-      { username: foundUser.username, roles: foundUser.role },
+      {
+        id: foundUser._id,
+        username: foundUser.username,
+        roles: foundUser.role,
+        teamName: foundUser.teamName
+      },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: '1d' }
     );
