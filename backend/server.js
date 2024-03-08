@@ -12,7 +12,6 @@ const errorHandler = require('./middleware/errorHandler');
 const verifyJWT = require('./middleware/verifyJWT');
 const credentials = require('./middleware/credentials');
 const connectDB = require('./config/dbConn');
-const swaggerDocs = require('./utils/swagger');
 
 const PORT = process.env.PORT || 3500;
 
@@ -45,10 +44,7 @@ app.use(require('./routes/auth'));
 app.use(require('./routes/logout'));
 app.use(require('./routes/refresh'));
 app.use(require('./routes/register'));
-app.use('/', require('./routes/root'));
-
-// Swagger Docs
-swaggerDocs(app, PORT);
+app.use(require('./routes/root'));
 
 app.use(verifyJWT);
 app.use('/employees', require('./routes/api/employees'));
@@ -73,7 +69,5 @@ app.use(errorHandler);
 
 mongoose.connection.once('open', () => {
   console.log('Connected to MongoDB');
-  app.listen(PORT, () =>
-    console.log(`Server running on port ${PORT}`, `Docs available at http://localhost:${PORT}/docs`)
-  );
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
