@@ -3,13 +3,11 @@ import { useGetCustomerManagementUrlQuery } from '../../../apps/features/metabas
 import { Embed } from '../../../components/partials/embed';
 
 export function CustomerManagement() {
-  const { data: customerManagementUrl, isFetching, isError } = useGetCustomerManagementUrlQuery();
+  const { data: customerManagementUrl, isFetching } = useGetCustomerManagementUrlQuery();
 
   let content;
   if (isFetching) {
     content = <p>Loading...</p>;
-  } else if (isError) {
-    content = <p>Error fetching the dashboard URL</p>;
   } else if (customerManagementUrl) {
     content = <Embed title="Customer Management" url={customerManagementUrl.url} />;
   }

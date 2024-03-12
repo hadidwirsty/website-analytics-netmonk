@@ -1,97 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { Button } from '@netmonk/design.ui.button';
 import { DataTable } from '@netmonk/design.ui.data-table';
 import { Dropdown } from '@netmonk/design.ui.dropdown';
 import { TableSearch } from '@netmonk/design.ui.table-search';
+import {
+  statusAktivasiOptions,
+  statusResumeOptions,
+  statusWFMOptions,
+  tregOptions
+} from '../../../utils/filterOptions';
+import { useGetOrdersSconeQuery } from '../../../apps/features/orders/orderSconeApiSlice';
 
 export function OrderScone() {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: orders, isLoading } = useGetOrdersSconeQuery();
   const [searchValue, setSearchValue] = useState('');
-  const [selectedStatusFulfillmentFilter, setSelectedStatusFulfillmentFilter] = useState();
+  const [selectedStatusAktivasiFilter, setSelectedStatusAktivasiFilter] = useState();
+  const [selectedStatusWFMFilter, setSelectedStatusWFMFilter] = useState();
+  const [selectedStatusResumeFilter, setSelectedStatusResumeFilter] = useState();
   const [selectedTregFilter, setSelectedTregFilter] = useState();
-  const [selectedWitelFilter, setSelectedWitelFilter] = useState();
-  const [statusFulfillmentOptions, setStatusFulfillmentOptions] = useState([]);
-  const [witelOptions, setWitelOptions] = useState([]);
-  const tregOptions = [
-    {
-      label: 'TREG - 1',
-      value: 'TREG - 1'
-    },
-    {
-      label: 'TREG - 2',
-      value: 'TREG - 2'
-    },
-    {
-      label: 'TREG - 3',
-      value: 'TREG - 3'
-    },
-    {
-      label: 'TREG - 4',
-      value: 'TREG - 4'
-    },
-    {
-      label: 'TREG - 5',
-      value: 'TREG - 5'
-    },
-    {
-      label: 'TREG - 6',
-      value: 'TREG - 6'
-    },
-    {
-      label: 'TREG - 7',
-      value: 'TREG - 7'
-    }
-  ];
 
-  const getData = async () => {
-    setIsLoading(true);
-
-    const dataURL = `${process.env.REACT_APP_API_BASE_URL}/scone/?skip=0&limit=10000`;
-
-    try {
-      const response = await axios.get(dataURL);
-      setData(response.data.result);
-
-      const arrayStatusFulfillmentOptions = Array.from(
-        new Set(response.data.result.map((item) => item.status_fulfillment))
-      ).sort();
-      setStatusFulfillmentOptions(arrayStatusFulfillmentOptions);
-
-      const arrayWitelOptions = Array.from(
-        new Set(response.data.result.map((item) => item.witel))
-      ).sort();
-      setWitelOptions(arrayWitelOptions);
-
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-
-      setIsLoading(false);
-    }
-  };
-
-  const resetFilters = () => {
-    setSearchValue('');
-    setSelectedTregFilter();
-    setSelectedStatusFulfillmentFilter();
-    setSelectedWitelFilter();
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const dataSort = Array.isArray(data)
-    ? [...data].sort((a, b) => {
-        if (a.status_fulfillment_code < b.status_fulfillment_code) {
-          return -1;
-        }
-        if (a.status_fulfillment_code > b.status_fulfillment_code) {
-          return 1;
-        }
-
+  const dataSort = Array.isArray(orders)
+    ? [...orders].sort((a, b) => {
         if (a.treg < b.treg) {
           return -1;
         }
@@ -106,7 +35,7 @@ export function OrderScone() {
           return 1;
         }
 
-        return new Date(b.tanggal_aktivasi) - new Date(a.tanggal_aktivasi);
+        return new Date(b.tanggalOrder) - new Date(a.tanggalOrder);
       })
     : [];
 
@@ -118,23 +47,22 @@ export function OrderScone() {
           value !== undefined &&
           value.toString().toLowerCase().includes(searchValue.toLowerCase())
       ) &&
-      (selectedTregFilter ? row.treg === selectedTregFilter : true) &&
-      (selectedStatusFulfillmentFilter
-        ? row.status_fulfillment === selectedStatusFulfillmentFilter
-        : true) &&
-      (selectedWitelFilter ? row.witel === selectedWitelFilter : true)
+      (selectedStatusAktivasiFilter ? row.statusAktivasi === selectedStatusAktivasiFilter : true) &&
+      (selectedStatusResumeFilter ? row.statusResume === selectedStatusResumeFilter : true) &&
+      (selectedStatusWFMFilter ? row.statusWFM === selectedStatusWFMFilter : true) &&
+      (selectedTregFilter ? row.treg === selectedTregFilter : true)
   );
 
   const exportToCSV = () => {
     let csvData =
-      'Nomor SC,Nama Pelanggan,Nomor Internet,Email Pelanggan,Treg,Witel,Status Fulfillment,Tanggal Order,Estimasi Selesai (WIB)\n';
+      'Nomor SC,Nama Pelanggan,Nomor Internet,Treg,Witel,Status Aktivasi,Status WFM,Tanggal Order,Status Resume\n';
 
     filteredData.forEach((row) => {
-      csvData += `${row.sc_netmonk || '-'},${row.nama_pelanggan || '-'},${
-        row.nomor_internet || '-'
-      },${row.email_pelanggan || '-'},${row.treg || '-'},${row.witel || '-'},${
-        row.status_fulfillment || '-'
-      },${row.tanggal_aktivasi || '-'},${row.estimasi_selesai || '-'}\n`;
+      csvData += `${row.nomorSc || '-'},${row.namaPelanggan || '-'},${
+        row.nomorInternet || '-'
+      },${row.treg || '-'},${row.witel || '-'},${row.statusAktivasi || '-'},${
+        row.statusWFM || '-'
+      },${row.tanggalOrder || '-'},${row.statusResume || '-'}\n`;
     });
 
     const csvBlob = new Blob([csvData], { type: 'text/csv' });
@@ -149,6 +77,14 @@ export function OrderScone() {
     document.body.removeChild(a);
   };
 
+  const resetFilters = () => {
+    setSearchValue('');
+    setSelectedStatusAktivasiFilter();
+    setSelectedStatusResumeFilter();
+    setSelectedStatusWFMFilter();
+    setSelectedTregFilter();
+  };
+
   const subHeaderComponent = () => (
     <div className="table-actions-before-wrapper flex flex-row justify-between mb-3">
       <div className="flex flex-row gap-2">
@@ -161,17 +97,19 @@ export function OrderScone() {
             onClick={resetFilters}
             className={`opacity-60 hover:opacity-100 ${
               !searchValue &&
-              !selectedTregFilter &&
-              !selectedStatusFulfillmentFilter &&
-              !selectedWitelFilter
+              !selectedStatusAktivasiFilter &&
+              !selectedStatusResumeFilter &&
+              !selectedStatusWFMFilter &&
+              !selectedTregFilter
                 ? 'cursor-not-allowed'
                 : ''
             }`}
             disabled={
               !searchValue &&
-              !selectedTregFilter &&
-              !selectedStatusFulfillmentFilter &&
-              !selectedWitelFilter
+              !selectedStatusAktivasiFilter &&
+              !selectedStatusResumeFilter &&
+              !selectedStatusWFMFilter &&
+              !selectedTregFilter
             }
           />
         </div>
@@ -188,6 +126,7 @@ export function OrderScone() {
             size="sm"
             label="Treg"
             items={tregOptions}
+            value={selectedTregFilter}
             onChange={(selectedOption) => {
               setSelectedTregFilter(selectedOption.value);
             }}
@@ -196,26 +135,33 @@ export function OrderScone() {
         <div className="dropdown-filter-wrapper z-10">
           <Dropdown
             size="sm"
-            label="Witel"
-            items={witelOptions.map((witel) => ({
-              label: witel,
-              value: witel
-            }))}
+            label="Status Aktivasi"
+            items={statusAktivasiOptions}
+            value={selectedStatusAktivasiFilter}
             onChange={(selectedOption) => {
-              setSelectedWitelFilter(selectedOption.value);
+              setSelectedStatusAktivasiFilter(selectedOption.value);
             }}
           />
         </div>
         <div className="dropdown-filter-wrapper z-10">
           <Dropdown
             size="sm"
-            label="Status Fulfillment"
-            items={statusFulfillmentOptions.map((status_fulfillment) => ({
-              label: status_fulfillment,
-              value: status_fulfillment
-            }))}
+            label="Status Resume"
+            items={statusResumeOptions}
+            value={selectedStatusResumeFilter}
             onChange={(selectedOption) => {
-              setSelectedStatusFulfillmentFilter(selectedOption.value);
+              setSelectedStatusResumeFilter(selectedOption.value);
+            }}
+          />
+        </div>
+        <div className="dropdown-filter-wrapper z-10">
+          <Dropdown
+            size="sm"
+            label="Status WFM"
+            items={statusWFMOptions}
+            value={selectedStatusWFMFilter}
+            onChange={(selectedOption) => {
+              setSelectedStatusWFMFilter(selectedOption.value);
             }}
           />
         </div>
@@ -239,30 +185,20 @@ export function OrderScone() {
   const columns = [
     {
       name: 'Nomor SC',
-      selector: (row) => row.sc_netmonk,
-      cell: (row) => <p>{row.sc_netmonk ? row.sc_netmonk : '-'}</p>,
-      grow: 1.25,
+      selector: (row) => row.nomorSc,
+      cell: (row) => <p>{row.nomorSc ? row.nomorSc : '-'}</p>,
       sortable: true
     },
     {
       name: 'Nama Pelanggan',
-      selector: (row) => row.nama_pelanggan,
-      cell: (row) => <p>{row.nama_pelanggan ? row.nama_pelanggan : '-'}</p>,
-      grow: 2.5,
+      selector: (row) => row.namaPelanggan,
+      cell: (row) => <p>{row.namaPelanggan ? row.namaPelanggan : '-'}</p>,
       sortable: true
     },
     {
       name: 'Nomor Internet',
-      selector: (row) => row.nomor_internet,
-      cell: (row) => <p>{row.nomor_internet ? row.nomor_internet : '-'}</p>,
-      grow: 1.25,
-      sortable: true
-    },
-    {
-      name: 'Email Pelanggan',
-      selector: (row) => row.email_pelanggan,
-      cell: (row) => <p>{row.email_pelanggan ? row.email_pelanggan : '-'}</p>,
-      grow: 1.75,
+      selector: (row) => row.nomorInternet,
+      cell: (row) => <p>{row.nomorInternet ? row.nomorInternet : '-'}</p>,
       sortable: true
     },
     {
@@ -275,46 +211,31 @@ export function OrderScone() {
       name: 'Witel',
       selector: (row) => row.witel,
       cell: (row) => <p>{row.witel ? row.witel : '-'}</p>,
-      grow: 1.25,
       sortable: true
     },
     {
-      name: 'Status Fulfillment',
-      selector: (row) => row.status_fulfillment,
-      cell: (row) => (
-        <div
-          className="py-2 px-3"
-          style={{
-            borderRadius: 9999,
-            backgroundColor:
-              row.status_fulfillment === 'Completed by Netmonk (next PJM)'
-                ? '#ECF9E5'
-                : row.status_fulfillment === 'Konfirmasi ke Pelanggan (cek Email)'
-                  ? '#FFF8E5'
-                  : 'transparent',
-            color:
-              row.status_fulfillment === 'Completed by Netmonk (next PJM)'
-                ? 'rgb(46, 184, 126)'
-                : row.status_fulfillment === 'Konfirmasi ke Pelanggan (cek Email)'
-                  ? '#FFB700'
-                  : 'black'
-          }}>
-          {row.status_fulfillment}
-        </div>
-      ),
-      grow: 2.5,
+      name: 'Status Aktivasi',
+      selector: (row) => row.statusAktivasi,
+      cell: (row) => <p>{row.statusAktivasi ? row.statusAktivasi : '-'}</p>,
+      sortable: true
+    },
+    {
+      name: 'Status WFM',
+      selector: (row) => row.statusWFM,
+      cell: (row) => <p>{row.statusWFM ? row.statusWFM : '-'}</p>,
       sortable: true
     },
     {
       name: 'Tanggal Order',
-      selector: (row) => row.tanggal_aktivasi,
-      cell: (row) => <p>{row.tanggal_aktivasi ? row.tanggal_aktivasi : '-'}</p>,
-      sortable: true
+      selector: (row) => row.tanggalOrder,
+      cell: (row) => <p>{row.tanggalOrder ? row.tanggalOrder : '-'}</p>,
+      sortable: true,
+      grow: 1.25
     },
     {
-      name: 'Estimasi Selesai (WIB)',
-      selector: (row) => row.estimasi_selesai,
-      cell: (row) => <p>{row.estimasi_selesai ? row.estimasi_selesai : '-'}</p>,
+      name: 'Status Resume',
+      selector: (row) => row.statusResume,
+      cell: (row) => <p>{row.statusResume ? row.statusResume : '-'}</p>,
       sortable: true
     }
   ];

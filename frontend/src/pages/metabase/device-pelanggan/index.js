@@ -3,13 +3,11 @@ import { useGetDevicePelangganUrlQuery } from '../../../apps/features/metabase/m
 import { Embed } from '../../../components/partials/embed';
 
 export function DevicePelanggan() {
-  const { data: devicePelangganUrl, isFetching, isError } = useGetDevicePelangganUrlQuery();
+  const { data: devicePelangganUrl, isFetching } = useGetDevicePelangganUrlQuery();
 
   let content;
   if (isFetching) {
     content = <p>Loading...</p>;
-  } else if (isError) {
-    content = <p>Error fetching the dashboard URL</p>;
   } else if (devicePelangganUrl) {
     content = <Embed title="Device Pelanggan" url={devicePelangganUrl.url} />;
   }

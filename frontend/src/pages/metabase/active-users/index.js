@@ -3,13 +3,11 @@ import { useGetActiveUsersUrlQuery } from '../../../apps/features/metabase/metab
 import { Embed } from '../../../components/partials/embed';
 
 export function ActiveUsers() {
-  const { data: activeUsersUrl, isFetching, isError } = useGetActiveUsersUrlQuery();
+  const { data: activeUsersUrl, isFetching } = useGetActiveUsersUrlQuery();
 
   let content;
   if (isFetching) {
     content = <p>Loading...</p>;
-  } else if (isError) {
-    content = <p>Error fetching the dashboard URL</p>;
   } else if (activeUsersUrl) {
     content = <Embed title="Active Users" url={activeUsersUrl.url} />;
   }

@@ -4,15 +4,13 @@ import { Embed } from '../../../components/partials/embed';
 import { LayoutWelcome } from '../../../components/partials/welcome';
 
 export function Overview() {
-  const { data: overviewUrl, isFetching, isError } = useGetOverviewUrlQuery();
+  const { data: overviewUrl, isFetching } = useGetOverviewUrlQuery();
 
   console.log(overviewUrl);
 
   let content;
   if (isFetching) {
     content = <p>Loading...</p>;
-  } else if (isError) {
-    content = <p>Error fetching the dashboard URL</p>;
   } else if (overviewUrl) {
     content = <Embed title="Device Pelanggan" url={overviewUrl.url} />;
   }

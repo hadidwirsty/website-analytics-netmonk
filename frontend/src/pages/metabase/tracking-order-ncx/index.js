@@ -3,13 +3,11 @@ import { useGetTrackingOrderNcxUrlQuery } from '../../../apps/features/metabase/
 import { Embed } from '../../../components/partials/embed';
 
 export function TrackingOrderNcx() {
-  const { data: trackingOrderNcxUrl, isFetching, isError } = useGetTrackingOrderNcxUrlQuery();
+  const { data: trackingOrderNcxUrl, isFetching } = useGetTrackingOrderNcxUrlQuery();
 
   let content;
   if (isFetching) {
     content = <p>Loading...</p>;
-  } else if (isError) {
-    content = <p>Error fetching the dashboard URL</p>;
   } else if (trackingOrderNcxUrl) {
     content = <Embed title="Device Pelanggan" url={trackingOrderNcxUrl.url} />;
   }

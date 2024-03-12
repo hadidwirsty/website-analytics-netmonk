@@ -19,14 +19,6 @@ export function OrderNCX() {
   const [selectedTregFilter, setSelectedTregFilter] = useState();
   const [selectedWitelFilter, setSelectedWitelFilter] = useState();
 
-  const resetFilters = () => {
-    setSearchValue('');
-    setSelectedProductFilter();
-    setSelectedTregFilter();
-    setSelectedStatusFulfillmentFilter();
-    setSelectedWitelFilter();
-  };
-
   const dataSort = Array.isArray(orders)
     ? [...orders].sort((a, b) => {
         if (a.treg < b.treg) {
@@ -56,10 +48,10 @@ export function OrderNCX() {
           value.toString().toLowerCase().includes(searchValue.toLowerCase())
       ) &&
       (selectedProductFilter ? row.produk === selectedProductFilter : true) &&
-      (selectedTregFilter ? row.treg === selectedTregFilter : true) &&
       (selectedStatusFulfillmentFilter
         ? row.statusFulfillment === selectedStatusFulfillmentFilter
         : true) &&
+      (selectedTregFilter ? row.treg === selectedTregFilter : true) &&
       (selectedWitelFilter ? row.witel === selectedWitelFilter : true)
   );
 
@@ -87,6 +79,14 @@ export function OrderNCX() {
     document.body.removeChild(a);
   };
 
+  const resetFilters = () => {
+    setSearchValue('');
+    setSelectedProductFilter(undefined);
+    setSelectedStatusFulfillmentFilter(undefined);
+    setSelectedTregFilter(undefined);
+    setSelectedWitelFilter(undefined);
+  };
+
   const subHeaderComponent = () => (
     <div className="table-actions-before-wrapper flex flex-row justify-between mb-3">
       <div className="flex flex-row gap-2">
@@ -100,8 +100,8 @@ export function OrderNCX() {
             className={`opacity-60 hover:opacity-100 ${
               !searchValue &&
               !selectedProductFilter &&
-              !selectedTregFilter &&
               !selectedStatusFulfillmentFilter &&
+              !selectedTregFilter &&
               !selectedWitelFilter
                 ? 'cursor-not-allowed'
                 : ''
@@ -109,8 +109,8 @@ export function OrderNCX() {
             disabled={
               !searchValue &&
               !selectedProductFilter &&
-              !selectedTregFilter &&
               !selectedStatusFulfillmentFilter &&
+              !selectedTregFilter &&
               !selectedWitelFilter
             }
           />
@@ -128,6 +128,7 @@ export function OrderNCX() {
             size="sm"
             label="Treg"
             items={tregOptions}
+            value={selectedTregFilter}
             onChange={(selectedOption) => {
               setSelectedTregFilter(selectedOption.value);
             }}
@@ -138,6 +139,7 @@ export function OrderNCX() {
             size="sm"
             label="Witel"
             items={witelOptions}
+            value={selectedWitelFilter}
             onChange={(selectedOption) => {
               setSelectedWitelFilter(selectedOption.value);
             }}
@@ -148,6 +150,7 @@ export function OrderNCX() {
             size="sm"
             label="Status Fulfillment"
             items={statusFulfillmentOptions}
+            value={selectedStatusFulfillmentFilter}
             onChange={(selectedOption) => {
               setSelectedStatusFulfillmentFilter(selectedOption.value);
             }}
@@ -158,6 +161,7 @@ export function OrderNCX() {
             size="sm"
             label="Produk"
             items={productOptions}
+            value={selectedProductFilter}
             onChange={(selectedOption) => {
               setSelectedProductFilter(selectedOption.value);
             }}
@@ -193,14 +197,13 @@ export function OrderNCX() {
       selector: (row) => row.namaPelanggan,
       cell: (row) => <p>{row.namaPelanggan ? row.namaPelanggan : '-'}</p>,
       sortable: true,
-      grow: 2
+      grow: 1.5
     },
     {
       name: 'Treg',
       selector: (row) => row.treg,
       cell: (row) => <p>{row.treg ? row.treg : '-'}</p>,
-      sortable: true,
-      sortField: 'treg'
+      sortable: true
     },
     {
       name: 'Witel',
@@ -212,61 +215,68 @@ export function OrderNCX() {
     {
       name: 'Status Fulfillment',
       selector: (row) => row.statusFulfillment,
-      cell: (row) => (
-        <div
-          className="py-2 px-3"
-          style={{
-            borderRadius: 9999,
-            backgroundColor:
-              row.statusFulfillment === 'Completed by Netmonk (next PJM)'
-                ? '#ECF9E5'
-                : row.statusFulfillment === 'Butuh Dokumen SPK/Kontrak'
-                  ? '#FFF8E5'
-                  : 'transparent',
-            color:
-              row.statusFulfillment === 'Completed by Netmonk (next PJM)'
-                ? 'rgb(46, 184, 126)'
-                : row.statusFulfillment === 'Butuh Dokumen SPK/Kontrak'
-                  ? '#FFB700'
-                  : 'black'
-          }}>
-          {row.statusFulfillment}
-        </div>
-      ),
+      cell: (row) => {
+        const getStatusStyle = (status) => {
+          switch (status) {
+            case 'Completed by Netmonk (next PJM)':
+              return { backgroundColor: '#ECF9E5', color: 'rgb(46, 184, 126)' };
+            case 'Butuh Dokumen SPK/Kontrak':
+              return { backgroundColor: '#FFF8E5', color: '#FFB700' };
+            case 'Canceled Order':
+              return { backgroundColor: '#FFE5E5', color: '#D14343' };
+            default:
+              return { backgroundColor: 'transparent', color: 'black' };
+          }
+        };
+
+        const statusStyle = getStatusStyle(row.statusFulfillment);
+
+        return (
+          <div
+            className="py-2 px-4"
+            style={{
+              borderRadius: 9999,
+              backgroundColor: statusStyle.backgroundColor,
+              color: statusStyle.color
+            }}>
+            {row.statusFulfillment}
+          </div>
+        );
+      },
       sortable: true,
       grow: 2.5
     },
     {
-      name: 'Order Created Date',
+      name: 'Created Date',
       selector: (row) => row.orderCreatedDate,
       cell: (row) => <p>{row.orderCreatedDate ? row.orderCreatedDate : '-'}</p>,
-      sortable: true
+      sortable: true,
+      grow: 1.25
     },
     {
       name: 'Produk',
       selector: (row) => row.produk,
       cell: (row) => <p>{row.produk ? row.produk : '-'}</p>,
-      sortable: true,
-      grow: 1.25
+      sortable: true
     },
     {
       name: 'PIC/AM',
       selector: (row) => row.pic,
       cell: (row) => <p>{row.pic ? row.pic : '-'}</p>,
-      sortable: true,
-      grow: 1.5
+      sortable: true
     },
     {
-      name: 'Jumlah SID',
+      name: 'SID',
       selector: (row) => row.sid,
       cell: (row) => <p>{row.sid ? row.sid : '-'}</p>,
       sortable: true
     },
     {
-      name: 'Order Closing Date',
+      name: 'Closing Date',
       selector: (row) => row.orderClosingDate,
       cell: (row) => <p>{row.orderClosingDate ? row.orderClosingDate : '-'}</p>,
-      sortable: true
+      sortable: true,
+      grow: 1.25
     }
   ];
 
