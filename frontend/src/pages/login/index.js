@@ -39,6 +39,9 @@ export function PageLogin() {
 
     try {
       const user = await login(formData).unwrap();
+      localStorage.setItem('role', user.role);
+      localStorage.setItem('teamName', user.teamName);
+      localStorage.setItem('accessToken', user.accessToken);
       dispatch(setCredentials(user));
       navigate('/overview');
     } catch (err) {

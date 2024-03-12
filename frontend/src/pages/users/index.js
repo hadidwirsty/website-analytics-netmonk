@@ -1,22 +1,12 @@
 import React, { useState } from 'react';
-import { BasicIcon } from '@netmonk/design.icons.basic';
-import { Button } from '@netmonk/design.ui.button';
 import { DataTable } from '@netmonk/design.ui.data-table';
 import { TableSearch } from '@netmonk/design.ui.table-search';
-import { useGetUsersQuery } from '../../apps/features/user/usersApiSlice';
-import Modal from '../../components/Modal';
+import { useGetUsersQuery } from '../../apps/features/users/usersApiSlice';
 
 export function UsersList() {
   const { data: users, isLoading, isError } = useGetUsersQuery();
 
   const [searchValue, setSearchValue] = useState('');
-  const [showDetail, setShowDetail] = useState(false);
-  const [detailData, setDetailData] = useState(null);
-
-  const handleDetailButtonClick = (data) => {
-    setDetailData(data);
-    setShowDetail(true);
-  };
 
   const filteredData =
     users?.filter((row) =>
@@ -49,32 +39,8 @@ export function UsersList() {
       name: 'Team Name',
       selector: 'teamName',
       sortable: true
-    },
-    {
-      name: 'Actions',
-      button: true,
-      cell: (row) => (
-        <Button
-          variant="icon-only"
-          icon="eye"
-          color="yale_blue"
-          size="xs"
-          onClick={() => handleDetailButtonClick(row)}
-        />
-      )
     }
   ];
-
-  const showModalDetail = () => (
-    <Modal show={showDetail} onClose={() => setShowDetail(false)}>
-      <div>
-        <h2>Detail Pengguna</h2>
-        <div>Username: {detailData?.username}</div>
-        <div>Role: {detailData?.role}</div>
-        <div>Team Name: {detailData?.teamName}</div>
-      </div>
-    </Modal>
-  );
 
   if (isError) {
     return <div>Failed to load users.</div>;
@@ -82,7 +48,6 @@ export function UsersList() {
 
   return (
     <div>
-      {showModalDetail()}
       <DataTable
         columns={columns}
         data={filteredData}

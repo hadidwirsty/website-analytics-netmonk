@@ -1,87 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { Button } from '@netmonk/design.ui.button';
 import { DataTable } from '@netmonk/design.ui.data-table';
 import { Dropdown } from '@netmonk/design.ui.dropdown';
 import { TableSearch } from '@netmonk/design.ui.table-search';
+import {
+  productOptions,
+  statusFulfillmentOptions,
+  tregOptions,
+  witelOptions
+} from '../../../utils/filterOptions';
+import { useGetOrdersNcxQuery } from '../../../apps/features/orders/orderNcxApiSlice';
 
 export function OrderNCX() {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: orders, isLoading } = useGetOrdersNcxQuery();
   const [searchValue, setSearchValue] = useState('');
   const [selectedProductFilter, setSelectedProductFilter] = useState();
   const [selectedStatusFulfillmentFilter, setSelectedStatusFulfillmentFilter] = useState();
   const [selectedTregFilter, setSelectedTregFilter] = useState();
   const [selectedWitelFilter, setSelectedWitelFilter] = useState();
-  const [statusFulfillmentOptions, setStatusFulfillmentOptions] = useState([]);
-  const [witelOptions, setWitelOptions] = useState([]);
-  const productOptions = [
-    {
-      label: 'Netmonk HI',
-      value: 'Netmonk HI'
-    },
-    {
-      label: 'Netmonk Prime',
-      value: 'Netmonk Prime'
-    }
-  ];
-  const tregOptions = [
-    {
-      label: 'TREG - 1',
-      value: 'TREG - 1'
-    },
-    {
-      label: 'TREG - 2',
-      value: 'TREG - 2'
-    },
-    {
-      label: 'TREG - 3',
-      value: 'TREG - 3'
-    },
-    {
-      label: 'TREG - 4',
-      value: 'TREG - 4'
-    },
-    {
-      label: 'TREG - 5',
-      value: 'TREG - 5'
-    },
-    {
-      label: 'TREG - 6',
-      value: 'TREG - 6'
-    },
-    {
-      label: 'TREG - 7',
-      value: 'TREG - 7'
-    }
-  ];
-
-  const getData = async () => {
-    setIsLoading(true);
-
-    const dataURL = `${process.env.REACT_APP_API_BASE_URL}/ncx/?skip=0&limit=10000`;
-
-    try {
-      const response = await axios.get(dataURL);
-      setData(response.data.result);
-
-      const arrayStatusFulfillmentOptions = Array.from(
-        new Set(response.data.result.map((item) => item.status_fulfillment))
-      ).sort();
-      setStatusFulfillmentOptions(arrayStatusFulfillmentOptions);
-
-      const arrayWitelOptions = Array.from(
-        new Set(response.data.result.map((item) => item.witel))
-      ).sort();
-      setWitelOptions(arrayWitelOptions);
-
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-
-      setIsLoading(false);
-    }
-  };
 
   const resetFilters = () => {
     setSearchValue('');
@@ -91,19 +27,8 @@ export function OrderNCX() {
     setSelectedWitelFilter();
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const dataSort = Array.isArray(data)
-    ? [...data].sort((a, b) => {
-        if (a.status_fulfillment_code < b.status_fulfillment_code) {
-          return -1;
-        }
-        if (a.status_fulfillment_code > b.status_fulfillment_code) {
-          return 1;
-        }
-
+  const dataSort = Array.isArray(orders)
+    ? [...orders].sort((a, b) => {
         if (a.treg < b.treg) {
           return -1;
         }
@@ -118,7 +43,7 @@ export function OrderNCX() {
           return 1;
         }
 
-        return new Date(b.order_created_date) - new Date(a.order_created_date);
+        return new Date(b.orderCreatedDate) - new Date(a.orderCreatedDate);
       })
     : [];
 
@@ -133,7 +58,7 @@ export function OrderNCX() {
       (selectedProductFilter ? row.produk === selectedProductFilter : true) &&
       (selectedTregFilter ? row.treg === selectedTregFilter : true) &&
       (selectedStatusFulfillmentFilter
-        ? row.status_fulfillment === selectedStatusFulfillmentFilter
+        ? row.statusFulfillment === selectedStatusFulfillmentFilter
         : true) &&
       (selectedWitelFilter ? row.witel === selectedWitelFilter : true)
   );
@@ -143,13 +68,11 @@ export function OrderNCX() {
       'Order ID,Nama Pelanggan,Treg,Witel,Status Fulfillment,Order Created Date,Produk,PIC/AM,Jumlah SID,Order Closing Date\n';
 
     filteredData.forEach((row) => {
-      csvData += `${row.order_id || '-'},${row.nama_customer || '-'},${
+      csvData += `${row.orderId || '-'},${row.namaPelanggan || '-'},${
         row.treg || '-'
-      },${row.witel || '-'},${row.status_fulfillment || '-'},${
-        row.order_created_date || '-'
-      },${row.produk || '-'},${row.pic_am || '-'},${row.sid || '-'},${
-        row.order_closing_date || '-'
-      }\n`;
+      },${row.witel || '-'},${row.statusFulfillment || '-'},${
+        row.orderCreatedDate || '-'
+      },${row.produk || '-'},${row.pic || '-'},${row.sid || '-'},${row.orderClosingDate || '-'}\n`;
     });
 
     const csvBlob = new Blob([csvData], { type: 'text/csv' });
@@ -214,10 +137,7 @@ export function OrderNCX() {
           <Dropdown
             size="sm"
             label="Witel"
-            items={witelOptions.map((witel) => ({
-              label: witel,
-              value: witel
-            }))}
+            items={witelOptions}
             onChange={(selectedOption) => {
               setSelectedWitelFilter(selectedOption.value);
             }}
@@ -227,10 +147,7 @@ export function OrderNCX() {
           <Dropdown
             size="sm"
             label="Status Fulfillment"
-            items={statusFulfillmentOptions.map((status_fulfillment) => ({
-              label: status_fulfillment,
-              value: status_fulfillment
-            }))}
+            items={statusFulfillmentOptions}
             onChange={(selectedOption) => {
               setSelectedStatusFulfillmentFilter(selectedOption.value);
             }}
@@ -266,17 +183,17 @@ export function OrderNCX() {
   const columns = [
     {
       name: 'Order ID',
-      selector: (row) => row.order_id,
-      cell: (row) => <p>{row.order_id ? row.order_id : '-'}</p>,
-      grow: 1.5,
-      sortable: true
+      selector: (row) => row.orderId,
+      cell: (row) => <p>{row.orderId ? row.orderId : '-'}</p>,
+      sortable: true,
+      grow: 1.5
     },
     {
       name: 'Nama Pelanggan',
-      selector: (row) => row.nama_customer,
-      cell: (row) => <p>{row.nama_customer ? row.nama_customer : '-'}</p>,
-      grow: 2.5,
-      sortable: true
+      selector: (row) => row.namaPelanggan,
+      cell: (row) => <p>{row.namaPelanggan ? row.namaPelanggan : '-'}</p>,
+      sortable: true,
+      grow: 2
     },
     {
       name: 'Treg',
@@ -289,55 +206,55 @@ export function OrderNCX() {
       name: 'Witel',
       selector: (row) => row.witel,
       cell: (row) => <p>{row.witel ? row.witel : '-'}</p>,
-      grow: 1.5,
-      sortable: true
+      sortable: true,
+      grow: 1.5
     },
     {
       name: 'Status Fulfillment',
-      selector: (row) => row.status_fulfillment,
+      selector: (row) => row.statusFulfillment,
       cell: (row) => (
         <div
           className="py-2 px-3"
           style={{
             borderRadius: 9999,
             backgroundColor:
-              row.status_fulfillment === 'Completed by Netmonk (next PJM)'
+              row.statusFulfillment === 'Completed by Netmonk (next PJM)'
                 ? '#ECF9E5'
-                : row.status_fulfillment === 'Konfirmasi ke Pelanggan (cek Email)'
+                : row.statusFulfillment === 'Butuh Dokumen SPK/Kontrak'
                   ? '#FFF8E5'
                   : 'transparent',
             color:
-              row.status_fulfillment === 'Completed by Netmonk (next PJM)'
+              row.statusFulfillment === 'Completed by Netmonk (next PJM)'
                 ? 'rgb(46, 184, 126)'
-                : row.status_fulfillment === 'Konfirmasi ke Pelanggan (cek Email)'
+                : row.statusFulfillment === 'Butuh Dokumen SPK/Kontrak'
                   ? '#FFB700'
                   : 'black'
           }}>
-          {row.status_fulfillment}
+          {row.statusFulfillment}
         </div>
       ),
-      grow: 2.5,
-      sortable: true
+      sortable: true,
+      grow: 2.5
     },
     {
       name: 'Order Created Date',
-      selector: (row) => row.order_created_date,
-      cell: (row) => <p>{row.order_created_date ? row.order_created_date : '-'}</p>,
+      selector: (row) => row.orderCreatedDate,
+      cell: (row) => <p>{row.orderCreatedDate ? row.orderCreatedDate : '-'}</p>,
       sortable: true
     },
     {
       name: 'Produk',
       selector: (row) => row.produk,
       cell: (row) => <p>{row.produk ? row.produk : '-'}</p>,
-      grow: 1.25,
-      sortable: true
+      sortable: true,
+      grow: 1.25
     },
     {
       name: 'PIC/AM',
-      selector: (row) => row.pic_am,
-      cell: (row) => <p>{row.pic_am ? row.pic_am : '-'}</p>,
-      grow: 1.5,
-      sortable: true
+      selector: (row) => row.pic,
+      cell: (row) => <p>{row.pic ? row.pic : '-'}</p>,
+      sortable: true,
+      grow: 1.5
     },
     {
       name: 'Jumlah SID',
@@ -347,8 +264,8 @@ export function OrderNCX() {
     },
     {
       name: 'Order Closing Date',
-      selector: (row) => row.order_closing_date,
-      cell: (row) => <p>{row.order_closing_date ? row.order_closing_date : '-'}</p>,
+      selector: (row) => row.orderClosingDate,
+      cell: (row) => <p>{row.orderClosingDate ? row.orderClosingDate : '-'}</p>,
       sortable: true
     }
   ];

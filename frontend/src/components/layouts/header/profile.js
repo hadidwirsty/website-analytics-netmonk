@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { BasicIcon } from '@netmonk/design.icons.basic';
+import { selectCurrentUserDetails } from '../../../apps/features/auth/authSlice';
 import ModalLogoutConfirmationComponent from '../../partials/modal/logout-confirmation';
 import Logo from '../../../assets/svgs/logo-default.svg';
 
 export function HeaderProfileComponent() {
   const ref = useRef();
 
-  const userDetails = useSelector((state) => state.auth.userDetails);
-  const teamName = userDetails ? userDetails.teamName : '';
+  const { teamName: reduxTeamName } = useSelector((state) => state.auth.userDetails);
+  const teamName = reduxTeamName || localStorage.getItem('teamName');
 
   const [isProfileDropdownOpen, setIsProfileDropdown] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);

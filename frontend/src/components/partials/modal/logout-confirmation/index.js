@@ -1,23 +1,24 @@
 import React, { Fragment, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Button } from '@netmonk/design.ui.button';
 import { Dialog, Transition } from '@headlessui/react';
+import { logOut } from '../../../../apps/features/auth/authSlice';
 
 export function ModalLogoutConfirmationComponent({ isOpen, toggleModal }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = () => {
     setIsLoading(true);
-
-    localStorage.removeItem('auth_token');
-
-    setTimeout(() => {
-      setIsLoading(false);
-
-      navigate('/');
-    }, 1500);
+    localStorage.removeItem('role');
+    localStorage.removeItem('teamName');
+    localStorage.removeItem('accessToken');
+    dispatch(logOut());
+    setIsLoading(false);
+    navigate('/login');
   };
 
   return (
@@ -89,7 +90,7 @@ export function ModalLogoutConfirmationComponent({ isOpen, toggleModal }) {
                     label={isLoading ? 'Logging out...' : 'Logout'}
                     id="submit"
                     color="yale_blue"
-                    type="submit"
+                    type="button"
                     onClick={handleLogout}
                   />
                 </div>

@@ -16,61 +16,6 @@ export const sidebarNavigation = [
     ]
   },
   {
-    title: 'Netmonk Fulfillment',
-    type: 'group',
-    has_access: { item: 'netmonk_fulfillment', permission: 'READ' },
-    child: [
-      {
-        title: 'Order SCONE',
-        path: '/order/scone',
-        icon: <BasicIcon name="subscription" variant="duotone" color="white" />,
-        has_access: { item: 'order_scone', permission: 'READ' }
-      },
-      {
-        title: 'Order NCX',
-        path: '/order/ncx',
-        icon: <BasicIcon name="order" variant="duotone" color="white" />,
-        has_access: { item: 'order_ncx', permission: 'READ' }
-      },
-      {
-        title: 'Order SCONE',
-        path: '/order/scone/treg',
-        icon: <BasicIcon name="subscription" variant="duotone" color="white" />,
-        has_access: { item: 'order_scone_treg', permission: 'READ' }
-      },
-      {
-        title: 'Order NCX',
-        path: '/order/ncx/treg',
-        icon: <BasicIcon name="order" variant="duotone" color="white" />,
-        has_access: { item: 'order_ncx_treg', permission: 'READ' }
-      },
-      {
-        title: 'Order SCONE',
-        path: '/order/scone/witel',
-        icon: <BasicIcon name="subscription" variant="duotone" color="white" />,
-        has_access: { item: 'order_scone_witel', permission: 'READ' }
-      },
-      {
-        title: 'Order NCX',
-        path: '/order/ncx/witel',
-        icon: <BasicIcon name="order" variant="duotone" color="white" />,
-        has_access: { item: 'order_ncx_witel', permission: 'READ' }
-      },
-      {
-        title: 'Monitoring SCONE',
-        path: '/monitoring/order-scone',
-        icon: <BasicIcon name="reportings" variant="duotone" color="white" />,
-        has_access: { item: 'monitoring_order_scone', permission: 'READ' }
-      },
-      {
-        title: 'Order SCONE V2',
-        path: '/order/scone-v2',
-        icon: <BasicIcon name="reportings" variant="duotone" color="white" />,
-        has_access: { item: 'order_scone_v2', permission: 'READ' }
-      }
-    ]
-  },
-  {
     title: 'Netmonk',
     type: 'group',
     has_access: {
@@ -79,107 +24,47 @@ export const sidebarNavigation = [
     },
     child: [
       {
-        title: 'Monitoring Customer',
-        path: '/monitoring/customer',
-        icon: <BasicIcon name="reportings" variant="duotone" color="white" />,
-        has_access: { item: 'monitoring_customer', permission: 'READ' }
-      },
-      {
-        title: 'Order NCX (DBS)',
-        path: '/order/ncx/dbs',
+        title: 'Active Users',
+        path: '/active-users',
         icon: <BasicIcon name="subscription" variant="duotone" color="white" />,
-        has_access: {
-          item: 'order_ncx_dbs',
-          permission: 'READ'
-        }
+        has_access: { item: 'active_users', permission: 'READ' }
       },
       {
-        title: 'Order NCX (Internal)',
-        path: '/order/ncx/internal',
-        icon: <BasicIcon name="order" variant="duotone" color="white" />,
-        has_access: {
-          item: 'order_ncx_internal',
-          permission: 'READ'
-        }
-      },
-      {
-        title: 'Report - Latency',
-        path: '/report/latency',
-        icon: <BasicIcon name="reportings" variant="duotone" color="white" />,
-        has_access: { item: 'report_latency', permission: 'READ' }
-      },
-      {
-        title: 'Report - Packet Loss',
-        path: '/report/packet-loss',
+        title: 'Employees',
+        path: '/employees',
         icon: <BasicIcon name="subscription" variant="duotone" color="white" />,
-        has_access: {
-          item: 'report_packet_loss',
-          permission: 'READ'
-        }
+        has_access: { item: 'employees', permission: 'READ' }
       },
       {
-        title: 'Report - Jitter',
-        path: '/report/jitter',
-        icon: <BasicIcon name="order" variant="duotone" color="white" />,
-        has_access: {
-          item: 'report_jitter',
-          permission: 'READ'
-        }
+        title: 'Users',
+        path: '/users',
+        icon: <BasicIcon name="subscription" variant="duotone" color="white" />,
+        has_access: { item: 'users', permission: 'READ' }
       }
     ]
   },
   {
-    title: 'Netmonk HI',
+    title: 'Netmonk Fulfillment',
     type: 'group',
-    has_access: {
-      item: 'netmonk_hi',
-      permission: 'READ'
-    },
+    has_access: { item: 'netmonk_fulfillment', permission: 'READ' },
     child: [
       {
-        title: 'Business Performance',
-        path: '/business-performance',
-        icon: <BasicIcon name="speedometer" variant="duotone" color="white" />,
-        has_access: {
-          item: 'business_performance',
-          permission: 'READ'
-        }
+        title: 'Order NCX',
+        path: '/order/ncx',
+        icon: <BasicIcon name="order" variant="duotone" color="white" />,
+        has_access: { item: 'order_ncx', permission: 'READ' }
       },
       {
-        title: 'User Netmonk HI',
-        path: '/user-netmonk-hi',
-        icon: <BasicIcon name="reportings" variant="duotone" color="white" />,
-        has_access: {
-          item: 'user_netmonk_hi',
-          permission: 'READ'
-        }
+        title: 'Tracking NCX',
+        path: '/tracking-order-ncx',
+        icon: <BasicIcon name="order" variant="duotone" color="white" />,
+        has_access: { item: 'tracking_order_ncx', permission: 'READ' }
       },
       {
-        title: 'Detail Active User',
-        path: '/detail-active-user',
-        icon: <BasicIcon name="reportings" variant="duotone" color="white" />,
-        has_access: {
-          item: 'detail_active_user',
-          permission: 'READ'
-        }
-      },
-      {
-        title: 'Detail Active User',
-        path: '/detail-active-user/treg',
-        icon: <BasicIcon name="reportings" variant="duotone" color="white" />,
-        has_access: {
-          item: 'detail_active_user_treg',
-          permission: 'READ'
-        }
-      },
-      {
-        title: 'Detail Active User',
-        path: '/detail-active-user/witel',
-        icon: <BasicIcon name="reportings" variant="duotone" color="white" />,
-        has_access: {
-          item: 'detail_active_user_witel',
-          permission: 'READ'
-        }
+        title: 'Order SCONE',
+        path: '/order/scone',
+        icon: <BasicIcon name="subscription" variant="duotone" color="white" />,
+        has_access: { item: 'order_scone', permission: 'READ' }
       }
     ]
   },
@@ -192,56 +77,20 @@ export const sidebarNavigation = [
     },
     child: [
       {
-        title: 'Customer Journey',
-        path: '/customer-journey',
+        title: 'Customer Management',
+        path: '/customer-management',
         icon: <BasicIcon name="network-map" variant="duotone" color="white" />,
         has_access: {
-          item: 'customer_journey',
+          item: 'customer_management',
           permission: 'READ'
         }
       },
       {
         title: 'Device Pelanggan',
-        path: '/monitoring/device-pelanggan',
+        path: '/device-pelanggan',
         icon: <BasicIcon name="reportings" variant="duotone" color="white" />,
         has_access: {
-          item: 'monitoring_device_pelanggan',
-          permission: 'READ'
-        }
-      },
-      {
-        title: 'Monitoring Application',
-        path: '/monitoring/application',
-        icon: <BasicIcon name="devices" variant="duotone" color="white" />,
-        has_access: {
-          item: 'monitoring_aplication',
-          permission: 'READ'
-        }
-      },
-      {
-        title: 'Monitoring Digital Customer',
-        path: '/monitoring/digital-customer',
-        icon: <BasicIcon name="reporting-device" variant="duotone" color="white" />,
-        has_access: {
-          item: 'monitoring_digital_customer',
-          permission: 'READ'
-        }
-      },
-      {
-        title: 'Monitoring Website',
-        path: '/monitoring/website',
-        icon: <BasicIcon name="website-monitoring" variant="duotone" color="white" />,
-        has_access: {
-          item: 'monitoring_website',
-          permission: 'READ'
-        }
-      },
-      {
-        title: 'User Overview',
-        path: '/user-overview',
-        icon: <BasicIcon name="reportings" variant="duotone" color="white" />,
-        has_access: {
-          item: 'user_overview',
+          item: 'device_pelanggan',
           permission: 'READ'
         }
       }

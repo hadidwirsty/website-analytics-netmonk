@@ -49,8 +49,8 @@ app.use(require('./routes/root'));
 app.use(verifyJWT);
 app.use('/employees', require('./routes/api/employees'));
 app.use(require('./routes/api/metabase'));
-app.use('/ncx', require('./routes/api/ncx'));
-app.use('/scone', require('./routes/api/scone'));
+app.use('/order/ncx', require('./routes/api/ncx'));
+app.use('/order/scone', require('./routes/api/scone'));
 app.use('/users', require('./routes/api/users'));
 app.use(require('./routes/validateToken'));
 
