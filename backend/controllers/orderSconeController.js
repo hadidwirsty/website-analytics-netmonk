@@ -80,7 +80,7 @@ const updateOrderScone = async (req, res) => {
     if (updatedOrder) {
       res.json(updatedOrder);
     } else {
-      res.status(404).json({ message: 'Order not found' });
+      res.status(204).json({ message: 'Order not found' });
     }
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -98,7 +98,7 @@ const getOrderScone = async (req, res) => {
     if (order) {
       res.json(order);
     } else {
-      res.status(404).json({ message: 'Order not found' });
+      res.status(204).json({ message: 'Order not found' });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });

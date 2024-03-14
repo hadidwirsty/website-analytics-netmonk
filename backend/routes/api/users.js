@@ -10,6 +10,7 @@ router
   .get(verifyRoles(ROLES_LIST.root), usersController.getAllUsers)
   .delete(verifyRoles(ROLES_LIST.root), usersController.deleteUser);
 
-router.route('/:id').get(verifyRoles(ROLES_LIST.root), usersController.getUser);
+router.route('/:id').get(verifyRoles(ROLES_LIST.root), usersController.getUser)
+;
 
 module.exports = router;
