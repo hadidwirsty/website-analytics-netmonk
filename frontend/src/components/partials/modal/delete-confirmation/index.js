@@ -1,24 +1,18 @@
-import React, { Fragment, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@netmonk/design.ui.button';
 import { Dialog, Transition } from '@headlessui/react';
-import { logOut } from '../../../../apps/features/auth/authSlice';
 
-export function ModalLogoutConfirmationComponent({ isOpen, toggleModal }) {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleLogout = () => {
-    setIsLoading(true);
-    localStorage.removeItem('role');
-    localStorage.removeItem('teamName');
-    localStorage.removeItem('accessToken');
-    dispatch(logOut());
-    setIsLoading(false);
-    navigate('/login');
+export function ModalDeleteConfirmationComponent({
+  isOpen,
+  toggleModal,
+  onConfirmDelete,
+  isLoading
+}) {
+  const handleConfirmClick = () => {
+    if (onConfirmDelete) {
+      onConfirmDelete();
+    }
   };
 
   return (
@@ -44,31 +38,34 @@ export function ModalLogoutConfirmationComponent({ isOpen, toggleModal }) {
                 <div className="modal-confirmation-body text-center">
                   <div style={{ marginLeft: '100px', marginBottom: '16px' }}>
                     <svg
-                      width="115"
-                      height="115"
+                      width="100"
+                      height="100"
                       viewBox="0 0 100 100"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <circle cx="50" cy="50" r="50" fill="#EA525A" />
                       <circle cx="50" cy="50" r="30" fill="white" />
                       <path
-                        d="M50 70C38.954 70 30 61.046 30 50C30 38.954 38.954 30 50 30C53.1053 29.9977 56.1684 30.7196 58.9459 32.1083C61.7233 33.497 64.1387 35.5144 66 38H60.58C58.2705 35.9635 55.4223 34.6367 52.3774 34.1788C49.3325 33.7209 46.2201 34.1513 43.4138 35.4184C40.6074 36.6855 38.2263 38.7355 36.5561 41.3224C34.886 43.9092 33.9977 46.9231 33.998 50.0022C33.9983 53.0814 34.887 56.0951 36.5576 58.6816C38.2282 61.2682 40.6096 63.3178 43.4162 64.5844C46.2228 65.8511 49.3352 66.281 52.3801 65.8226C55.4249 65.3641 58.2728 64.0369 60.582 62H66.002C64.1405 64.4859 61.7248 66.5034 58.947 67.8922C56.1691 69.2809 53.1057 70.0026 50 70ZM64 58V52H48V48H64V42L74 50L64 58Z"
+                        d="M65.2859 44.9765C65.2859 45.1125 64.2201 58.594 63.6113 64.2678C63.2299 67.7498 60.9853 69.8616 57.6183 69.9216C55.0313 69.9796 52.4989 69.9996 50.0071 69.9996C47.3619 69.9996 44.7748 69.9796 42.2637 69.9216C39.0095 69.8436 36.7629 67.6898 36.4011 64.2678C35.7748 58.574 34.7283 45.1125 34.7089 44.9765C34.6894 44.5665 34.8217 44.1766 35.0901 43.8606C35.3547 43.5686 35.7359 43.3926 36.1366 43.3926H63.8777C64.2765 43.3926 64.6383 43.5686 64.9241 43.8606C65.1907 44.1766 65.3249 44.5665 65.2859 44.9765Z"
                         fill="#EA525A"
+                      />
+                      <path
+                        d="M68 37.9537C68 37.1318 67.3522 36.4878 66.5742 36.4878H60.7428C59.5562 36.4878 58.5254 35.6438 58.2608 34.4538L57.934 32.9959C57.477 31.234 55.8996 30 54.1294 30H45.8725C44.083 30 42.5211 31.234 42.0465 33.0919L41.7411 34.4558C41.4746 35.6438 40.4437 36.4878 39.2591 36.4878H33.4277C32.6477 36.4878 32 37.1318 32 37.9537V38.7137C32 39.5157 32.6477 40.1796 33.4277 40.1796H66.5742C67.3522 40.1796 68 39.5157 68 38.7137V37.9537Z"
+                        fill="#EA525A"
+                        fillOpacity="0.4"
                       />
                     </svg>
                   </div>
-                  <div className="title font-bold text-gunmetal-90 text-heading_4 mb-4">
-                    Want to Logout?
+                  <div className="title font-bold text-gunmetal-90 text-heading_4 mb-1">
+                    Want to Delete?
                   </div>
                   <p className="description text-gunmetal-90 mb-4">
-                    Are you sure you want to logout from
-                    <br />
-                    Netmonk Analytics?
+                    Are you sure you want to delete data from server?
                   </p>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <Button
-                    data-testid="logoutConfirmNo"
+                    data-testid="deleteConfirmNo"
                     label="Cancel"
                     id="cancel"
                     color="default"
@@ -76,12 +73,12 @@ export function ModalLogoutConfirmationComponent({ isOpen, toggleModal }) {
                     onClick={toggleModal}
                   />
                   <Button
-                    data-testid="logoutConfirmYes"
-                    label={isLoading ? 'Logging out...' : 'Logout'}
+                    data-testid="deleteConfirmYes"
+                    label={isLoading ? 'Deleting...' : 'Delete'}
                     id="submit"
                     color="yale_blue"
                     type="button"
-                    onClick={handleLogout}
+                    onClick={handleConfirmClick}
                   />
                 </div>
               </div>
@@ -93,14 +90,18 @@ export function ModalLogoutConfirmationComponent({ isOpen, toggleModal }) {
   );
 }
 
-ModalLogoutConfirmationComponent.defaultProps = {
+ModalDeleteConfirmationComponent.defaultProps = {
   isOpen: false,
-  toggleModal: () => {}
+  toggleModal: () => {},
+  onConfirmDelete: undefined,
+  isLoading: false
 };
 
-ModalLogoutConfirmationComponent.propTypes = {
+ModalDeleteConfirmationComponent.propTypes = {
   isOpen: PropTypes.bool,
-  toggleModal: PropTypes.func
+  toggleModal: PropTypes.func,
+  onConfirmDelete: PropTypes.func,
+  isLoading: PropTypes.bool
 };
 
-export default ModalLogoutConfirmationComponent;
+export default ModalDeleteConfirmationComponent;

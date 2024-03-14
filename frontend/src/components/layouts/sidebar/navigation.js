@@ -32,13 +32,13 @@ export const sidebarNavigation = [
       {
         title: 'Employees',
         path: '/employees',
-        icon: <BasicIcon name="subscription" variant="duotone" color="white" />,
+        icon: <BasicIcon name="users" variant="duotone" color="white" />,
         has_access: { item: 'employees', permission: 'READ' }
       },
       {
         title: 'Users',
         path: '/users',
-        icon: <BasicIcon name="subscription" variant="duotone" color="white" />,
+        icon: <BasicIcon name="users" variant="duotone" color="white" />,
         has_access: { item: 'users', permission: 'READ' }
       }
     ]
@@ -57,13 +57,13 @@ export const sidebarNavigation = [
       {
         title: 'Tracking NCX',
         path: '/tracking-order-ncx',
-        icon: <BasicIcon name="order" variant="duotone" color="white" />,
+        icon: <BasicIcon name="reportings" variant="duotone" color="white" />,
         has_access: { item: 'tracking_order_ncx', permission: 'READ' }
       },
       {
         title: 'Order SCONE',
         path: '/order/scone',
-        icon: <BasicIcon name="subscription" variant="duotone" color="white" />,
+        icon: <BasicIcon name="order" variant="duotone" color="white" />,
         has_access: { item: 'order_scone', permission: 'READ' }
       }
     ]
@@ -79,7 +79,7 @@ export const sidebarNavigation = [
       {
         title: 'Customer Management',
         path: '/customer-management',
-        icon: <BasicIcon name="network-map" variant="duotone" color="white" />,
+        icon: <BasicIcon name="reporting-device" variant="duotone" color="white" />,
         has_access: {
           item: 'customer_management',
           permission: 'READ'
@@ -88,7 +88,7 @@ export const sidebarNavigation = [
       {
         title: 'Device Pelanggan',
         path: '/device-pelanggan',
-        icon: <BasicIcon name="reportings" variant="duotone" color="white" />,
+        icon: <BasicIcon name="devices" variant="duotone" color="white" />,
         has_access: {
           item: 'device_pelanggan',
           permission: 'READ'

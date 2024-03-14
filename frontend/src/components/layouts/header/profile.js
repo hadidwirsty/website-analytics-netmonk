@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { BasicIcon } from '@netmonk/design.icons.basic';
-import { selectCurrentUserDetails } from '../../../apps/features/auth/authSlice';
 import ModalLogoutConfirmationComponent from '../../partials/modal/logout-confirmation';
 import Logo from '../../../assets/svgs/logo-default.svg';
 
