@@ -8,11 +8,17 @@ const verifyRoles = require('../../middleware/verifyRoles');
 router
   .route('/')
   .get(verifyRoles(ROLES_LIST.root, ROLES_LIST.fulfillment), ordersSconeController.getAllOrderScone)
-  .post(verifyRoles(ROLES_LIST.fulfillment), ordersSconeController.createNewOrderScone);
+  .post(
+    verifyRoles(ROLES_LIST.root, ROLES_LIST.fulfillment),
+    ordersSconeController.createNewOrderScone
+  );
 
 router
   .route('/:id')
   .get(verifyRoles(ROLES_LIST.root, ROLES_LIST.fulfillment), ordersSconeController.getOrderScone)
-  .put(verifyRoles(ROLES_LIST.fulfillment), ordersSconeController.updateOrderScone);
+  .put(
+    verifyRoles(ROLES_LIST.root, ROLES_LIST.fulfillment),
+    ordersSconeController.updateOrderScone
+  );
 
 module.exports = router;

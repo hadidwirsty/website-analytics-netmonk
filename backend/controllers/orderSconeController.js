@@ -24,10 +24,7 @@ const createNewOrderScone = async (req, res) => {
     statusAktivasi,
     statusWFM,
     statusResume,
-    tanggalOrder,
-    username,
-    password,
-    secretKey
+    tanggalOrder
   } = req.body;
 
   const orderDate = tanggalOrder ? new Date(tanggalOrder) : Date.now();
@@ -43,10 +40,7 @@ const createNewOrderScone = async (req, res) => {
     statusAktivasi,
     statusWFM,
     statusResume,
-    tanggalOrder: orderDate,
-    username,
-    password,
-    secretKey
+    tanggalOrder: orderDate
   });
 
   try {
@@ -60,8 +54,19 @@ const createNewOrderScone = async (req, res) => {
 const updateOrderScone = async (req, res) => {
   const { id: nomorSc } = req.params;
 
-  const { namaPelanggan, statusResume, nomorHpPelanggan, emailPelanggan, nomorInternet, catatan } =
-    req.body;
+  const {
+    namaPelanggan,
+    statusResume,
+    nomorHpPelanggan,
+    emailPelanggan,
+    nomorInternet,
+    statusAktivasi,
+    statusWFM,
+    username,
+    password,
+    secretKey,
+    catatan
+  } = req.body;
 
   const updateData = {
     ...(namaPelanggan && { namaPelanggan }),
@@ -69,11 +74,16 @@ const updateOrderScone = async (req, res) => {
     ...(nomorHpPelanggan && { nomorHpPelanggan }),
     ...(emailPelanggan && { emailPelanggan }),
     ...(nomorInternet && { nomorInternet }),
+    ...(statusAktivasi && { statusAktivasi }),
+    ...(statusWFM && { statusWFM }),
+    ...(username && { username }),
+    ...(password && { password }),
+    ...(secretKey && { secretKey }),
     ...(catatan && { catatan })
   };
 
   try {
-    const updatedOrder = await Order.findOneAndUpdate({ nomorSc }, updateData, {
+    const updatedOrder = await Order.findOneAndUpdate({ nomorSc: Number(nomorSc) }, updateData, {
       new: true
     });
 
@@ -93,7 +103,7 @@ const getOrderScone = async (req, res) => {
   try {
     const order = await Order.findOne(
       { nomorSc },
-      'nomorSc namaPelanggan nomorHpPelanggan emailPelanggan username password secretKey catatan'
+      'nomorSc namaPelanggan nomorHpPelanggan emailPelanggan nomorInternet treg witel statusAktivasi statusWFM tanggalOrder statusResume username password secretKey catatan'
     );
     if (order) {
       res.json(order);
@@ -101,6 +111,7 @@ const getOrderScone = async (req, res) => {
       res.status(204).json({ message: 'Order not found' });
     }
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: error.message });
   }
 };
