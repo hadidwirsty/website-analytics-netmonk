@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { Button } from '@netmonk/design.ui.button';
 import { DataTable } from '@netmonk/design.ui.data-table';
 import { TableSearch } from '@netmonk/design.ui.table-search';
@@ -110,7 +110,7 @@ export function EmployeesList() {
 
   const showModalAdd = () => {
     const {
-      register,
+      control,
       handleSubmit,
       reset,
       formState: { errors }
@@ -140,36 +140,48 @@ export function EmployeesList() {
         onAction={handleSubmit(onSubmitAdd)}>
         <div
           className="modal-content modal-content-bordered p-5 flex flex-col w-full"
-          style={{ maxHeight: '60vh' }}>
+          style={{ maxHeight: '75vh' }}>
           <div className="grid grid-cols-1">
             <label htmlFor="firstname" className="form-label block mb-2">
               Firstname
-              <span className="text-french_blue-100">*</span>
             </label>
             <div className="form-group">
-              <input
-                {...register('firstname', { required: 'Firstname is required' })}
-                className="form-input block w-full border-gunmetal-40"
-                placeholder="Enter firstname"
+              <Controller
+                name="firstname"
+                control={control}
+                rules={{ required: 'Firstname is required' }}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    className={`form-input ${errors.firstname ? 'border-red-500' : 'border-gunmetal-40'} block w-full`}
+                    placeholder="Enter firstname"
+                  />
+                )}
               />
               {errors.firstname && (
-                <p className="mt-1 text-sm text-fire_opal-100">{errors.firstname.message}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.firstname.message}</p>
               )}
             </div>
           </div>
           <div className="grid grid-cols-1">
             <label htmlFor="lastname" className="form-label block mb-2">
               Lastname
-              <span className="text-french_blue-100">*</span>
             </label>
             <div className="form-group">
-              <input
-                {...register('lastname', { required: 'Lastname is required' })}
-                className="form-input block w-full border-gunmetal-40"
-                placeholder="Enter lastname"
+              <Controller
+                name="lastname"
+                control={control}
+                rules={{ required: 'Lastname is required' }}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    className={`form-input ${errors.lastname ? 'border-red-500' : 'border-gunmetal-40'} block w-full`}
+                    placeholder="Enter lastname"
+                  />
+                )}
               />
               {errors.lastname && (
-                <p className="mt-1 text-sm text-fire_opal-100">{errors.lastname.message}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.lastname.message}</p>
               )}
             </div>
           </div>
@@ -187,7 +199,7 @@ export function EmployeesList() {
       <Modal type="detail" title="View Employee Details" show={showDetail} onClose={handleClose}>
         <div
           className="modal-content modal-content-bordered p-5 flex flex-row w-full justify-between"
-          style={{ maxHeight: '60vh' }}>
+          style={{ maxHeight: '75vh' }}>
           <div className="flex flex-col h-full w-full border border-gunmetal-30 rounded">
             <div className="grid grid-cols-2 items-stretch border-gunmetal-30 border-b">
               <label className="form-label block bg-gunmetal-10 px-3 py-4 m-0 rounded-tl false">
@@ -205,7 +217,7 @@ export function EmployeesList() {
                 <span className="text-gunmetal-90">{employeeDetail?.firstname || '-'}</span>
               </div>
             </div>
-            <div className="grid grid-cols-2 items-stretch border-gunmetal-30 border-b">
+            <div className="grid grid-cols-2 items-stretch border-gunmetal-30">
               <label className="form-label block bg-gunmetal-10 px-3 py-4 m-0 rounded-tl false">
                 Lastname
               </label>
@@ -221,7 +233,7 @@ export function EmployeesList() {
 
   const showModalUpdate = () => {
     const {
-      register,
+      control,
       handleSubmit,
       reset,
       formState: { errors },
@@ -265,7 +277,7 @@ export function EmployeesList() {
         onAction={handleSubmit(onSubmitUpdate)}>
         <div
           className="modal-content modal-content-bordered p-5 flex flex-col w-full"
-          style={{ maxHeight: '60vh' }}>
+          style={{ maxHeight: '75vh' }}>
           <div className="grid grid-cols-1">
             <label htmlFor="_id" className="form-label block mb-2">
               ID
@@ -284,13 +296,20 @@ export function EmployeesList() {
               <span className="text-french_blue-100">*</span>
             </label>
             <div className="form-group">
-              <input
-                {...register('firstname', { required: 'Firstname is required' })}
-                className="form-input block w-full border-gunmetal-40"
-                placeholder="Enter firstname"
+              <Controller
+                name="firstname"
+                control={control}
+                rules={{ required: 'Firstname is required' }}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    className={`form-input ${errors.firstname ? 'border-red-500' : 'border-gunmetal-40'} block w-full`}
+                    placeholder="Enter firstname"
+                  />
+                )}
               />
               {errors.firstname && (
-                <p className="mt-1 text-sm text-fire_opal-100">{errors.firstname.message}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.firstname.message}</p>
               )}
             </div>
           </div>
@@ -300,13 +319,20 @@ export function EmployeesList() {
               <span className="text-french_blue-100">*</span>
             </label>
             <div className="form-group">
-              <input
-                {...register('lastname', { required: 'Lastname is required' })}
-                className="form-input block w-full border-gunmetal-40"
-                placeholder="Enter lastname"
+              <Controller
+                name="lastname"
+                control={control}
+                rules={{ required: 'Lastname is required' }}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    className={`form-input ${errors.lastname ? 'border-red-500' : 'border-gunmetal-40'} block w-full`}
+                    placeholder="Enter lastname"
+                  />
+                )}
               />
               {errors.lastname && (
-                <p className="mt-1 text-sm text-fire_opal-100">{errors.lastname.message}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.lastname.message}</p>
               )}
             </div>
           </div>

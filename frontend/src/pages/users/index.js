@@ -2,12 +2,18 @@ import React, { useState } from 'react';
 import { Button } from '@netmonk/design.ui.button';
 import { DataTable } from '@netmonk/design.ui.data-table';
 import { TableSearch } from '@netmonk/design.ui.table-search';
-import { useGetUsersQuery } from '../../apps/features/users/usersApiSlice';
+import { Modal } from '../../components/partials/modal/index';
+import { useGetUsersQuery, useGetUserByIdQuery } from '../../apps/features/users/usersApiSlice';
 
 export function UsersList() {
-  const { data: users, isLoading } = useGetUsersQuery();
-
   const [searchValue, setSearchValue] = useState('');
+  const [selectedId, setSelectedId] = useState(null);
+  const [showDetail, setShowDetail] = useState(false);
+
+  const { data: users, isLoading } = useGetUsersQuery();
+  const { data: userDetail } = useGetUserByIdQuery(selectedId, {
+    skip: !selectedId
+  });
 
   const filteredData =
     users?.filter((row) =>
@@ -15,29 +21,6 @@ export function UsersList() {
         value?.toString().toLowerCase().includes(searchValue.toLowerCase())
       )
     ) || [];
-
-  const exportToCSV = () => {
-    let csvData = 'Username,Role,Team Name\n';
-
-    filteredData.forEach((row) => {
-      csvData += `${row.username || '-'},${row.role || '-'},${row.teamName || '-'}\n`;
-    });
-
-    const csvBlob = new Blob([csvData], { type: 'text/csv' });
-    const csvUrl = window.URL.createObjectURL(csvBlob);
-
-    const a = document.createElement('a');
-    a.style.display = 'none';
-    a.href = csvUrl;
-    a.download = `users.csv`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  };
-
-  const resetFilters = () => {
-    setSearchValue('');
-  };
 
   const subHeaderComponent = () => (
     <div className="table-actions-before-wrapper flex flex-row justify-between mb-3">
@@ -48,7 +31,7 @@ export function UsersList() {
             color="default"
             variant="icon-only"
             icon="refresh"
-            onClick={resetFilters}
+            onClick={() => setSearchValue('')}
             className={`opacity-60 hover:opacity-100 ${!searchValue ? 'cursor-not-allowed' : ''}`}
             disabled={!searchValue}
           />
@@ -62,23 +45,70 @@ export function UsersList() {
           />
         </div>
       </div>
-
-      <div className="button-csv">
-        <div className="button-wrapper">
-          <Button
-            type="button"
-            label="Export to CSV"
-            size="sm"
-            color="yale_blue"
-            icon="download"
-            onClick={exportToCSV}
-          />
-        </div>
-      </div>
     </div>
   );
 
+  const handleDetailButtonClick = (_id) => {
+    setSelectedId(_id);
+    setShowDetail(true);
+  };
+
+  const showModalDetail = () => {
+    const handleClose = () => {
+      setShowDetail(false);
+    };
+
+    return (
+      <Modal type="detail" title="View User Details" show={showDetail} onClose={handleClose}>
+        <div
+          className="modal-content modal-content-bordered p-5 flex flex-row w-full justify-between"
+          style={{ maxHeight: '75vh' }}>
+          <div className="flex flex-col h-full w-full border border-gunmetal-30 rounded">
+            <div className="grid grid-cols-2 items-stretch border-gunmetal-30 border-b">
+              <label className="form-label block bg-gunmetal-10 px-3 py-4 m-0 rounded-tl false">
+                ID
+              </label>
+              <div className="px-3 py-4">
+                <span className="text-gunmetal-90">{userDetail?._id || '-'}</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 items-stretch border-gunmetal-30 border-b">
+              <label className="form-label block bg-gunmetal-10 px-3 py-4 m-0 rounded-tl false">
+                Username
+              </label>
+              <div className="px-3 py-4">
+                <span className="text-gunmetal-90">{userDetail?.username || '-'}</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 items-stretch border-gunmetal-30 border-b">
+              <label className="form-label block bg-gunmetal-10 px-3 py-4 m-0 rounded-tl false">
+                Role
+              </label>
+              <div className="px-3 py-4">
+                <span className="text-gunmetal-90">{userDetail?.role || '-'}</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 items-stretch border-gunmetal-30">
+              <label className="form-label block bg-gunmetal-10 px-3 py-4 m-0 rounded-tl false">
+                Team Name
+              </label>
+              <div className="px-3 py-4">
+                <span className="text-gunmetal-90">{userDetail?.teamName || '-'}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+    );
+  };
+
   const columns = [
+    {
+      name: 'ID',
+      selector: (row) => row._id,
+      cell: (row) => <p>{row._id ? row._id : '-'}</p>,
+      sortable: true
+    },
     {
       name: 'Username',
       selector: (row) => row.username,
@@ -96,26 +126,48 @@ export function UsersList() {
       selector: (row) => row.teamName,
       cell: (row) => <p>{row.teamName ? row.teamName : '-'}</p>,
       sortable: true
+    },
+    {
+      name: 'Actions',
+      cell: (row) => (
+        <div style={{ display: 'flex', gap: '4px' }}>
+          <Button
+            variant="icon-only"
+            icon="eye"
+            color="yale_blue"
+            size="xs"
+            onClick={() => handleDetailButtonClick(row._id)}
+          />
+        </div>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+      center: true,
+      width: '115px'
     }
   ];
 
   return (
-    <div className="rounded-lg shadow-none sm:shadow-lg px-0 py-8 sm:px-5 sm:py-8 text-sm table-box">
-      <div className="datatable-table-wrapper">
-        {subHeaderComponent()}
-        <div className="relative">
-          <DataTable
-            data={filteredData}
-            columns={columns}
-            allowOverflow
-            fixedHeader
-            highlightOnHover
-            pagination
-            persistTableHead
-            pointerOnHover
-            progressPending={isLoading}
-            responsive
-          />
+    <div>
+      {showModalDetail()}
+      <div className="rounded-lg shadow-none sm:shadow-lg px-0 py-8 sm:px-5 sm:py-8 text-sm table-box">
+        <div className="datatable-table-wrapper">
+          {subHeaderComponent()}
+          <div className="relative">
+            <DataTable
+              data={filteredData}
+              columns={columns}
+              allowOverflow
+              fixedHeader
+              highlightOnHover
+              pagination
+              persistTableHead
+              pointerOnHover
+              progressPending={isLoading}
+              responsive
+            />
+          </div>
         </div>
       </div>
     </div>
