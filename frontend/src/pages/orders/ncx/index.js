@@ -1,23 +1,36 @@
 import React, { useState } from 'react';
+import { BasicIcon } from '@netmonk/design.icons.basic';
 import { Button } from '@netmonk/design.ui.button';
 import { DataTable } from '@netmonk/design.ui.data-table';
 import { Dropdown } from '@netmonk/design.ui.dropdown';
 import { TableSearch } from '@netmonk/design.ui.table-search';
+import { Modal } from '../../../components/partials/modal/index';
 import {
   productOptions,
   statusFulfillmentOptions,
   tregOptions,
-  witelOptions
+  witelOptions,
+  witelOptionsMap
 } from '../../../utils/filterOptions';
-import { useGetOrdersNcxQuery } from '../../../apps/features/orders/orderNcxApiSlice';
+import {
+  useGetOrdersNcxQuery,
+  useGetOrderNcxByIdQuery
+} from '../../../apps/features/orders/orderNcxApiSlice';
 
 export function OrderNCX() {
-  const { data: orders, isLoading } = useGetOrdersNcxQuery();
+  const [resetKey, setResetKey] = useState(0);
   const [searchValue, setSearchValue] = useState('');
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [selectedProductFilter, setSelectedProductFilter] = useState();
   const [selectedStatusFulfillmentFilter, setSelectedStatusFulfillmentFilter] = useState();
   const [selectedTregFilter, setSelectedTregFilter] = useState();
   const [selectedWitelFilter, setSelectedWitelFilter] = useState();
+  const [showDetail, setShowDetail] = useState(false);
+
+  const { data: orders, isLoading } = useGetOrdersNcxQuery();
+  const { data: orderDetail } = useGetOrderNcxByIdQuery(selectedOrderId, {
+    skip: !selectedOrderId
+  });
 
   const dataSort = Array.isArray(orders)
     ? [...orders].sort((a, b) => {
@@ -79,110 +92,292 @@ export function OrderNCX() {
     document.body.removeChild(a);
   };
 
-  const resetFilters = () => {
-    setSearchValue('');
-    setSelectedProductFilter(undefined);
-    setSelectedStatusFulfillmentFilter(undefined);
-    setSelectedTregFilter(undefined);
-    setSelectedWitelFilter(undefined);
+  const copyToClipboard = (value) => {
+    const textarea = document.createElement('textarea');
+    textarea.value = value;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+
+    const alertDiv = document.createElement('div');
+    alertDiv.textContent = 'Copied to clipboard!';
+    alertDiv.classList.add('alert');
+    document.body.appendChild(alertDiv);
+
+    setTimeout(() => {
+      document.body.removeChild(alertDiv);
+    }, 1500);
   };
 
-  const subHeaderComponent = () => (
-    <div className="table-actions-before-wrapper flex flex-row justify-between mb-3">
-      <div className="flex flex-row gap-2">
-        <div className="button-wrapper">
-          <Button
-            type="button"
-            color="default"
-            variant="icon-only"
-            icon="refresh"
-            onClick={resetFilters}
-            className={`opacity-60 hover:opacity-100 ${
-              !searchValue &&
-              !selectedProductFilter &&
-              !selectedStatusFulfillmentFilter &&
-              !selectedTregFilter &&
-              !selectedWitelFilter
-                ? 'cursor-not-allowed'
-                : ''
-            }`}
-            disabled={
-              !searchValue &&
-              !selectedProductFilter &&
-              !selectedStatusFulfillmentFilter &&
-              !selectedTregFilter &&
-              !selectedWitelFilter
-            }
-          />
-        </div>
-        <div className="search-and-filter-wrapper">
-          <TableSearch
-            initialKeyword={searchValue}
-            placeholder="Search"
-            onReset={() => setSearchValue('')}
-            onSearch={(keyword) => setSearchValue(keyword)}
-          />
-        </div>
-        <div className="dropdown-filter-wrapper z-10">
-          <Dropdown
-            size="sm"
-            label="Treg"
-            items={tregOptions}
-            value={selectedTregFilter}
-            onChange={(selectedOption) => {
-              setSelectedTregFilter(selectedOption.value);
-            }}
-          />
-        </div>
-        <div className="dropdown-filter-wrapper z-10">
-          <Dropdown
-            size="sm"
-            label="Witel"
-            items={witelOptions}
-            value={selectedWitelFilter}
-            onChange={(selectedOption) => {
-              setSelectedWitelFilter(selectedOption.value);
-            }}
-          />
-        </div>
-        <div className="dropdown-filter-wrapper z-10">
-          <Dropdown
-            size="sm"
-            label="Status Fulfillment"
-            items={statusFulfillmentOptions}
-            value={selectedStatusFulfillmentFilter}
-            onChange={(selectedOption) => {
-              setSelectedStatusFulfillmentFilter(selectedOption.value);
-            }}
-          />
-        </div>
-        <div className="dropdown-filter-wrapper z-10">
-          <Dropdown
-            size="sm"
-            label="Produk"
-            items={productOptions}
-            value={selectedProductFilter}
-            onChange={(selectedOption) => {
-              setSelectedProductFilter(selectedOption.value);
-            }}
-          />
-        </div>
-      </div>
+  const resetFilters = () => {
+    setResetKey((prevKey) => prevKey + 1);
+    setSearchValue('');
+    setSelectedProductFilter();
+    setSelectedStatusFulfillmentFilter();
+    setSelectedTregFilter();
+    setSelectedWitelFilter();
+  };
 
-      <div className="button-csv">
-        <div className="button-wrapper">
-          <Button
-            type="button"
-            label="Export to CSV"
-            size="sm"
-            color="yale_blue"
-            icon="download"
-            onClick={exportToCSV}
-          />
+  const subHeaderComponent = () => {
+    const getWitelOptions = () => {
+      if (selectedTregFilter && witelOptionsMap[selectedTregFilter]) {
+        return witelOptionsMap[selectedTregFilter];
+      }
+      return witelOptions;
+    };
+
+    return (
+      <div className="table-actions-before-wrapper flex flex-row justify-between mb-3">
+        <div className="flex flex-row gap-2">
+          <div className="button-wrapper">
+            <Button
+              type="button"
+              color="default"
+              variant="icon-only"
+              icon="refresh"
+              onClick={resetFilters}
+              className={`opacity-60 hover:opacity-100 ${
+                !searchValue &&
+                !selectedProductFilter &&
+                !selectedStatusFulfillmentFilter &&
+                !selectedTregFilter &&
+                !selectedWitelFilter
+                  ? 'cursor-not-allowed'
+                  : ''
+              }`}
+              disabled={
+                !searchValue &&
+                !selectedProductFilter &&
+                !selectedStatusFulfillmentFilter &&
+                !selectedTregFilter &&
+                !selectedWitelFilter
+              }
+            />
+          </div>
+          <div className="search-and-filter-wrapper">
+            <TableSearch
+              initialKeyword={searchValue}
+              placeholder="Search"
+              onReset={() => setSearchValue('')}
+              onSearch={(keyword) => setSearchValue(keyword)}
+            />
+          </div>
+          <div className="dropdown-filter-wrapper z-10">
+            <Dropdown
+              key={resetKey}
+              size="sm"
+              label="Treg"
+              items={tregOptions}
+              onChange={(selectedOption) => {
+                setSelectedTregFilter(selectedOption.value);
+                setSelectedWitelFilter(null);
+              }}
+            />
+          </div>
+          <div className="dropdown-filter-wrapper z-10">
+            <Dropdown
+              key={resetKey}
+              size="sm"
+              label="Witel"
+              items={getWitelOptions()}
+              value={selectedWitelFilter}
+              onChange={(selectedOption) => {
+                setSelectedWitelFilter(selectedOption.value);
+              }}
+            />
+          </div>
+          <div className="dropdown-filter-wrapper z-10">
+            <Dropdown
+              key={resetKey}
+              size="sm"
+              label="Status Fulfillment"
+              items={statusFulfillmentOptions}
+              onChange={(selectedOption) => {
+                setSelectedStatusFulfillmentFilter(selectedOption.value);
+              }}
+            />
+          </div>
+          <div className="dropdown-filter-wrapper z-10">
+            <Dropdown
+              key={resetKey}
+              size="sm"
+              label="Produk"
+              items={productOptions}
+              onChange={(selectedOption) => {
+                setSelectedProductFilter(selectedOption.value);
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="button-csv">
+          <div className="button-wrapper">
+            <Button
+              type="button"
+              label="Export to CSV"
+              size="sm"
+              color="yale_blue"
+              icon="download"
+              onClick={exportToCSV}
+            />
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
+
+  const handleDetailButtonClick = (orderId) => {
+    setSelectedOrderId(orderId);
+    setShowDetail(true);
+  };
+
+  const showModalDetail = () => {
+    const handleClose = () => {
+      setShowDetail(false);
+    };
+
+    return (
+      <Modal type="detail" title="View User Details" show={showDetail} onClose={handleClose}>
+        <div
+          className="modal-content modal-content-bordered p-5 flex flex-row w-full justify-between"
+          style={{ maxHeight: '75vh' }}>
+          <div className="flex flex-col h-full w-full border border-gunmetal-30 rounded">
+            <div className="grid grid-cols-2 items-stretch border-gunmetal-30 border-b">
+              <label className="form-label block bg-gunmetal-10 px-3 py-4 m-0 rounded-tl false">
+                Order ID
+              </label>
+              <div className="px-3 py-4">
+                <span className="text-gunmetal-90">{orderDetail?.orderId || '-'}</span>
+                <button type="button" onClick={() => copyToClipboard(orderDetail?.orderId)}>
+                  <BasicIcon
+                    size={16}
+                    color="yale_blue"
+                    name="link-outline"
+                    className="ml-1 hover:text-main-yale_blue-60"
+                  />
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 items-stretch border-gunmetal-30 border-b">
+              <label className="form-label block bg-gunmetal-10 px-3 py-4 m-0 rounded-tl false">
+                Nama Pelanggan
+              </label>
+              <div className="px-3 py-4">
+                <span className="text-gunmetal-90">{orderDetail?.namaPelanggan || '-'}</span>
+                <button type="button" onClick={() => copyToClipboard(orderDetail?.namaPelanggan)}>
+                  <BasicIcon
+                    size={16}
+                    color="yale_blue"
+                    name="link-outline"
+                    className="ml-1 hover:text-main-yale_blue-60"
+                  />
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 items-stretch border-gunmetal-30 border-b">
+              <label className="form-label block bg-gunmetal-10 px-3 py-4 m-0 rounded-tl false">
+                Nomor HP Pelanggan
+              </label>
+              <div className="px-3 py-4">
+                <span className="text-gunmetal-90">{orderDetail?.nomorHpPelanggan || '-'}</span>
+                <button
+                  type="button"
+                  onClick={() => copyToClipboard(orderDetail?.nomorHpPelanggan)}>
+                  <BasicIcon
+                    size={16}
+                    color="yale_blue"
+                    name="link-outline"
+                    className="ml-1 hover:text-main-yale_blue-60"
+                  />
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 items-stretch border-gunmetal-30 border-b">
+              <label className="form-label block bg-gunmetal-10 px-3 py-4 m-0 rounded-tl false">
+                Email Pelanggan
+              </label>
+              <div className="px-3 py-4">
+                <span className="text-gunmetal-90">{orderDetail?.emailPelanggan || '-'}</span>
+                <button type="button" onClick={() => copyToClipboard(orderDetail?.emailPelanggan)}>
+                  <BasicIcon
+                    size={16}
+                    color="yale_blue"
+                    name="link-outline"
+                    className="ml-1 hover:text-main-yale_blue-60"
+                  />
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 items-stretch border-gunmetal-30 border-b">
+              <label className="form-label block bg-gunmetal-10 px-3 py-4 m-0 rounded-tl false">
+                Username
+              </label>
+              <div className="px-3 py-4">
+                <span className="text-gunmetal-90">{orderDetail?.username || '-'}</span>
+                <button type="button" onClick={() => copyToClipboard(orderDetail?.username)}>
+                  <BasicIcon
+                    size={16}
+                    color="yale_blue"
+                    name="link-outline"
+                    className="ml-1 hover:text-main-yale_blue-60"
+                  />
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 items-stretch border-gunmetal-30 border-b">
+              <label className="form-label block bg-gunmetal-10 px-3 py-4 m-0 rounded-tl false">
+                Password
+              </label>
+              <div className="px-3 py-4">
+                <span className="text-gunmetal-90">{orderDetail?.password || '-'}</span>
+                <button type="button" onClick={() => copyToClipboard(orderDetail?.password)}>
+                  <BasicIcon
+                    size={16}
+                    color="yale_blue"
+                    name="link-outline"
+                    className="ml-1 hover:text-main-yale_blue-60"
+                  />
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 items-stretch border-gunmetal-30 border-b">
+              <label className="form-label block bg-gunmetal-10 px-3 py-4 m-0 rounded-tl false">
+                Secret Key
+              </label>
+              <div className="px-3 py-4">
+                <span className="text-gunmetal-90">{orderDetail?.secretKey || '-'}</span>
+                <button type="button" onClick={() => copyToClipboard(orderDetail?.secretKey)}>
+                  <BasicIcon
+                    size={16}
+                    color="yale_blue"
+                    name="link-outline"
+                    className="ml-1 hover:text-main-yale_blue-60"
+                  />
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 items-stretch border-gunmetal-30">
+              <label className="form-label block bg-gunmetal-10 px-3 py-4 m-0 rounded-tl false">
+                Catatan
+              </label>
+              <div className="px-3 py-4">
+                <span className="text-gunmetal-90">{orderDetail?.catatan || '-'}</span>
+                <button type="button" onClick={() => copyToClipboard(orderDetail?.catatan)}>
+                  <BasicIcon
+                    size={16}
+                    color="yale_blue"
+                    name="link-outline"
+                    className="ml-1 hover:text-main-yale_blue-60"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+    );
+  };
 
   const columns = [
     {
@@ -277,26 +472,48 @@ export function OrderNCX() {
       cell: (row) => <p>{row.orderClosingDate ? row.orderClosingDate : '-'}</p>,
       sortable: true,
       grow: 1.25
+    },
+    {
+      name: 'Actions',
+      cell: (row) => (
+        <div style={{ display: 'flex', gap: '4px' }}>
+          <Button
+            variant="icon-only"
+            icon="eye"
+            color="yale_blue"
+            size="xs"
+            onClick={() => handleDetailButtonClick(row.orderId)}
+          />
+        </div>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+      center: true,
+      width: '115px'
     }
   ];
 
   return (
-    <div className="rounded-lg shadow-none sm:shadow-lg px-0 py-8 sm:px-5 sm:py-8 text-sm table-box">
-      <div className="datatable-table-wrapper">
-        {subHeaderComponent()}
-        <div className="relative">
-          <DataTable
-            data={filteredData}
-            columns={columns}
-            allowOverflow
-            fixedHeader
-            highlightOnHover
-            pagination
-            persistTableHead
-            pointerOnHover
-            progressPending={isLoading}
-            responsive
-          />
+    <div>
+      {showModalDetail()}
+      <div className="rounded-lg shadow-none sm:shadow-lg px-0 py-8 sm:px-5 sm:py-8 text-sm table-box">
+        <div className="datatable-table-wrapper">
+          {subHeaderComponent()}
+          <div className="relative">
+            <DataTable
+              data={filteredData}
+              columns={columns}
+              allowOverflow
+              fixedHeader
+              highlightOnHover
+              pagination
+              persistTableHead
+              pointerOnHover
+              progressPending={isLoading}
+              responsive
+            />
+          </div>
         </div>
       </div>
     </div>

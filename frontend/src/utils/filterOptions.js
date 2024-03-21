@@ -195,3 +195,81 @@ export const witelOptions = [
   { label: 'SULTRA', value: 'SULTRA' },
   { label: 'SULUTMALUT', value: 'SULUTMALUT' }
 ];
+
+export const witelOptionsMap = {
+  'TREG-1': [
+    { label: 'ACEH', value: 'ACEH' },
+    { label: 'BABEL', value: 'BABEL' },
+    { label: 'BENGKULU', value: 'BENGKULU' },
+    { label: 'JAMBI', value: 'JAMBI' },
+    { label: 'LAMPUNG', value: 'LAMPUNG' },
+    { label: 'MEDAN', value: 'MEDAN' },
+    { label: 'RIDAR', value: 'RIDAR' },
+    { label: 'RIKEP', value: 'RIKEP' },
+    { label: 'SUMBAR', value: 'SUMBAR' },
+    { label: 'SUMSEL', value: 'SUMSEL' },
+    { label: 'SUMUT', value: 'SUMUT' }
+  ],
+  'TREG-2': [
+    { label: 'BANTEN', value: 'BANTEN' },
+    { label: 'BEKASI', value: 'BEKASI' },
+    { label: 'BOGOR', value: 'BOGOR' },
+    { label: 'JAKBAR', value: 'JAKBAR' },
+    { label: 'JAKPUS', value: 'JAKPUS' },
+    { label: 'JAKSEL', value: 'JAKSEL' },
+    { label: 'JAKTIM', value: 'JAKTIM' },
+    { label: 'JAKUT', value: 'JAKUT' },
+    { label: 'TANGERANG', value: 'TANGERANG' }
+  ],
+  'TREG-3': [
+    { label: 'BANDUNG', value: 'BANDUNG' },
+    { label: 'BANDUNG BARAT', value: 'BANDUNG BARAT' },
+    { label: 'CIREBON', value: 'CIREBON' },
+    { label: 'KARAWANG', value: 'KARAWANG' },
+    { label: 'SUKABUMI', value: 'SUKABUMI' },
+    { label: 'TASIKMALAYA', value: 'TASIKMALAYA' }
+  ],
+  'TREG-4': [
+    { label: 'KUDUS', value: 'KUDUS' },
+    { label: 'MAGELANG', value: 'MAGELANG' },
+    { label: 'PEKALONGAN', value: 'PEKALONGAN' },
+    { label: 'PURWOKERTO', value: 'PURWOKERTO' },
+    { label: 'SEMARANG', value: 'SEMARANG' },
+    { label: 'SOLO', value: 'SOLO' },
+    { label: 'YOGYAKARTA', value: 'YOGYAKARTA' }
+  ],
+  'TREG-5': [
+    { label: 'BALIKPAPAN', value: 'BALIKPAPAN' },
+    { label: 'DENPASAR', value: 'DENPASAR' },
+    { label: 'JEMBER', value: 'JEMBER' },
+    { label: 'KEDIRI', value: 'KEDIRI' },
+    { label: 'MADIUN', value: 'MADIUN' },
+    { label: 'MADURA', value: 'MADURA' },
+    { label: 'MALANG', value: 'MALANG' },
+    { label: 'NTB', value: 'NTB' },
+    { label: 'NTT', value: 'NTT' },
+    { label: 'PASURUAN', value: 'PASURUAN' },
+    { label: 'SIDOARJO', value: 'SIDOARJO' },
+    { label: 'SINGARAJA', value: 'SINGARAJA' },
+    { label: 'SURABAYA SELATAN', value: 'SURABAYA SELATAN' },
+    { label: 'SURABAYA UTARA', value: 'SURABAYA UTARA' }
+  ],
+  'TREG-6': [
+    { label: 'KALBAR', value: 'KALBAR' },
+    { label: 'KALSEL', value: 'KALSEL' },
+    { label: 'KALTARA', value: 'KALTARA' },
+    { label: 'KALTENG', value: 'KALTENG' },
+    { label: 'SAMARINDA', value: 'SAMARINDA' }
+  ],
+  'TREG-7': [
+    { label: 'GORONTALO', value: 'GORONTALO' },
+    { label: 'MAKASSAR', value: 'MAKASSAR' },
+    { label: 'MALUKU', value: 'MALUKU' },
+    { label: 'PAPUA', value: 'PAPUA' },
+    { label: 'PAPUA BARAT', value: 'PAPUA BARAT' },
+    { label: 'SULSELBAR', value: 'SULSELBAR' },
+    { label: 'SULTENG', value: 'SULTENG' },
+    { label: 'SULTRA', value: 'SULTRA' },
+    { label: 'SULUTMALUT', value: 'SULUTMALUT' }
+  ]
+};
