@@ -47,7 +47,7 @@ const createNewOrderScone = async (req, res) => {
     const savedOrder = await newOrder.save();
     res.status(201).json(savedOrder);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -83,7 +83,7 @@ const updateOrderScone = async (req, res) => {
   };
 
   try {
-    const updatedOrder = await Order.findOneAndUpdate({ nomorSc: Number(nomorSc) }, updateData, {
+    const updatedOrder = await Order.findOneAndUpdate({ nomorSc }, updateData, {
       new: true
     });
 
@@ -93,7 +93,7 @@ const updateOrderScone = async (req, res) => {
       res.status(204).json({ message: 'Order not found' });
     }
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
