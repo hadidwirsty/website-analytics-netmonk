@@ -14,7 +14,7 @@ export function LayoutHeader() {
   }, [location]);
 
   return (
-    <header className="header flex justify-between items-center shadow-xs z-40">
+    <header className="header flex justify-between items-center shadow-xs z-0">
       <div className="pl-16 md:pl-10">
         <div className="flex">
           <img

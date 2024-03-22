@@ -239,7 +239,6 @@ export const witelOptionsMap = {
     { label: 'YOGYAKARTA', value: 'YOGYAKARTA' }
   ],
   'TREG-5': [
-    { label: 'BALIKPAPAN', value: 'BALIKPAPAN' },
     { label: 'DENPASAR', value: 'DENPASAR' },
     { label: 'JEMBER', value: 'JEMBER' },
     { label: 'KEDIRI', value: 'KEDIRI' },
@@ -255,6 +254,7 @@ export const witelOptionsMap = {
     { label: 'SURABAYA UTARA', value: 'SURABAYA UTARA' }
   ],
   'TREG-6': [
+    { label: 'BALIKPAPAN', value: 'BALIKPAPAN' },
     { label: 'KALBAR', value: 'KALBAR' },
     { label: 'KALSEL', value: 'KALSEL' },
     { label: 'KALTARA', value: 'KALTARA' },

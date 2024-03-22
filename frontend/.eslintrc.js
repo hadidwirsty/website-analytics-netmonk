@@ -44,6 +44,7 @@ module.exports = {
     'no-param-reassign': 'off',
     'no-self-compare': 'off',
     'no-shadow': 'off',
+    'no-underscore-dangle': 'off',
     'no-unused-vars': 'off',
     'react/destructuring-assignment': 'off',
     'react-hooks/exhaustive-deps': 'off',

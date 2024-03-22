@@ -54,6 +54,7 @@ export function OrderNCX() {
 
   const filteredData = dataSort.filter(
     (row) =>
+      row.orderId &&
       Object.values(row).some(
         (value) =>
           value !== null &&

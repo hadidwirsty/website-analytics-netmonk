@@ -8,7 +8,6 @@ import { LayoutBase } from './components/layouts/base';
 import { PageLogin } from './pages/login';
 import { PageForbidden } from './pages/errors/403';
 import { PageNotFound } from './pages/errors/404';
-import { ServiceUnavailableBoundary } from './pages/errors/503';
 import { EmployeesList } from './pages/employees';
 import { ActiveUsers } from './pages/metabase/active-users';
 import { CustomerManagement } from './pages/metabase/customer-management';
@@ -28,8 +27,6 @@ export function AppRoute() {
         {/* public routes */}
         <Route path="/login" element={<PageLogin />} />
         <Route path="/403" element={<PageForbidden />} />
-        <Route path="/404" element={<PageNotFound />} />
-        <Route path="/503" element={<ServiceUnavailableBoundary />} />
 
         {/* protected routes */}
         <Route element={<RequireAuth />}>
@@ -106,6 +103,9 @@ export function AppRoute() {
             }
           />
         </Route>
+
+        {/* catch all route for 404 Not Found */}
+        <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>
   );
