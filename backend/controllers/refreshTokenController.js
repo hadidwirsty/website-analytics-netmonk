@@ -10,7 +10,7 @@ const handleRefreshToken = async (req, res) => {
   const foundUser = await User.findOne({ refreshToken }).exec();
   if (!foundUser) {
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
-      if (err) return res.sendStatus(403); // Forbidden
+      if (err) return res.sendStatus(403); // 403 Forbidden
       console.log('attempted refresh token reuse!');
 
       const hackedUser = await User.findOne({
@@ -21,7 +21,7 @@ const handleRefreshToken = async (req, res) => {
       const result = await hackedUser.save();
       console.log(result);
     });
-    return res.sendStatus(403); // Forbidden
+    return res.sendStatus(403); // 403 Forbidden
   }
 
   const newRefreshTokenArray = foundUser.refreshToken.filter((rt) => rt !== refreshToken);
@@ -37,7 +37,7 @@ const handleRefreshToken = async (req, res) => {
         sameSite: 'None',
         secure: true
       });
-      return res.sendStatus(403);
+      return res.sendStatus(403); // 403 Forbidden
     }
 
     if (err || foundUser.username !== decoded.username) return res.sendStatus(403);
@@ -52,7 +52,7 @@ const handleRefreshToken = async (req, res) => {
         }
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '15m' }
+      { expiresIn: '10m' }
     );
 
     const newRefreshToken = jwt.sign(
