@@ -12,7 +12,7 @@ export function Overview() {
   if (isFetching) {
     content = <p>Loading...</p>;
   } else if (overviewUrl) {
-    content = <Embed title="Device Pelanggan" url={overviewUrl.url} />;
+    content = <Embed title="Overview" url={overviewUrl.url} />;
   }
 
   return (

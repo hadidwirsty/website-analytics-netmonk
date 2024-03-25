@@ -6,6 +6,7 @@ import { RequireAuth } from './components/partials/requireAuth';
 import { LayoutBase } from './components/layouts/base';
 
 import { PageLogin } from './pages/login';
+import { PageUnauthorized } from './pages/errors/401';
 import { PageForbidden } from './pages/errors/403';
 import { PageNotFound } from './pages/errors/404';
 import { EmployeesList } from './pages/employees';
@@ -26,6 +27,7 @@ export function AppRoute() {
 
         {/* public routes */}
         <Route path="/login" element={<PageLogin />} />
+        <Route path="/401" element={<PageUnauthorized />} />
         <Route path="/403" element={<PageForbidden />} />
 
         {/* protected routes */}

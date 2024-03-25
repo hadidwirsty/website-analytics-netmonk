@@ -9,7 +9,7 @@ export function TrackingOrderNcx() {
   if (isFetching) {
     content = <p>Loading...</p>;
   } else if (trackingOrderNcxUrl) {
-    content = <Embed title="Device Pelanggan" url={trackingOrderNcxUrl.url} />;
+    content = <Embed title="Tracking Order NCX" url={trackingOrderNcxUrl.url} />;
   }
 
   return (

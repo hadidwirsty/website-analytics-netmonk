@@ -1,21 +1,10 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@netmonk/design.ui.button';
-import { logOut } from '../../apps/features/auth/authSlice';
 import Image403 from '../../assets/svgs/403.svg';
 
 export function PageForbidden() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem('role');
-    localStorage.removeItem('teamName');
-    localStorage.removeItem('accessToken');
-    dispatch(logOut());
-    navigate('/login');
-  };
 
   return (
     <div className="w-full h-screen bg-white p-8 flex justify-center items-center">
@@ -33,7 +22,7 @@ export function PageForbidden() {
           id="submit"
           color="yale_blue"
           type="button"
-          onClick={handleLogout}
+          onClick={() => navigate('/overview')}
         />
       </div>
     </div>
