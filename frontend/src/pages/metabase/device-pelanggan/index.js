@@ -4,6 +4,7 @@ import { Embed } from '../../../components/partials/embed';
 
 export function DevicePelanggan() {
   const { data: devicePelangganUrl, isFetching } = useGetDevicePelangganUrlQuery();
+  console.log(devicePelangganUrl);
 
   let content;
   if (isFetching) {

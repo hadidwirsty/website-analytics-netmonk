@@ -4,6 +4,7 @@ import { Embed } from '../../../components/partials/embed';
 
 export function ActiveUsers() {
   const { data: activeUsersUrl, isFetching } = useGetActiveUsersUrlQuery();
+  console.log(activeUsersUrl);
 
   let content;
   if (isFetching) {

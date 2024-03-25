@@ -5,7 +5,6 @@ import { LayoutWelcome } from '../../../components/partials/welcome';
 
 export function Overview() {
   const { data: overviewUrl, isFetching } = useGetOverviewUrlQuery();
-
   console.log(overviewUrl);
 
   let content;

@@ -4,6 +4,7 @@ import { Embed } from '../../../components/partials/embed';
 
 export function TrackingOrderNcx() {
   const { data: trackingOrderNcxUrl, isFetching } = useGetTrackingOrderNcxUrlQuery();
+  console.log(trackingOrderNcxUrl);
 
   let content;
   if (isFetching) {

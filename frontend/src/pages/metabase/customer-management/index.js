@@ -4,6 +4,7 @@ import { Embed } from '../../../components/partials/embed';
 
 export function CustomerManagement() {
   const { data: customerManagementUrl, isFetching } = useGetCustomerManagementUrlQuery();
+  console.log(customerManagementUrl);
 
   let content;
   if (isFetching) {

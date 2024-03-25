@@ -7,7 +7,7 @@ const generateMetabaseEmbedUrl = (resource, params) => {
   const payload = {
     resource: { [resource.type]: resource.id },
     params,
-    exp: Math.round(Date.now() / 1000) + 5 * 60
+    exp: Math.round(Date.now() / 1000) + 10 * 60
   };
 
   const token = jwt.sign(payload, METABASE_SECRET_KEY);
