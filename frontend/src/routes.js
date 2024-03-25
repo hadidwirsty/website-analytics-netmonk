@@ -19,6 +19,12 @@ import { OrderNCX } from './pages/orders/ncx';
 import { OrderScone } from './pages/orders/scone';
 import { UsersList } from './pages/users';
 
+const ROLES_LIST = {
+  root: 'root',
+  fulfillment: 'fulfillment',
+  ponetmonk: 'po-netmonk'
+};
+
 export function AppRoute() {
   return (
     <Routes>
@@ -31,15 +37,7 @@ export function AppRoute() {
         <Route path="/403" element={<PageForbidden />} />
 
         {/* protected routes */}
-        <Route element={<RequireAuth />}>
-          <Route
-            path="/employees"
-            element={
-              <LayoutBase>
-                <EmployeesList />
-              </LayoutBase>
-            }
-          />
+        <Route element={<RequireAuth allowedRoles={[ROLES_LIST.ponetmonk]} />}>
           <Route
             path="/active-users"
             element={
@@ -48,6 +46,8 @@ export function AppRoute() {
               </LayoutBase>
             }
           />
+        </Route>
+        <Route element={<RequireAuth allowedRoles={[ROLES_LIST.fulfillment]} />}>
           <Route
             path="/customer-management"
             element={
@@ -56,6 +56,9 @@ export function AppRoute() {
               </LayoutBase>
             }
           />
+        </Route>
+        <Route
+          element={<RequireAuth allowedRoles={[ROLES_LIST.fulfillment, ROLES_LIST.ponetmonk]} />}>
           <Route
             path="/device-pelanggan"
             element={
@@ -64,22 +67,18 @@ export function AppRoute() {
               </LayoutBase>
             }
           />
+        </Route>
+        <Route element={<RequireAuth allowedRoles={[ROLES_LIST.root]} />}>
           <Route
-            path="/overview"
+            path="/employees"
             element={
               <LayoutBase>
-                <Overview />
+                <EmployeesList />
               </LayoutBase>
             }
           />
-          <Route
-            path="/tracking-order-ncx"
-            element={
-              <LayoutBase>
-                <TrackingOrderNcx />
-              </LayoutBase>
-            }
-          />
+        </Route>
+        <Route element={<RequireAuth allowedRoles={[ROLES_LIST.root, ROLES_LIST.fulfillment]} />}>
           <Route
             path="/order/ncx"
             element={
@@ -88,6 +87,8 @@ export function AppRoute() {
               </LayoutBase>
             }
           />
+        </Route>
+        <Route element={<RequireAuth allowedRoles={[ROLES_LIST.root, ROLES_LIST.fulfillment]} />}>
           <Route
             path="/order/scone"
             element={
@@ -96,6 +97,33 @@ export function AppRoute() {
               </LayoutBase>
             }
           />
+        </Route>
+        <Route
+          element={
+            <RequireAuth
+              allowedRoles={[ROLES_LIST.root, ROLES_LIST.fulfillment, ROLES_LIST.ponetmonk]}
+            />
+          }>
+          <Route
+            path="/overview"
+            element={
+              <LayoutBase>
+                <Overview />
+              </LayoutBase>
+            }
+          />
+        </Route>
+        <Route element={<RequireAuth allowedRoles={[ROLES_LIST.fulfillment]} />}>
+          <Route
+            path="/tracking-order-ncx"
+            element={
+              <LayoutBase>
+                <TrackingOrderNcx />
+              </LayoutBase>
+            }
+          />
+        </Route>
+        <Route element={<RequireAuth allowedRoles={[ROLES_LIST.root]} />}>
           <Route
             path="/users"
             element={

@@ -5,6 +5,7 @@ import Image403 from '../../assets/svgs/403.svg';
 
 export function PageForbidden() {
   const navigate = useNavigate();
+  const handleButtonGoBack = () => navigate(-1);
 
   return (
     <div className="w-full h-screen bg-white p-8 flex justify-center items-center">
@@ -22,7 +23,7 @@ export function PageForbidden() {
           id="submit"
           color="yale_blue"
           type="button"
-          onClick={() => navigate('/overview')}
+          onClick={handleButtonGoBack}
         />
       </div>
     </div>

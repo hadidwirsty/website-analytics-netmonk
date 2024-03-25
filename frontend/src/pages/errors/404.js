@@ -1,21 +1,11 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@netmonk/design.ui.button';
-import { logOut } from '../../apps/features/auth/authSlice';
 import Image404 from '../../assets/svgs/404.svg';
 
 export function PageNotFound() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem('role');
-    localStorage.removeItem('teamName');
-    localStorage.removeItem('accessToken');
-    dispatch(logOut());
-    navigate('/login');
-  };
+  const handleButtonGoBack = () => navigate(-1);
 
   return (
     <div className="w-full h-screen bg-white p-8 flex justify-center items-center">
@@ -26,11 +16,11 @@ export function PageNotFound() {
           Sorry, something went wrong, please try again later!
         </div>
         <Button
-          label="Back to Login"
+          label="Go Back"
           id="submit"
           color="yale_blue"
           type="button"
-          onClick={handleLogout}
+          onClick={handleButtonGoBack}
         />
       </div>
     </div>
