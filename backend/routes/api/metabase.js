@@ -11,7 +11,11 @@ router.get(
   metabaseController.sendCustomerManagement
 );
 
-router.get('/overview', verifyRoles(ROLES_LIST.fulfillment), metabaseController.sendOverviewUrl);
+router.get(
+  '/overview',
+  verifyRoles(ROLES_LIST.fulfillment, ROLES_LIST.ponetmonk, ROLES_LIST.root),
+  metabaseController.sendOverviewUrl
+);
 
 router.get(
   '/device-pelanggan',
