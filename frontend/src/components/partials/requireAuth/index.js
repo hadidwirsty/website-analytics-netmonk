@@ -1,15 +1,13 @@
 import React from 'react';
-import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectCurrentToken } from '../../../apps/features/auth/authSlice';
+import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import { getRole } from '../../../helpers/cookie';
 
 export function RequireAuth({ allowedRoles }) {
-  const localStorageToken = localStorage.getItem('accessToken');
   const location = useLocation();
-  const token = useSelector(selectCurrentToken);
+  const token = useSelector((state) => state.auth.token);
 
-  const isAuthenticated = token || localStorageToken;
+  const isAuthenticated = !!token;
   const userRoles = getRole();
 
   const hasRequiredRole = () => {

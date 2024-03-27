@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 export function LayoutWelcome() {
   const { teamName: reduxTeamName } = useSelector((state) => state.auth.userDetails);
-  const teamName = reduxTeamName || localStorage.getItem('teamName');
+  const teamName = reduxTeamName;
 
   return (
     <div className="flex flex-col space-y-2 mb-6">

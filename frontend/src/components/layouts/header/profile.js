@@ -8,7 +8,7 @@ export function HeaderProfileComponent() {
   const ref = useRef();
 
   const { teamName: reduxTeamName } = useSelector((state) => state.auth.userDetails);
-  const teamName = reduxTeamName || localStorage.getItem('teamName');
+  const teamName = reduxTeamName;
 
   const [isProfileDropdownOpen, setIsProfileDropdown] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -64,9 +64,7 @@ export function HeaderProfileComponent() {
         </div>
       </div>
       <div
-        className={`${
-          !isProfileDropdownOpen ? 'hidden' : ''
-        } dropdown-item absolute top-auto right-0 text-right bg-secondary-white shadow-md rounded-md border-base-grey border text-base font-medium overflow-hidden mt-2`}
+        className={`${!isProfileDropdownOpen ? 'hidden' : ''} dropdown-item absolute top-auto right-0 text-right bg-secondary-white shadow-md rounded-md border-base-grey border text-base font-medium overflow-hidden mt-2`}
         style={{
           minWidth: '160px'
         }}>

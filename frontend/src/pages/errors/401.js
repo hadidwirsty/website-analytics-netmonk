@@ -10,9 +10,6 @@ export function PageUnauthorized() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('role');
-    localStorage.removeItem('teamName');
-    localStorage.removeItem('accessToken');
     dispatch(logOut());
     navigate('/login');
   };

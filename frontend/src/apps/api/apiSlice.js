@@ -16,13 +16,14 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result?.error?.originalStatus === 403) {
+  if (result?.error?.originalStatus === 401) {
     console.log('Sending refresh token');
     const refreshResult = await baseQuery('/refresh', api, extraOptions);
     console.log(refreshResult);
     if (refreshResult?.data) {
       const { user } = api.getState().auth;
       api.dispatch(setCredentials({ ...refreshResult.data, user }));
+      extraOptions.headers.set('Authorization', `Bearer ${refreshResult.data.accessToken}`);
       result = await baseQuery(args, api, extraOptions);
     } else {
       api.dispatch(logOut());

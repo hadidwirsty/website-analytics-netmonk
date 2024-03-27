@@ -13,9 +13,6 @@ export function ModalLogoutConfirmationComponent({ isOpen, toggleModal }) {
 
   const handleLogout = () => {
     setIsLoading(true);
-    localStorage.removeItem('role');
-    localStorage.removeItem('teamName');
-    localStorage.removeItem('accessToken');
     dispatch(logOut());
     setIsLoading(false);
     navigate('/login');

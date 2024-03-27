@@ -1,4 +1,6 @@
+import { useSelector } from 'react-redux';
+
 export const getRole = () => {
-  const role = localStorage.getItem('role');
-  return role || null;
+  const userDetails = useSelector((state) => state.auth.userDetails);
+  return userDetails ? userDetails.role : null;
 };
