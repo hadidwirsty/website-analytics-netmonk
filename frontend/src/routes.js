@@ -2,8 +2,8 @@ import React from 'react';
 import { Navigate, Routes, Route } from 'react-router-dom';
 
 import { Layout } from './components/partials/outlet';
-import { RequireAuth } from './components/partials/requireAuth';
 import { LayoutBase } from './components/layouts/base';
+import { RequireAuth } from './components/partials/requireAuth';
 
 import { PageLogin } from './pages/login';
 import { PageUnauthorized } from './pages/errors/401';

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { getRole } from '../../../helpers/cookie';
 import { selectCurrentToken } from '../../../apps/features/auth/authSlice';
+import { getRole } from '../../../helpers/cookie';
 
 export function RequireAuth({ allowedRoles }) {
   const localStorageToken = localStorage.getItem('accessToken');
