@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { useNavigate } from 'react-router-dom';
 import { setCredentials, logOut } from '../features/auth/authSlice';
 
 const baseQuery = fetchBaseQuery({
@@ -16,17 +17,26 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result?.error?.originalStatus === 401) {
+  if (result?.error?.status === 401) {
     console.log('Sending refresh token');
-    const refreshResult = await baseQuery('/refresh', api, extraOptions);
-    console.log(refreshResult);
-    if (refreshResult?.data) {
-      const { user } = api.getState().auth;
-      api.dispatch(setCredentials({ ...refreshResult.data, user }));
-      extraOptions.headers.set('Authorization', `Bearer ${refreshResult.data.accessToken}`);
-      result = await baseQuery(args, api, extraOptions);
-    } else {
+    try {
+      const refreshResult = await baseQuery('/refresh', api, extraOptions);
+      console.log(refreshResult);
+      if (refreshResult?.data) {
+        const { user } = api.getState().auth;
+        api.dispatch(setCredentials({ ...refreshResult.data, user }));
+        extraOptions.headers.set('Authorization', `Bearer ${refreshResult.data.accessToken}`);
+        result = await baseQuery(args, api, extraOptions);
+      } else {
+        api.dispatch(logOut());
+        const navigate = useNavigate();
+        navigate('/401');
+      }
+    } catch (error) {
+      console.error('Failed to refresh token:', error);
       api.dispatch(logOut());
+      const navigate = useNavigate();
+      navigate('/401');
     }
   }
 

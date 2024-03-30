@@ -40,11 +40,11 @@ app.use(cookieParser());
 app.use('/', express.static(path.join(__dirname, '/public')));
 
 // Routes
-app.use(require('./routes/auth'));
-app.use(require('./routes/logout'));
-app.use(require('./routes/refresh'));
-app.use(require('./routes/register'));
-app.use(require('./routes/root'));
+app.use('/auth', require('./routes/auth'));
+app.use('/logout', require('./routes/logout'));
+app.use('/refresh', require('./routes/refresh'));
+app.use('/register', require('./routes/register'));
+app.use('/', require('./routes/root'));
 
 app.use(verifyJWT);
 app.use('/employees', require('./routes/api/employees'));
@@ -52,7 +52,7 @@ app.use(require('./routes/api/metabase'));
 app.use('/order/ncx', require('./routes/api/ncx'));
 app.use('/order/scone', require('./routes/api/scone'));
 app.use('/users', require('./routes/api/users'));
-app.use(require('./routes/validateToken'));
+app.use('/validate-token', require('./routes/validateToken'));
 
 app.all('*', (req, res) => {
   res.status(404);

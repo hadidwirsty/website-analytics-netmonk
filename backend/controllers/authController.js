@@ -8,8 +8,9 @@ const handleLogin = async (req, res) => {
   console.log(`cookie available at login: ${JSON.stringify(cookies)}`);
 
   const { username, password } = req.body;
-  if (!username || !password)
+  if (!username || !password) {
     return res.status(400).json({ message: 'Username and password are required.' });
+  }
 
   try {
     const foundUser = await User.findOne({ username }).exec();
@@ -86,6 +87,7 @@ const handleLogin = async (req, res) => {
 
     res.json(responseBody);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'An error occurred' });
   }
 };

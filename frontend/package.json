@@ -12,7 +12,6 @@
     "@netmonk/design.ui.input": "^0.0.40",
     "@netmonk/design.ui.table-search": "^0.0.39",
     "@reduxjs/toolkit": "^2.2.1",
-    "axios": "^1.6.7",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

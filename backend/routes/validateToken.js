@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-router.post('/validate-token', (req, res) => {
+router.post('/', (req, res) => {
   res.json({ message: 'Token is valid' });
 });
 
