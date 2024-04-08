@@ -13,22 +13,31 @@ const baseQuery = fetchBaseQuery({
   }
 });
 
-const baseQueryWithReauth = async (args, api, extraOptions) => {
-  let result = await baseQuery(args, api, extraOptions);
+const baseQueryWithReauth = async (args, api, extraOptions = {}) => {
+  const state = api.getState().auth;
+
+  if (state.hasAttemptedRefresh) {
+    return baseQuery(args, api, extraOptions);
+  }
+
+  const result = await baseQuery(args, api, extraOptions);
+
+  if (typeof args.url === 'string' && result?.error?.status === 401 && args.url.endsWith('/auth')) {
+    return result;
+  }
 
   if (result?.error?.status === 401) {
-    console.log('Attempting to refresh token');
     const refreshResult = await baseQuery('/refresh', api, extraOptions);
     if (refreshResult?.data) {
-      const { user } = api.getState().auth;
+      const { user } = state;
       api.dispatch(setCredentials({ ...refreshResult.data, user }));
-      extraOptions.headers.set('Authorization', `Bearer ${refreshResult.data.accessToken}`);
-      result = await baseQuery(args, api, extraOptions);
-    } else {
-      console.error('Failed to refresh token, logging out');
-      api.dispatch(logOut());
-      window.location.href = '/401';
+      const newHeaders = new Headers(extraOptions.headers);
+      newHeaders.set('Authorization', `Bearer ${refreshResult.data.accessToken}`);
+      return baseQuery(args, api, { ...extraOptions, headers: newHeaders });
     }
+    api.dispatch(logOut());
+    window.location.href = '/401';
+    return Promise.reject(new Error('Unauthorized, redirecting to /401'));
   }
 
   return result;
