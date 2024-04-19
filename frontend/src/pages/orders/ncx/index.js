@@ -239,7 +239,7 @@ export function OrderNCX() {
     };
 
     return (
-      <Modal type="detail" title="View User Details" show={showDetail} onClose={handleClose}>
+      <Modal type="detail" title="View Order NCX Details" show={showDetail} onClose={handleClose}>
         <div
           className="modal-content modal-content-bordered p-5 flex flex-row w-full justify-between"
           style={{ maxHeight: '75vh' }}>
