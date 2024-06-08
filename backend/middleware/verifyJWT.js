@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const verifyJWT = (req, res, next) => {
   const authHeader = req.headers.authorization || req.headers.Authorization;
   if (!authHeader?.startsWith('Bearer '))
-    return res.status(401).json({ message: 'Access token is required' }); // 401 Unauthorized
+    return res.status(401).json({ message: 'Access token is required' });
 
   const token = authHeader.split(' ')[1];
 
@@ -13,7 +13,7 @@ const verifyJWT = (req, res, next) => {
         return res.status(401).json({ message: 'Token expired' });
       }
       return res.status(401).json({ message: 'Invalid token' });
-    } // 401 Unauthorized
+    }
     req.username = decoded.UserInfo.username;
     req.roles = decoded.UserInfo.roles;
     next();
